@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task Manager - Login</title>
+  <meta name="description" content="Login or register for the Task Management System">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="auth-container container">
+    <div class="auth-card glass-panel">
+      <h2>Task Manager</h2>
+      <div id="authAlert" class="alert"></div>
+      
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" class="form-control" placeholder="Enter your email" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" class="form-control" placeholder="Enter your password" required>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Login</button>
+      </form>
+      
+      <div style="text-align: center; margin-top: 1.5rem; color: var(--text-muted);">
+        <p>Don't have an account? <a href="register.html" style="color: var(--primary-color);">Register</a></p>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

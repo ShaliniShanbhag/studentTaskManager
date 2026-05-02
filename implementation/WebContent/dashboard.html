@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Task Manager</title>
+  <meta name="description" content="Dashboard overview for Task Management System">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="dashboard">
+  <header class="glass-panel" style="margin: 2rem; padding: 1rem 2rem;">
+    <h1>Task Manager</h1>
+    <nav>
+      <a href="dashboard.html" style="color: var(--primary-color);">Dashboard</a>
+      <a href="tasks.html">My Tasks</a>
+      <a href="add-task.html">Add Task</a>
+      <a href="#" id="logoutBtn">Logout</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h2>Welcome back, <span id="userNameDisplay">User</span>!</h2>
+    <p style="color: var(--text-muted); margin-bottom: 2rem;">Here is a quick overview of your task progress.</p>
+    
+    <div id="alertContainer" class="alert"></div>
+
+    <div class="dashboard-stats">
+      <div class="stat-card glass-panel">
+        <div class="stat-value" id="totalTasks">0</div>
+        <div class="stat-label">Total Tasks</div>
+      </div>
+      <div class="stat-card glass-panel">
+        <div class="stat-value" id="completedTasks">0</div>
+        <div class="stat-label">Completed</div>
+      </div>
+      <div class="stat-card glass-panel">
+        <div class="stat-value" id="pendingTasks">0</div>
+        <div class="stat-label">Pending</div>
+      </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 2rem;">
+      <a href="tasks.html" class="btn btn-outline" style="margin-right: 1rem;">View All Tasks</a>
+      <a href="add-task.html" class="btn btn-primary">Create New Task</a>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

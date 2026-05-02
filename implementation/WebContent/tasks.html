@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Tasks - Task Manager</title>
+  <meta name="description" content="View and manage all tasks">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="tasks">
+  <header class="glass-panel" style="margin: 2rem; padding: 1rem 2rem;">
+    <h1>Task Manager</h1>
+    <nav>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="tasks.html" style="color: var(--primary-color);">My Tasks</a>
+      <a href="add-task.html">Add Task</a>
+      <a href="#" id="logoutBtn">Logout</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <h2>My Tasks</h2>
+      <a href="add-task.html" class="btn btn-primary">Create New Task</a>
+    </div>
+    
+    <div id="alertContainer" class="alert"></div>
+
+    <div id="taskGrid" class="task-grid">
+      <!-- Tasks will be dynamically injected here -->
+      <div class="empty-state glass-panel" style="grid-column: 1 / -1;">
+        <p>Loading tasks...</p>
+      </div>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
