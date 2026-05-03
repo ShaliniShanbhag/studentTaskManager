@@ -1,7 +1,7 @@
 const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
 const API_BASE_URL = isLocal 
   ? 'http://127.0.0.1:4000/api' 
-  : 'https://YOUR-RENDER-BACKEND-URL.onrender.com/api'; // Replace this with your actual Render URL later
+  : 'https://studenttaskmanager-91tz.onrender.com/api';
 
 // Helper: Show alert
 function showAlert(message, type = 'success') {
