@@ -109,8 +109,13 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         const email = document.getElementById('email').value.trim();
         const password = document.getElementById('password').value;
+        const submitBtn = loginForm.querySelector('button[type="submit"]');
         
         if (email && password) {
+          const originalText = submitBtn.textContent;
+          submitBtn.textContent = 'Please wait...';
+          submitBtn.disabled = true;
+          
           try {
             const data = await fetchAPI('/user/login', {
               method: 'POST',
@@ -123,6 +128,8 @@ document.addEventListener('DOMContentLoaded', () => {
               window.location.href = 'dashboard.html';
             }
           } catch (error) {
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
             showAlert(error.message || 'Login failed. Invalid credentials.', 'danger');
           }
         }
@@ -139,8 +146,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const name = document.getElementById('name').value.trim();
         const email = document.getElementById('email').value.trim();
         const password = document.getElementById('password').value;
+        const submitBtn = registerForm.querySelector('button[type="submit"]');
         
         if (name && email && password) {
+          const originalText = submitBtn.textContent;
+          submitBtn.textContent = 'Please wait...';
+          submitBtn.disabled = true;
+          
           try {
             const data = await fetchAPI('/user/register', {
               method: 'POST',
@@ -154,6 +166,8 @@ document.addEventListener('DOMContentLoaded', () => {
               setTimeout(() => window.location.href = 'dashboard.html', 1000);
             }
           } catch (error) {
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
             showAlert(error.message || 'Registration failed.', 'danger');
           }
         }
