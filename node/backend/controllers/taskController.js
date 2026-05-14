@@ -5,16 +5,16 @@ import pool from "../config/db.js";
 export const addTask = async (req, res) => {
     try {
         // the userId is appended by the authMiddleware
-        const { userId, title, description, status, due_date } = req.body;
+        const { userId, title, description, status, due_date, category } = req.body;
 
         if (!title) {
             return res.status(400).json({ success: false, message: "Task title is required" });
         }
 
-        // We use the exact column names: user_id, task_title, description, status, due_date
+        // We use the exact column names: user_id, task_title, description, status, due_date, category
         const [result] = await pool.query(
-            "INSERT INTO tasks (user_id, task_title, description, status, due_date) VALUES (?, ?, ?, ?, ?)",
-            [userId, title, description || null, status || 'pending', due_date || null]
+            "INSERT INTO tasks (user_id, task_title, description, status, due_date, category) VALUES (?, ?, ?, ?, ?, ?)",
+            [userId, title, description || null, status || 'pending', due_date || null, category || null]
         );
 
         res.status(201).json({
@@ -52,15 +52,15 @@ export const getTasks = async (req, res) => {
 export const updateTask = async (req, res) => {
     try {
         const { id } = req.params;
-        const { userId, title, description, status, due_date } = req.body;
+        const { userId, title, description, status, due_date, category } = req.body;
 
         if (!title) {
             return res.status(400).json({ success: false, message: "Task title is required" });
         }
 
         const [result] = await pool.query(
-            "UPDATE tasks SET task_title = ?, description = ?, status = ?, due_date = ? WHERE id = ? AND user_id = ?",
-            [title, description || null, status || 'pending', due_date || null, id, userId]
+            "UPDATE tasks SET task_title = ?, description = ?, status = ?, due_date = ?, category = ? WHERE id = ? AND user_id = ?",
+            [title, description || null, status || 'pending', due_date || null, category || null, id, userId]
         );
 
         if (result.affectedRows === 0) {
