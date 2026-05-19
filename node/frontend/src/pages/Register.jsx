@@ -2,10 +2,20 @@ import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { fetchAPI } from '../api';
 
+const securityQuestionsList = [
+  "What was the name of your first pet?",
+  "What is your mother's maiden name?",
+  "In what city were you born?",
+  "What was the name of your elementary school?",
+  "What is your favorite book?"
+];
+
 export default function Register() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [securityQuestion, setSecurityQuestion] = useState(securityQuestionsList[0]);
+  const [securityAnswer, setSecurityAnswer] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -21,7 +31,7 @@ export default function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!name || !email || !password) return;
+    if (!name || !email || !password || !securityAnswer) return;
 
     setLoading(true);
     setError('');
@@ -30,7 +40,7 @@ export default function Register() {
     try {
       const data = await fetchAPI('/user/register', {
         method: 'POST',
-        body: JSON.stringify({ name, email, password })
+        body: JSON.stringify({ name, email, password, securityQuestion, securityAnswer })
       });
 
       if (data && data.success) {
@@ -52,8 +62,8 @@ export default function Register() {
     <div className="split-screen">
       <div className="split-left">
         <div className="split-left-content">
-          <h1>ScholarDesk</h1>
-          <p>Elevating academic excellence through organized quiet and high-tech efficiency. Join a community of dedicated scholars.</p>
+          <h1>Tasklytics</h1>
+          <p>Smart Productivity Tracking. Join a community of efficient professionals.</p>
           <div className="feature-pills">
             <div className="feature-pill">
               <span>✓</span> Focus Management
@@ -67,7 +77,7 @@ export default function Register() {
       <div className="split-right">
         <div className="auth-form-container">
           <h2>Create Account</h2>
-          <p className="subtitle">Join ScholarDesk to organize your academic life.</p>
+          <p className="subtitle">Join Tasklytics to organize your professional life.</p>
           
           {error && <div className="alert alert-danger">{error}</div>}
           {success && <div className="alert alert-success">{success}</div>}
@@ -121,32 +131,55 @@ export default function Register() {
                 />
               </div>
             </div>
+            
+            <div className="form-group">
+              <label htmlFor="securityQuestion" className="form-label">Security Question</label>
+              <div style={{ position: 'relative' }}>
+                <span style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }}>❓</span>
+                <select 
+                  id="securityQuestion" 
+                  className="form-control" 
+                  style={{ paddingLeft: '2.5rem' }}
+                  value={securityQuestion}
+                  onChange={(e) => setSecurityQuestion(e.target.value)}
+                >
+                  {securityQuestionsList.map((q, idx) => (
+                    <option key={idx} value={q}>{q}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+            
+            <div className="form-group">
+              <label htmlFor="securityAnswer" className="form-label">Security Answer</label>
+              <div style={{ position: 'relative' }}>
+                <span style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }}>🔑</span>
+                <input 
+                  type="text" 
+                  id="securityAnswer" 
+                  className="form-control" 
+                  style={{ paddingLeft: '2.5rem' }}
+                  placeholder="Your Answer (case-insensitive)" 
+                  required 
+                  value={securityAnswer}
+                  onChange={(e) => setSecurityAnswer(e.target.value)}
+                />
+              </div>
+            </div>
 
             <button type="submit" className="btn btn-primary" style={{ width: '100%', padding: '1rem', fontSize: '1rem', marginTop: '1rem' }} disabled={loading}>
               {loading ? 'Please wait...' : 'Create Account →'}
             </button>
           </form>
           
-          <div className="divider">OR CONTINUE WITH</div>
 
-          <div className="sso-buttons">
-            <button className="btn-sso">
-              <span>🏛️</span> Institutional SSO
-            </button>
-            <button className="btn-sso">
-              <span>🛡️</span> Student ID
-            </button>
-          </div>
 
           <div style={{ textAlign: 'center', marginTop: '2rem', fontSize: '0.9rem' }}>
             <span style={{ color: 'var(--text-muted)' }}>Already have an account? </span>
             <Link to="/" style={{ color: 'var(--text-main)', fontWeight: 600, textDecoration: 'none' }}>Sign In</Link>
           </div>
           
-          <div style={{ textAlign: 'center', marginTop: '1.5rem', fontSize: '0.75rem', color: 'var(--text-muted)', display: 'flex', justifyContent: 'center', gap: '1rem' }}>
-            <span style={{ cursor: 'pointer' }}>Privacy Policy</span>
-            <span style={{ cursor: 'pointer' }}>Terms of Service</span>
-          </div>
+
         </div>
       </div>
     </div>

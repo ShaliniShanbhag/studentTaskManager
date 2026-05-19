@@ -17,8 +17,69 @@ export default function AddEditTask() {
   const [initLoading, setInitLoading] = useState(!!taskId);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiSuggestions, setAiSuggestions] = useState(null);
+  const [aiEnabled, setAiEnabled] = useState(true);
+
+  const handleAIAssist = async () => {
+    if (!title.trim()) {
+      setError('Please enter a task title first to get AI assistance');
+      return;
+    }
+
+    setAiLoading(true);
+    setError('');
+    setAiSuggestions(null);
+
+    try {
+      const data = await fetchAPI('/ai/assist', {
+        method: 'POST',
+        body: JSON.stringify({ title, description, category })
+      });
+
+      if (data && data.success) {
+        setAiSuggestions(data.suggestions);
+      }
+    } catch (err) {
+      setError('AI Assistant is temporarily unavailable. Please try again later.');
+    } finally {
+      setAiLoading(false);
+    }
+  };
+
+  const applyAISuggestions = () => {
+    if (!aiSuggestions) return;
+    
+    let newDescription = description;
+    if (newDescription) newDescription += '\n\n';
+    newDescription += 'AI Suggested Steps:\n';
+    aiSuggestions.breakdown.forEach(step => {
+      newDescription += `- ${step}\n`;
+    });
+    newDescription += `\nStrategy: ${aiSuggestions.tips}`;
+    
+    setDescription(newDescription);
+    setAiSuggestions(null);
+  };
 
   useEffect(() => {
+    // Read settings and preferences from local storage
+    const userStr = localStorage.getItem('taskManagerUser');
+    if (userStr) {
+      try {
+        const user = JSON.parse(userStr);
+        const isAiActive = user.ai_enabled !== 0 && user.ai_enabled !== false && user.ai_enabled !== '0';
+        setAiEnabled(isAiActive);
+        
+        if (!taskId && user.default_category) {
+          setCategory(user.default_category);
+        }
+      } catch (e) {
+        console.error("Failed to parse user settings", e);
+      }
+    }
+    
     if (taskId) {
       loadTask(taskId);
     }
@@ -173,7 +234,66 @@ export default function AddEditTask() {
           </div>
           
           <div className="form-group">
-            <label htmlFor="description" className="form-label">Notes & Description</label>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+              <label htmlFor="description" className="form-label" style={{ marginBottom: 0 }}>Notes & Description</label>
+              {aiEnabled && (
+                <button 
+                  type="button" 
+                  className="btn btn-outline" 
+                  style={{ fontSize: '0.8rem', padding: '0.4rem 0.8rem', display: 'flex', alignItems: 'center', gap: '0.5rem', border: '1px solid var(--accent-color)', color: 'var(--accent-dark)' }}
+                  onClick={handleAIAssist}
+                  disabled={aiLoading}
+                >
+                  {aiLoading ? '✨ Thinking...' : '✨ Get AI Assistance'}
+                </button>
+              )}
+            </div>
+            
+            {aiSuggestions && (
+              <div className="card" style={{ backgroundColor: 'var(--sidebar-bg)', border: '1px solid var(--accent-color)', marginBottom: '1.5rem', padding: '1.5rem' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
+                  <h4 style={{ margin: 0, color: 'var(--accent-dark)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    AI Recommendations
+                  </h4>
+                  <span style={{ fontSize: '0.7rem', padding: '0.2rem 0.5rem', borderRadius: '4px', backgroundColor: 'var(--accent-color)', color: 'white', fontWeight: '700' }}>
+                    {aiSuggestions.estimatedTime?.toUpperCase() || 'MEDIUM'} EFFORT
+                  </span>
+                </div>
+                
+                <div style={{ marginBottom: '1rem' }}>
+                  <div style={{ fontSize: '0.85rem', fontWeight: '600', marginBottom: '0.5rem' }}>Actionable Steps:</div>
+                  <ul style={{ margin: 0, paddingLeft: '1.25rem', fontSize: '0.9rem' }}>
+                    {aiSuggestions.breakdown.map((step, i) => (
+                      <li key={i} style={{ marginBottom: '0.25rem' }}>{step}</li>
+                    ))}
+                  </ul>
+                </div>
+                
+                <div style={{ backgroundColor: 'white', padding: '0.75rem', borderRadius: '4px', fontSize: '0.85rem', borderLeft: '4px solid var(--accent-color)', marginBottom: '1.25rem' }}>
+                  <strong>Strategy:</strong> {aiSuggestions.tips}
+                </div>
+                
+                <div style={{ display: 'flex', gap: '1rem' }}>
+                  <button 
+                    type="button" 
+                    className="btn btn-primary" 
+                    style={{ fontSize: '0.85rem', padding: '0.5rem 1rem' }}
+                    onClick={applyAISuggestions}
+                  >
+                    Apply to Description
+                  </button>
+                  <button 
+                    type="button" 
+                    className="btn btn-outline" 
+                    style={{ fontSize: '0.85rem', padding: '0.5rem 1rem' }}
+                    onClick={() => setAiSuggestions(null)}
+                  >
+                    Discard
+                  </button>
+                </div>
+              </div>
+            )}
+
             <textarea 
               id="description" 
               className="form-control" 

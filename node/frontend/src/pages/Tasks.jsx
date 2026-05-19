@@ -118,8 +118,9 @@ export default function Tasks() {
                 <thead>
                   <tr style={{ backgroundColor: 'var(--sidebar-bg)', borderBottom: '1px solid var(--border-color)', textAlign: 'left', fontSize: '0.85rem', color: 'var(--text-main)', fontWeight: '600' }}>
                     <th style={{ padding: '1rem 1.5rem' }}>Task Name</th>
-                    <th style={{ padding: '1rem 1.5rem' }}>Course</th>
+                    <th style={{ padding: '1rem 1.5rem' }}>Tags</th>
                     <th style={{ padding: '1rem 1.5rem' }}>Due Date</th>
+                    <th style={{ padding: '1rem 1.5rem' }}>Completion</th>
                     <th style={{ padding: '1rem 1.5rem' }}>Status</th>
                     <th style={{ padding: '1rem 1.5rem', textAlign: 'right' }}>Actions</th>
                   </tr>
@@ -127,7 +128,7 @@ export default function Tasks() {
                 <tbody>
                   {filteredTasks.length === 0 ? (
                     <tr>
-                      <td colSpan="5" style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-muted)' }}>No tasks found.</td>
+                      <td colSpan="6" style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-muted)' }}>No tasks found.</td>
                     </tr>
                   ) : (
                     filteredTasks.map(task => {
@@ -141,6 +142,10 @@ export default function Tasks() {
                       else if (task.priority === 'Medium') priorityColor = 'var(--warning-color)';
                       
                       const dateDisplay = task.due_date ? new Date(task.due_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '-';
+                      
+                      const taskCompletionRate = task.total_subtasks > 0 
+                        ? Math.round((task.completed_subtasks / task.total_subtasks) * 100) 
+                        : (isCompleted ? 100 : 0);
 
                       return (
                         <tr key={task.id} style={{ borderBottom: '1px solid var(--border-color)', transition: 'background-color 0.2s' }}>
@@ -158,18 +163,45 @@ export default function Tasks() {
                               </div>
                             )}
                             <span style={{ fontWeight: '500', color: isCompleted ? 'var(--text-muted)' : 'var(--text-main)', textDecoration: isCompleted ? 'line-through' : 'none' }}>
-                              {title}
+                              <Link to={`/task/${task.id}`} style={{ color: 'inherit', textDecoration: 'none', transition: 'color 0.2s' }} onMouseEnter={(e) => e.target.style.color = 'var(--accent-dark)'} onMouseLeave={(e) => e.target.style.color = 'inherit'}>
+                                {title}
+                              </Link>
                             </span>
                           </td>
                           <td style={{ padding: '1.25rem 1.5rem' }}>
                             {task.category ? (
-                              <span style={{ backgroundColor: 'var(--border-light)', padding: '0.25rem 0.5rem', borderRadius: '4px', fontSize: '0.75rem', fontWeight: '600', color: 'var(--text-muted)' }}>
+                              <span style={{ 
+                                backgroundColor: 
+                                  task.category === 'Work' ? '#dbeafe' : 
+                                  task.category === 'Personal' ? '#f3e8ff' : 
+                                  task.category === 'Study' ? '#dcfce7' : 
+                                  task.category === 'Health' ? '#fce7f3' : 
+                                  task.category === 'Finance' ? '#fef3c7' : '#f1f5f9',
+                                color: 
+                                  task.category === 'Work' ? '#1e40af' : 
+                                  task.category === 'Personal' ? '#6b21a8' : 
+                                  task.category === 'Study' ? '#166534' : 
+                                  task.category === 'Health' ? '#9d174d' : 
+                                  task.category === 'Finance' ? '#92400e' : '#475569',
+                                padding: '0.25rem 0.6rem', 
+                                borderRadius: '4px', 
+                                fontSize: '0.75rem', 
+                                fontWeight: '700' 
+                              }}>
                                 {task.category}
                               </span>
                             ) : '-'}
                           </td>
                           <td style={{ padding: '1.25rem 1.5rem', fontSize: '0.9rem', color: 'var(--text-muted)' }}>
                             {dateDisplay}
+                          </td>
+                          <td style={{ padding: '1.25rem 1.5rem' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                              <div style={{ width: '60px', height: '6px', backgroundColor: 'var(--border-light)', borderRadius: '3px', overflow: 'hidden' }}>
+                                <div style={{ width: `${taskCompletionRate}%`, height: '100%', backgroundColor: taskCompletionRate === 100 ? 'var(--success-color)' : 'var(--accent-dark)', borderRadius: '3px' }}></div>
+                              </div>
+                              <span style={{ fontSize: '0.75rem', fontWeight: '600', color: 'var(--text-muted)' }}>{taskCompletionRate}%</span>
+                            </div>
                           </td>
                           <td style={{ padding: '1.25rem 1.5rem' }}>
                             <select 

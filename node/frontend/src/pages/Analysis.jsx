@@ -137,9 +137,32 @@ export default function Analysis() {
           <div style={{ padding: '1.5rem', backgroundColor: 'var(--sidebar-bg)', borderRadius: '8px', borderLeft: '4px solid var(--warning-color)' }}>
              <div style={{ fontWeight: '600', color: 'var(--text-main)', marginBottom: '0.5rem' }}>Category Distribution</div>
              <p style={{ fontSize: '0.9rem', color: 'var(--text-main)' }}>
-               {categories && categories.length > 0 
-                 ? `Most of your tasks are in the ${categories.reduce((prev, current) => (prev.value > current.value) ? prev : current).name} category.` 
-                 : "Create tasks with categories to see your distribution."}
+               {categories && categories.length > 0 ? (
+                 <>
+                   Most of your tasks are in the 
+                   <span style={{ 
+                     backgroundColor: 
+                       categories.reduce((p, c) => (p.value > c.value) ? p : c).name === 'Work' ? '#dbeafe' : 
+                       categories.reduce((p, c) => (p.value > c.value) ? p : c).name === 'Personal' ? '#f3e8ff' : 
+                       categories.reduce((p, c) => (p.value > c.value) ? p : c).name === 'Study' ? '#dcfce7' : 
+                       categories.reduce((p, c) => (p.value > c.value) ? p : c).name === 'Health' ? '#fce7f3' : 
+                       categories.reduce((p, c) => (p.value > c.value) ? p : c).name === 'Finance' ? '#fef3c7' : '#f1f5f9',
+                     color: 
+                       categories.reduce((p, c) => (p.value > c.value) ? p : c).name === 'Work' ? '#1e40af' : 
+                       categories.reduce((p, c) => (p.value > c.value) ? p : c).name === 'Personal' ? '#6b21a8' : 
+                       categories.reduce((p, c) => (p.value > c.value) ? p : c).name === 'Study' ? '#166534' : 
+                       categories.reduce((p, c) => (p.value > c.value) ? p : c).name === 'Health' ? '#9d174d' : 
+                       categories.reduce((p, c) => (p.value > c.value) ? p : c).name === 'Finance' ? '#92400e' : '#475569',
+                     padding: '0.1rem 0.4rem', 
+                     borderRadius: '4px', 
+                     margin: '0 0.25rem',
+                     fontWeight: '700' 
+                   }}>
+                     {categories.reduce((prev, current) => (prev.value > current.value) ? prev : current).name}
+                   </span> 
+                   category.
+                 </>
+               ) : "Create tasks with categories to see your distribution."}
              </p>
           </div>
         </div>

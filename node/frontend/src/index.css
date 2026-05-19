@@ -486,3 +486,227 @@ h2 {
 .btn-sso:hover {
   background-color: var(--border-light);
 }
+
+/* ==========================================
+   PREMIUM SLATE DARK THEME SYSTEM
+   ========================================== */
+[data-theme="dark"], body.dark-theme {
+  --bg-color: #0f172a;        /* Deep slate background */
+  --surface-color: #1e293b;   /* Slate-800 card color */
+  --sidebar-bg: #0b0f19;      /* Extra deep gray-950 sidebar */
+  --text-main: #f8fafc;       /* Slate-50 near white text */
+  --text-muted: #94a3b8;      /* Slate-400 muted text */
+  --primary-color: #38bdf8;   /* Bright Sky blue primary highlights */
+  --primary-hover: #7dd3fc;   /* Sky blue hover */
+  --accent-light: #1e293b;    /* Highlight background matching card surfaces */
+  --accent-dark: #38bdf8;     /* Sky blue active text colors */
+  --border-color: #334155;    /* Slate-700 subtle borders */
+  --border-light: #1e293b;    /* Division borders */
+  
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.6), 0 4px 6px -2px rgba(0, 0, 0, 0.4);
+}
+
+/* Dark theme specific element adjustments */
+[data-theme="dark"] .btn-primary, body.dark-theme .btn-primary {
+  color: #0f172a !important; /* Ensure high contrast text on bright sky blue buttons */
+  font-weight: 700;
+}
+
+[data-theme="dark"] .card, body.dark-theme .card {
+  border-color: var(--border-color);
+}
+
+[data-theme="dark"] select.form-control option, body.dark-theme select.form-control option {
+  background-color: #1e293b; /* Prevent select dropdowns from being blinding white */
+  color: #f8fafc;
+}
+
+/* ==========================================
+   SETTINGS COMPONENT STYLES
+   ========================================== */
+.settings-layout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 2rem;
+  margin-top: 1.5rem;
+}
+
+.settings-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.settings-tab-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1.25rem;
+  border-radius: 8px;
+  color: var(--text-muted);
+  background: transparent;
+  border: 1px solid transparent;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-align: left;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.settings-tab-btn:hover {
+  background-color: var(--border-light);
+  color: var(--text-main);
+}
+
+.settings-tab-btn.active {
+  background-color: var(--surface-color);
+  border-color: var(--border-color);
+  color: var(--primary-color);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Toggle Option Groups (e.g., Theme Selection Cards) */
+.toggle-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.toggle-card {
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+  transition: var(--transition);
+  background-color: var(--surface-color);
+}
+
+.toggle-card:hover {
+  border-color: var(--text-muted);
+  transform: translateY(-2px);
+}
+
+.toggle-card.active {
+  border-color: var(--primary-color);
+  background-color: var(--border-light);
+}
+
+.theme-preview {
+  width: 100%;
+  height: 80px;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  display: flex;
+  overflow: hidden;
+}
+
+/* Premium Visual Switch / Toggles */
+.setting-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.setting-item:last-child {
+  border-bottom: none;
+}
+
+.setting-info {
+  flex-grow: 1;
+  padding-right: 2rem;
+}
+
+.setting-title {
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--text-main);
+  margin-bottom: 0.25rem;
+}
+
+.setting-description {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* Premium CSS Toggle Switch */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 26px;
+  flex-shrink: 0;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #cbd5e1;
+  transition: .4s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+}
+
+input:checked + .slider {
+  background-color: #10b981; /* Success Green for active toggles */
+}
+
+input:checked + .slider:before {
+  transform: translateX(24px);
+}
+
+/* Profile Avatar / Hero Section */
+.profile-hero {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding-bottom: 2rem;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.profile-avatar-large {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background-color: var(--primary-color);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+[data-theme="dark"] .profile-avatar-large {
+  color: #0f172a;
+}
