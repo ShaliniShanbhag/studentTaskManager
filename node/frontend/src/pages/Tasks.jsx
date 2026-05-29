@@ -72,7 +72,11 @@ export default function Tasks() {
     return dueDate <= today;
   }).length;
 
-  const filteredTasks = tasks.filter(task => selectedCategory === 'All' || task.category === selectedCategory);
+  const filteredTasks = tasks.filter(task => {
+    const status = (task.status || 'pending').toLowerCase();
+    if (status === 'completed') return false;
+    return selectedCategory === 'All' || task.category === selectedCategory;
+  });
 
   return (
     <div className="page-container">
@@ -247,7 +251,7 @@ export default function Tasks() {
             {!loading && (
               <div style={{ padding: '1rem 1.5rem', borderTop: '1px solid var(--border-color)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'var(--sidebar-bg)' }}>
                 <div style={{ fontSize: '0.85rem', color: 'var(--text-main)', fontWeight: '500' }}>
-                  Showing {filteredTasks.length} of {tasks.length} tasks
+                  {filteredTasks.length} ongoing task{filteredTasks.length !== 1 ? 's' : ''}
                 </div>
               </div>
             )}

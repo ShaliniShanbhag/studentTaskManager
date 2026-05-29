@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Tasklytics | Settings</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface-variant": "#bbcabf",
+                        "on-secondary": "#1000a9",
+                        "on-tertiary-container": "#711419",
+                        "outline": "#86948a",
+                        "on-primary-fixed": "#002113",
+                        "on-tertiary": "#650911",
+                        "surface-tint": "#4edea3",
+                        "primary-container": "#10b981",
+                        "on-surface": "#dae2fd",
+                        "inverse-surface": "#dae2fd",
+                        "inverse-primary": "#006c49",
+                        "on-tertiary-fixed-variant": "#842225",
+                        "primary-fixed": "#6ffbbe",
+                        "tertiary-fixed-dim": "#ffb3af",
+                        "outline-variant": "#3c4a42",
+                        "secondary-container": "#3131c0",
+                        "on-primary-fixed-variant": "#005236",
+                        "surface": "#0b1326",
+                        "on-tertiary-fixed": "#410005",
+                        "secondary-fixed": "#e1e0ff",
+                        "surface-bright": "#31394d",
+                        "primary-fixed-dim": "#4edea3",
+                        "on-error": "#690005",
+                        "surface-variant": "#2d3449",
+                        "on-primary-container": "#00422b",
+                        "secondary": "#c0c1ff",
+                        "error": "#ffb4ab",
+                        "background": "#0b1326",
+                        "surface-container-low": "#131b2e",
+                        "on-background": "#dae2fd",
+                        "on-secondary-container": "#b0b2ff",
+                        "surface-container-lowest": "#060e20",
+                        "primary": "#4edea3",
+                        "surface-container": "#171f33",
+                        "secondary-fixed-dim": "#c0c1ff",
+                        "on-secondary-fixed": "#07006c",
+                        "inverse-on-surface": "#283044",
+                        "tertiary": "#ffb3af",
+                        "surface-dim": "#0b1326",
+                        "tertiary-container": "#fc7c78",
+                        "tertiary-fixed": "#ffdad7",
+                        "on-secondary-fixed-variant": "#2f2ebe",
+                        "on-primary": "#003824",
+                        "surface-container-highest": "#2d3449",
+                        "on-error-container": "#ffdad6",
+                        "surface-container-high": "#222a3d",
+                        "error-container": "#93000a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "md": "24px",
+                        "sm": "12px",
+                        "margin-desktop": "48px",
+                        "margin-mobile": "16px",
+                        "xl": "64px",
+                        "xs": "4px",
+                        "lg": "40px",
+                        "base": "8px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-xl-mobile": ["Plus Jakarta Sans"],
+                        "label-md": ["Plus Jakarta Sans"],
+                        "headline-xl": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "label-sm": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "headline-xl-mobile": ["30px", {"lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                        "headline-xl": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #0b1326;
+            color: #dae2fd;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0;
+        }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(51, 65, 85, 0.5);
+        }
+        .active-tab-indicator {
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: #4edea3;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #131b2e;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #3c4a42;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="dark selection:bg-primary/30">
+<div class="flex min-h-screen">
+<!-- SideNavBar Component -->
+<aside class="hidden md:flex h-screen sticky left-0 w-64 flex flex-col bg-surface-container-low border-r border-outline-variant py-lg z-50">
+<div class="px-md mb-xl flex items-center gap-sm">
+<div class="w-10 h-10 bg-primary-container rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary-container" style="font-variation-settings: 'FILL' 1;">analytics</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-on-surface">Tasklytics</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant opacity-70">Precision Suite</p>
+</div>
+</div>
+<nav class="flex-1 px-sm space-y-xs overflow-y-auto custom-scrollbar">
+<a class="flex items-center gap-sm px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-variant transition-all duration-200 opacity-90 hover:opacity-100" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-sm px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-variant transition-all duration-200 opacity-90 hover:opacity-100" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="font-label-md text-label-md">Daily Planner</span>
+</a>
+<a class="flex items-center gap-sm px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-variant transition-all duration-200 opacity-90 hover:opacity-100" href="#">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="font-label-md text-label-md">Eisenhower Matrix</span>
+</a>
+<a class="flex items-center gap-sm px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-variant transition-all duration-200 opacity-90 hover:opacity-100" href="#">
+<span class="material-symbols-outlined">checklist</span>
+<span class="font-label-md text-label-md">Tasks</span>
+</a>
+<a class="flex items-center gap-sm px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-variant transition-all duration-200 opacity-90 hover:opacity-100" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label-md text-label-md">Analysis</span>
+</a>
+<a class="flex items-center gap-sm px-md py-sm rounded-lg text-primary bg-primary/10 border-r-4 border-primary transition-all duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</nav>
+<div class="px-md mt-auto pt-lg border-t border-outline-variant/30 space-y-xs">
+<button class="w-full mb-md bg-primary-container text-on-primary-container py-sm rounded-lg font-label-md text-label-md font-bold flex items-center justify-center gap-xs hover:scale-95 transition-transform duration-150">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                    New Project
+                </button>
+<a class="flex items-center gap-sm px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-variant transition-all" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-label-md text-label-md">Support</span>
+</a>
+<a class="flex items-center gap-sm px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-variant transition-all" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-md text-label-md">Sign Out</span>
+</a>
+</div>
+</aside>
+<main class="flex-1 flex flex-col overflow-x-hidden">
+<!-- TopNavBar Component -->
+<header class="bg-surface/80 backdrop-blur-md sticky top-0 w-full z-40 border-b border-outline-variant flex justify-between items-center px-margin-desktop py-base">
+<div class="flex items-center gap-md">
+<h2 class="font-headline-md text-headline-md font-bold text-primary">Settings</h2>
+<div class="relative hidden lg:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span>
+<input class="bg-surface-container-high border-none rounded-full pl-10 pr-4 py-2 w-64 text-label-md focus:ring-2 focus:ring-primary/50 text-on-surface" placeholder="Search settings..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<button class="bg-secondary-container/20 text-secondary px-md py-sm rounded-full font-label-md text-label-md font-bold hover:bg-secondary-container/30 transition-colors">
+                        Upgrade
+                    </button>
+<div class="flex items-center gap-sm border-l border-outline-variant pl-md">
+<button class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined">history</span>
+</button>
+<img alt="Professional user profile" class="w-10 h-10 rounded-full border border-primary/20 object-cover" data-alt="A professional close-up portrait of a high-performance executive woman in a dark slate office environment. She has a confident, warm expression, looking directly into the camera. The lighting is soft and cinematic, with cool blue and emerald green highlights reflecting off glass surfaces in the background. The overall aesthetic is clean, sharp, and highly sophisticated, matching a corporate tech environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYu3kZpxaBHwJodnrNFmwnzo-6-_QqOs3rGvywCrwfrSHg2FXF1CLKvyBZk_wQXtn89bkxPyPcFgVXCk6EXhPN_WbhC-A4uYYyE_p-naHe6iLylhO_YiltJMZRQZbawrB7zrSO0ng1OnAipe3soNgVXxs4LKn1xvn0isXo_6xO4i9xXQc_EjNUqSfy7tEebxVdlqlvM1rDJbIlY2pbU9O_p5TClxSWs2E9zjTcEIXQ4N8byhaDWfi0u0qgui3VtZE58kgH2uAsAkcG"/>
+</div>
+</div>
+</header>
+<section class="flex-1 p-margin-mobile md:p-margin-desktop max-w-7xl mx-auto w-full">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Left Sidebar (Pro Plan Card) -->
+<div class="lg:col-span-4 space-y-gutter">
+<div class="glass-card rounded-xl p-md overflow-hidden relative group">
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full -mr-16 -mt-16 blur-2xl group-hover:bg-primary/20 transition-all"></div>
+<div class="relative z-10">
+<span class="inline-block px-sm py-xs bg-primary/20 text-primary font-label-sm text-label-sm rounded-full mb-md">Current Plan</span>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface mb-xs">Pro Plan</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-xl">Unlock deep analytics and unlimited projects for your team.</p>
+<div class="space-y-sm mb-xl">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary text-[20px]">check_circle</span>
+<span class="font-label-md text-label-md">Unlimited Data Exports</span>
+</div>
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary text-[20px]">check_circle</span>
+<span class="font-label-md text-label-md">Priority AI Assistant</span>
+</div>
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary text-[20px]">check_circle</span>
+<span class="font-label-md text-label-md">Advanced Team Matrix</span>
+</div>
+</div>
+<button class="w-full border border-primary/30 text-primary py-sm rounded-lg font-label-md text-label-md font-bold hover:bg-primary/5 transition-colors">
+                                    Manage Subscription
+                                </button>
+</div>
+</div>
+<div class="glass-card rounded-xl p-md">
+<h4 class="font-label-md text-label-md font-bold text-on-surface mb-md">Storage Usage</h4>
+<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden mb-sm">
+<div class="bg-primary h-full w-[78%]"></div>
+</div>
+<div class="flex justify-between text-label-sm font-label-sm">
+<span class="text-on-surface-variant">15.6 GB used</span>
+<span class="text-on-surface">20 GB total</span>
+</div>
+</div>
+</div>
+<!-- Main Settings Content -->
+<div class="lg:col-span-8">
+<div class="glass-card rounded-xl overflow-hidden">
+<!-- Section Tabs -->
+<div class="flex border-b border-outline-variant px-md">
+<button class="relative px-md py-md font-label-md text-label-md text-primary font-bold">
+                                    Profile &amp; Account
+                                    <div class="active-tab-indicator"></div>
+</button>
+<button class="px-md py-md font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-colors">
+                                    App Preferences
+                                </button>
+<button class="px-md py-md font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-colors">
+                                    Security &amp; Password
+                                </button>
+</div>
+<!-- Profile Header -->
+<div class="p-md md:p-xl border-b border-outline-variant/30 bg-surface-container-low/30">
+<div class="flex flex-col md:flex-row items-center gap-xl">
+<div class="relative group">
+<img alt="Julianne Sterling" class="w-32 h-32 rounded-2xl object-cover border-2 border-primary/20" data-alt="Close up profile shot of a modern professional woman with subtle makeup and dark hair. The image has a moody, high-contrast dark mode feel with ambient cool blue highlights. The background is a blurred, high-tech command center with glowing green data points. This is Julianne Sterling, an expert analyst, conveying intelligence and leadership." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCKShd4QrsjJCjprKJPrFryEPR_mUKcONu1VB9V-LPXQNmZRSXJaRWorFYL4NvS8G5QZJv6GIQQIP8RQ_cQgIdedsdI1-f2VO0Gud4CpNiboN7l_ohW4FW0g6H9ZV245xuF6puHoHlaNR6zkGPWLtCMVoXznElUp4610aqsa5pd8PCkcOWkkv3E_bSb7_5lVhh-gNjSElU8z7ohZbk3eRbnxbgZay7tdPnOIqCvYvA_zjzzFsUnv8PHqjmHTsByxtg0lxHdDFZDpZOH"/>
+<button class="absolute bottom-[-8px] right-[-8px] w-10 h-10 bg-primary rounded-full flex items-center justify-center text-on-primary shadow-lg hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+</div>
+<div class="text-center md:text-left">
+<div class="flex flex-col md:flex-row items-center gap-sm mb-xs">
+<h2 class="font-headline-lg text-headline-lg font-bold text-on-surface">Julianne Sterling</h2>
+<span class="px-sm py-xs bg-secondary-container text-on-secondary-container rounded font-label-sm text-label-sm uppercase tracking-wider font-extrabold flex items-center gap-xs">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+                                                Team Lead
+                                            </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-md">Manage your personal information and public profile settings.</p>
+<div class="flex gap-sm justify-center md:justify-start">
+<button class="bg-surface-variant px-md py-sm rounded-lg font-label-md text-label-md text-on-surface hover:bg-surface-container-high transition-all">Change Photo</button>
+<button class="text-error px-md py-sm rounded-lg font-label-md text-label-md hover:bg-error/10 transition-all">Remove</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Settings Form -->
+<form class="p-md md:p-xl space-y-xl">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<div class="space-y-xs">
+<label class="font-label-md text-label-md text-on-surface font-bold">Name</label>
+<input class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-md py-sm text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" type="text" value="Julianne Sterling"/>
+</div>
+<div class="space-y-xs">
+<label class="font-label-md text-label-md text-on-surface font-bold">Email Address</label>
+<input class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-md py-sm text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" type="email" value="j.sterling@tasklytics.com"/>
+</div>
+<div class="space-y-xs">
+<label class="font-label-md text-label-md text-on-surface font-bold">Job Title</label>
+<input class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-md py-sm text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" type="text" value="Senior Operations &amp; Team Lead"/>
+</div>
+<div class="space-y-xs">
+<label class="font-label-md text-label-md text-on-surface font-bold">Location</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">location_on</span>
+<input class="w-full bg-surface-container-low border border-outline-variant rounded-lg pl-10 pr-md py-sm text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" type="text" value="San Francisco, CA"/>
+</div>
+</div>
+</div>
+<div class="space-y-xs">
+<label class="font-label-md text-label-md text-on-surface font-bold">Bio</label>
+<textarea class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-md py-sm text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all resize-none" rows="4">Passionate about optimizing workflows and leading cross-functional teams to exceed operational milestones. Focused on data-driven decision making and fostering a culture of continuous improvement.</textarea>
+<p class="text-label-sm font-label-sm text-on-surface-variant">Brief description for your profile. URLs and @mentions are allowed.</p>
+</div>
+<div class="flex items-center justify-between pt-md border-t border-outline-variant/30">
+<div class="flex items-center gap-sm">
+<div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+<span class="font-label-sm text-label-sm text-on-surface-variant italic">Last updated: Today at 09:42 AM</span>
+</div>
+<div class="flex gap-md">
+<button class="text-on-surface-variant font-label-md text-label-md hover:text-on-surface transition-colors" type="button">Discard Changes</button>
+<button class="bg-primary text-on-primary px-xl py-sm rounded-lg font-label-md text-label-md font-bold hover:shadow-[0_0_20px_rgba(78,222,163,0.3)] hover:scale-[1.02] transition-all" type="submit">Save Profile</button>
+</div>
+</div>
+</form>
+</div>
+</div>
+</div>
+</section>
+</main>
+</div>
+<!-- Mobile Navigation (Visible only on mobile) -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-surface/90 backdrop-blur-lg border-t border-outline-variant flex justify-around items-center py-sm z-50">
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-[10px] font-label-sm">Home</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined">checklist</span>
+<span class="text-[10px] font-label-sm">Tasks</span>
+</button>
+<button class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-on-primary shadow-lg -mt-8 border-4 border-surface">
+<span class="material-symbols-outlined">add</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined">analytics</span>
+<span class="text-[10px] font-label-sm">Stats</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">settings</span>
+<span class="text-[10px] font-label-sm">Settings</span>
+</button>
+</nav>
+<script>
+        // Micro-interactions for form focus and button scales
+        document.querySelectorAll('input, textarea').forEach(el => {
+            el.addEventListener('focus', () => {
+                el.parentElement.querySelector('label').classList.add('text-primary');
+            });
+            el.addEventListener('blur', () => {
+                el.parentElement.querySelector('label').classList.remove('text-primary');
+            });
+        });
+
+        // Simple tab switching simulation
+        const tabs = document.querySelectorAll('button.font-label-md');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                if(tab.innerText.includes('App Preferences') || tab.innerText.includes('Security')) {
+                    // Logic for switching tabs could go here
+                    console.log('Switching to ' + tab.innerText);
+                }
+            });
+        });
+    </script>
+</body></html>

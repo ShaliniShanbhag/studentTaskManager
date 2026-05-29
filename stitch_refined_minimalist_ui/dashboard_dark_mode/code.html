@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Tasklytics Dashboard | Chandu</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-surface-variant": "#bbcabf",
+                    "on-secondary": "#1000a9",
+                    "on-tertiary-container": "#711419",
+                    "outline": "#86948a",
+                    "on-primary-fixed": "#002113",
+                    "on-tertiary": "#650911",
+                    "surface-tint": "#4edea3",
+                    "primary-container": "#10b981",
+                    "on-surface": "#dae2fd",
+                    "inverse-surface": "#dae2fd",
+                    "inverse-primary": "#006c49",
+                    "on-tertiary-fixed-variant": "#842225",
+                    "primary-fixed": "#6ffbbe",
+                    "tertiary-fixed-dim": "#ffb3af",
+                    "outline-variant": "#3c4a42",
+                    "secondary-container": "#3131c0",
+                    "on-primary-fixed-variant": "#005236",
+                    "surface": "#0b1326",
+                    "on-tertiary-fixed": "#410005",
+                    "secondary-fixed": "#e1e0ff",
+                    "surface-bright": "#31394d",
+                    "primary-fixed-dim": "#4edea3",
+                    "on-error": "#690005",
+                    "surface-variant": "#2d3449",
+                    "on-primary-container": "#00422b",
+                    "secondary": "#c0c1ff",
+                    "error": "#ffb4ab",
+                    "background": "#0b1326",
+                    "surface-container-low": "#131b2e",
+                    "on-background": "#dae2fd",
+                    "on-secondary-container": "#b0b2ff",
+                    "surface-container-lowest": "#060e20",
+                    "primary": "#4edea3",
+                    "surface-container": "#171f33",
+                    "secondary-fixed-dim": "#c0c1ff",
+                    "on-secondary-fixed": "#07006c",
+                    "inverse-on-surface": "#283044",
+                    "tertiary": "#ffb3af",
+                    "surface-dim": "#0b1326",
+                    "tertiary-container": "#fc7c78",
+                    "tertiary-fixed": "#ffdad7",
+                    "on-secondary-fixed-variant": "#2f2ebe",
+                    "on-primary": "#003824",
+                    "surface-container-highest": "#2d3449",
+                    "on-error-container": "#ffdad6",
+                    "surface-container-high": "#222a3d",
+                    "error-container": "#93000a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "md": "24px",
+                    "sm": "12px",
+                    "margin-desktop": "48px",
+                    "margin-mobile": "16px",
+                    "xl": "64px",
+                    "xs": "4px",
+                    "lg": "40px",
+                    "base": "8px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "headline-xl-mobile": ["Plus Jakarta Sans"],
+                    "label-md": ["Plus Jakarta Sans"],
+                    "headline-xl": ["Plus Jakarta Sans"],
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "body-lg": ["Plus Jakarta Sans"],
+                    "body-md": ["Plus Jakarta Sans"],
+                    "label-sm": ["Plus Jakarta Sans"],
+                    "headline-lg": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "headline-xl-mobile": ["30px", {"lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                    "headline-xl": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(51, 65, 85, 0.5);
+        }
+        .contribution-grid {
+            display: grid;
+            grid-template-columns: repeat(20, 1fr);
+            gap: 4px;
+        }
+        .contribution-cell {
+            aspect-ratio: 1/1;
+            border-radius: 2px;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b1326;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md overflow-x-hidden">
+<div class="flex min-h-screen">
+<!-- Side Navigation (Authority: SideNavBar JSON) -->
+<aside class="hidden md:flex h-screen sticky left-0 w-64 flex flex-col bg-surface-container-low border-r border-outline-variant py-lg z-50">
+<div class="px-md mb-lg">
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary">grid_view</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-on-surface leading-none">Tasklytics</h1>
+<p class="text-label-sm text-on-surface-variant">Precision Suite</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 px-sm space-y-base">
+<!-- Dashboard Active State -->
+<a class="flex items-center gap-sm px-md py-sm rounded-lg text-primary bg-primary/10 border-r-4 border-primary transition-all duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-sm px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-variant transition-all duration-200" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="font-label-md">Daily Planner</span>
+</a>
+<a class="flex items-center gap-sm px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-variant transition-all duration-200" href="#">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="font-label-md">Eisenhower Matrix</span>
+</a>
+<a class="flex items-center gap-sm px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-variant transition-all duration-200" href="#">
+<span class="material-symbols-outlined">checklist</span>
+<span class="font-label-md">Tasks</span>
+</a>
+<a class="flex items-center gap-sm px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-variant transition-all duration-200" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label-md">Analysis</span>
+</a>
+<a class="flex items-center gap-sm px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-variant transition-all duration-200" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md">Settings</span>
+</a>
+</nav>
+<div class="mt-auto px-sm border-t border-outline-variant/30 pt-md">
+<button class="w-full bg-primary-container text-on-primary-container py-sm rounded-lg font-bold mb-md hover:opacity-90 transition-all">
+                    New Project
+                </button>
+<a class="flex items-center gap-sm px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-variant transition-all duration-200" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-label-md">Support</span>
+</a>
+<a class="flex items-center gap-sm px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-variant transition-all duration-200" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-md">Sign Out</span>
+</a>
+</div>
+</aside>
+<main class="flex-1 flex flex-col min-w-0">
+<!-- Top App Bar -->
+<header class="bg-surface/80 backdrop-blur-md flex justify-between items-center px-margin-desktop py-base w-full z-40 sticky top-0 border-b border-outline-variant">
+<div class="flex items-center gap-md">
+<div class="relative flex-1 max-w-md hidden lg:block">
+<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="bg-surface-container-low border border-outline-variant rounded-full py-xs pl-xl pr-md w-full focus:outline-none focus:ring-1 focus:ring-primary text-body-md" placeholder="Search tasks or data..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<button class="bg-secondary-container/20 text-secondary px-md py-xs rounded-full font-bold text-label-md hover:bg-secondary-container/40 transition-colors">
+                        Upgrade
+                    </button>
+<div class="flex items-center gap-sm">
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors">notifications</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors">history</button>
+</div>
+<img alt="Professional user profile" class="w-10 h-10 rounded-full border-2 border-primary/20 object-cover" data-alt="A close-up high-resolution portrait of a professional man in his early 30s with a confident expression. He is set against a blurred corporate office background with cool blue and slate tones. The lighting is crisp and modern, emphasizing clarity and focus, aligning with a high-performance technology dashboard aesthetic. The overall mood is sophisticated and data-centric." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCUWrsSd746A_f_xl1dhM-vcGib6xtZ-0i-QuT7rmbhWGuBnKJaLFomiD1RhCR4vLNyAv_et9dNMgk0iXpFNT8Fg5uht9x8_128Ia3T-UgPDcN47nNYi3o6SwB0MoRLmAT6sxAw2RlLxHjmn-z57umc_Es3qkdFwQZzNxpgW_wfyK4JQ6dGGXIgO7lhJm2Ej3Rde_ShJE1HlzFr-hmu11Z-KVUD8l05SFAq0GvrDCVi3RFqAfpNfS91s7zoPf8W3slbpG4T5_YlnjHd"/>
+</div>
+</header>
+<!-- Dashboard Content -->
+<div class="p-margin-desktop space-y-lg">
+<!-- Welcome Section -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-md">
+<div>
+<h2 class="font-headline-xl text-headline-xl text-on-surface">Welcome back, <span class="text-primary">Chandu</span></h2>
+<p class="text-on-surface-variant font-body-lg">Here's your productivity overview for today.</p>
+</div>
+<div class="glass-card px-md py-sm rounded-xl flex items-center gap-md border-t-2 border-primary">
+<div>
+<p class="text-label-sm text-on-surface-variant uppercase tracking-wider">Daily Target</p>
+<p class="font-headline-md text-headline-md">3 / <span class="text-on-surface-variant">10</span></p>
+</div>
+<div class="w-12 h-12 rounded-full border-4 border-surface-variant relative flex items-center justify-center">
+<svg class="absolute inset-0 -rotate-90" viewbox="0 0 36 36">
+<circle class="text-primary" cx="18" cy="18" fill="none" r="16" stroke="currentColor" stroke-dasharray="30, 100" stroke-width="3"></circle>
+</svg>
+<span class="text-label-sm font-bold">30%</span>
+</div>
+</div>
+</div>
+<!-- Stats Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
+<div class="glass-card p-md rounded-xl group hover:border-primary/50 transition-all cursor-pointer">
+<div class="flex justify-between items-start mb-sm">
+<span class="material-symbols-outlined text-primary bg-primary/10 p-xs rounded-lg">checklist</span>
+<span class="text-primary font-bold text-label-sm">+4.2%</span>
+</div>
+<p class="text-on-surface-variant text-label-md">Total Tasks</p>
+<h3 class="font-headline-lg text-headline-lg">252</h3>
+</div>
+<div class="glass-card p-md rounded-xl group hover:border-primary/50 transition-all cursor-pointer">
+<div class="flex justify-between items-start mb-sm">
+<span class="material-symbols-outlined text-primary bg-primary/10 p-xs rounded-lg">task_alt</span>
+<span class="text-primary font-bold text-label-sm">+12%</span>
+</div>
+<p class="text-on-surface-variant text-label-md">Completed</p>
+<h3 class="font-headline-lg text-headline-lg">239</h3>
+</div>
+<div class="glass-card p-md rounded-xl group hover:border-error/50 transition-all cursor-pointer border-t-2 border-tertiary-container">
+<div class="flex justify-between items-start mb-sm">
+<span class="material-symbols-outlined text-tertiary-container bg-tertiary-container/10 p-xs rounded-lg">event_upcoming</span>
+<span class="text-tertiary-container font-bold text-label-sm">High</span>
+</div>
+<p class="text-on-surface-variant text-label-md">Upcoming Due</p>
+<h3 class="font-headline-lg text-headline-lg">12</h3>
+</div>
+<div class="glass-card p-md rounded-xl group hover:border-secondary/50 transition-all cursor-pointer">
+<div class="flex justify-between items-start mb-sm">
+<span class="material-symbols-outlined text-secondary bg-secondary/10 p-xs rounded-lg">timer</span>
+<span class="text-secondary font-bold text-label-sm">82%</span>
+</div>
+<p class="text-on-surface-variant text-label-md">Avg. Efficiency</p>
+<h3 class="font-headline-lg text-headline-lg">4h 22m</h3>
+</div>
+</div>
+<!-- Main Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Productivity Matrix (Left/Center) -->
+<div class="lg:col-span-8 space-y-gutter">
+<!-- Consistency Map -->
+<div class="glass-card p-md rounded-xl">
+<div class="flex justify-between items-center mb-md">
+<h4 class="font-headline-md text-headline-md text-on-surface">Consistency Matrix</h4>
+<div class="flex gap-xs">
+<div class="w-3 h-3 contribution-cell bg-surface-variant"></div>
+<div class="w-3 h-3 contribution-cell bg-primary/20"></div>
+<div class="w-3 h-3 contribution-cell bg-primary/50"></div>
+<div class="w-3 h-3 contribution-cell bg-primary"></div>
+</div>
+</div>
+<div class="contribution-grid overflow-x-auto pb-sm">
+<!-- Generated Grid Cells -->
+<script>
+                                    const grid = document.querySelector('.contribution-grid');
+                                    for(let i=0; i<140; i++) {
+                                        const cell = document.createElement('div');
+                                        cell.className = 'contribution-cell';
+                                        const opacity = Math.random();
+                                        if(opacity < 0.2) cell.classList.add('bg-surface-variant');
+                                        else if(opacity < 0.5) cell.classList.add('bg-primary/20');
+                                        else if(opacity < 0.8) cell.classList.add('bg-primary/50');
+                                        else cell.classList.add('bg-primary');
+                                        grid.appendChild(cell);
+                                    }
+                                </script>
+</div>
+</div>
+<!-- Weekly Productivity Chart -->
+<div class="glass-card p-md rounded-xl h-64">
+<div class="flex justify-between items-center mb-lg">
+<h4 class="font-headline-md text-headline-md text-on-surface">Weekly Productivity</h4>
+<select class="bg-surface-container border-none text-label-sm rounded-lg focus:ring-0">
+<option>Last 7 Days</option>
+<option>Last 30 Days</option>
+</select>
+</div>
+<div class="flex items-end justify-between h-32 gap-sm">
+<div class="flex-1 flex flex-col items-center gap-xs group">
+<div class="w-full bg-secondary/20 rounded-t-lg transition-all group-hover:bg-secondary/40" style="height: 60%"></div>
+<span class="text-label-sm text-on-surface-variant">Mon</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-xs group">
+<div class="w-full bg-secondary/20 rounded-t-lg transition-all group-hover:bg-secondary/40" style="height: 85%"></div>
+<span class="text-label-sm text-on-surface-variant">Tue</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-xs group">
+<div class="w-full bg-primary/40 rounded-t-lg transition-all group-hover:bg-primary/60" style="height: 45%"></div>
+<span class="text-label-sm text-on-surface-variant">Wed</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-xs group">
+<div class="w-full bg-secondary/20 rounded-t-lg transition-all group-hover:bg-secondary/40" style="height: 95%"></div>
+<span class="text-label-sm text-on-surface-variant">Thu</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-xs group">
+<div class="w-full bg-primary/40 rounded-t-lg transition-all group-hover:bg-primary/60" style="height: 70%"></div>
+<span class="text-label-sm text-on-surface-variant">Fri</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-xs group">
+<div class="w-full bg-surface-variant rounded-t-lg transition-all" style="height: 20%"></div>
+<span class="text-label-sm text-on-surface-variant">Sat</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-xs group">
+<div class="w-full bg-surface-variant rounded-t-lg transition-all" style="height: 10%"></div>
+<span class="text-label-sm text-on-surface-variant">Sun</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column (Focus Session) -->
+<div class="lg:col-span-4 space-y-gutter">
+<div class="glass-card rounded-2xl overflow-hidden relative border-t-4 border-primary">
+<div class="p-md relative z-10">
+<span class="bg-primary/20 text-primary px-sm py-xs rounded-full text-label-sm font-bold inline-block mb-md">DEEP WORK</span>
+<h4 class="font-headline-md text-headline-md mb-xs">Concentration Flow</h4>
+<p class="text-on-surface-variant mb-xl">Minimize distractions and tackle your most complex projects now.</p>
+<div class="mb-xl">
+<div class="text-headline-xl font-bold mb-base">45:00</div>
+<div class="w-full bg-surface-container-high h-1 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-0 transition-all duration-1000" id="timer-progress"></div>
+</div>
+</div>
+<button class="w-full bg-primary text-on-primary py-md rounded-xl font-bold flex items-center justify-center gap-sm hover:scale-[0.98] transition-transform" id="start-focus">
+<span class="material-symbols-outlined">play_arrow</span>
+                                    Start Focus Session
+                                </button>
+</div>
+<!-- Background Decoration -->
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary/10 blur-3xl -mr-16 -mt-16"></div>
+</div>
+<div class="glass-card p-md rounded-xl">
+<h5 class="text-label-sm font-bold text-on-surface-variant mb-md uppercase">Next Up Today</h5>
+<div class="space-y-sm">
+<div class="flex items-center gap-sm p-sm hover:bg-surface-variant rounded-lg transition-colors cursor-pointer group border-l-2 border-transparent hover:border-secondary">
+<div class="w-10 h-10 rounded-lg bg-secondary/10 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">monitoring</span>
+</div>
+<div class="flex-1 min-w-0">
+<p class="font-label-md truncate">Quarterly Revenue Analysis</p>
+<p class="text-label-sm text-on-surface-variant">2:00 PM • Data Science</p>
+</div>
+</div>
+<div class="flex items-center gap-sm p-sm hover:bg-surface-variant rounded-lg transition-colors cursor-pointer group border-l-2 border-transparent hover:border-primary">
+<div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">architecture</span>
+</div>
+<div class="flex-1 min-w-0">
+<p class="font-label-md truncate">System Architecture Review</p>
+<p class="text-label-sm text-on-surface-variant">4:30 PM • Tech Stack</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Mobile Bottom Navigation -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-surface-container-low border-t border-outline-variant flex justify-around py-sm px-md z-50">
+<a class="flex flex-col items-center gap-xs text-primary" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-label-sm">Home</span>
+</a>
+<a class="flex flex-col items-center gap-xs text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="text-label-sm">Planner</span>
+</a>
+<a class="flex flex-col items-center gap-xs text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">checklist</span>
+<span class="text-label-sm">Tasks</span>
+</a>
+<a class="flex flex-col items-center gap-xs text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-label-sm">Settings</span>
+</a>
+</nav>
+<script>
+        // Micro-interaction for Focus Timer
+        const startBtn = document.getElementById('start-focus');
+        const progress = document.getElementById('timer-progress');
+        let active = false;
+
+        startBtn.addEventListener('click', () => {
+            active = !active;
+            if(active) {
+                startBtn.innerHTML = '<span class="material-symbols-outlined">pause</span> Pause Session';
+                startBtn.classList.replace('bg-primary', 'bg-surface-container-highest');
+                startBtn.classList.replace('text-on-primary', 'text-on-surface');
+                progress.style.width = '100%';
+                progress.style.transitionDuration = '2700s'; // 45 mins
+            } else {
+                startBtn.innerHTML = '<span class="material-symbols-outlined">play_arrow</span> Start Focus Session';
+                startBtn.classList.replace('bg-surface-container-highest', 'bg-primary');
+                startBtn.classList.replace('text-on-surface', 'text-on-primary');
+                progress.style.width = '0%';
+                progress.style.transitionDuration = '0s';
+            }
+        });
+    </script>
+</body></html>

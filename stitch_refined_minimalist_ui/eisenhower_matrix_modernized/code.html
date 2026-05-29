@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Tasklytics - Eisenhower Prioritization Matrix</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-fixed-dim": "#bcc7de",
+                    "surface-variant": "#e0e3e5",
+                    "surface-container": "#eceef0",
+                    "surface-dim": "#d8dadc",
+                    "primary-fixed": "#d8e3fb",
+                    "on-tertiary-fixed-variant": "#3323cc",
+                    "secondary-container": "#c8eadf",
+                    "tertiary-fixed": "#e2dfff",
+                    "inverse-on-surface": "#eff1f3",
+                    "on-surface": "#191c1e",
+                    "on-primary": "#ffffff",
+                    "secondary-fixed-dim": "#adcdc3",
+                    "outline": "#75777d",
+                    "inverse-primary": "#bcc7de",
+                    "secondary": "#46645c",
+                    "on-primary-fixed": "#111c2d",
+                    "inverse-surface": "#2d3133",
+                    "surface-container-high": "#e6e8ea",
+                    "on-surface-variant": "#45474c",
+                    "surface-container-lowest": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary-fixed-variant": "#2f4c45",
+                    "on-primary-fixed-variant": "#3c475a",
+                    "secondary-fixed": "#c8eadf",
+                    "on-tertiary-container": "#8481ff",
+                    "surface-tint": "#545f73",
+                    "surface-bright": "#f7f9fb",
+                    "background": "#f7f9fb",
+                    "on-error": "#ffffff",
+                    "on-secondary": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "primary": "#091426",
+                    "tertiary": "#0a0054",
+                    "surface-container-low": "#f2f4f6",
+                    "surface": "#f7f9fb",
+                    "on-error-container": "#93000a",
+                    "on-background": "#191c1e",
+                    "on-secondary-container": "#4c6a62",
+                    "tertiary-fixed-dim": "#c3c0ff",
+                    "error": "#ba1a1a",
+                    "on-secondary-fixed": "#01201a",
+                    "on-primary-container": "#8590a6",
+                    "outline-variant": "#c5c6cd",
+                    "tertiary-container": "#18008f",
+                    "primary-container": "#1e293b",
+                    "on-tertiary-fixed": "#0f0069"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "margin-mobile": "16px",
+                    "unit-sm": "8px",
+                    "container-max": "1280px",
+                    "margin-desktop": "40px",
+                    "gutter": "24px",
+                    "unit-xs": "4px",
+                    "unit-md": "16px",
+                    "unit-lg": "24px",
+                    "unit-xl": "48px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "body-md": ["Inter"],
+                    "headline-xl": ["Plus Jakarta Sans"],
+                    "body-lg": ["Inter"],
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "headline-lg-mobile": ["Plus Jakarta Sans"],
+                    "label-sm": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-xl": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-lg": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            vertical-align: middle;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #e2e8f0;
+            border-radius: 10px;
+        }
+        .card-elevation {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            border: 1px solid #e2e8f0;
+        }
+    </style>
+</head>
+<body class="bg-background font-body-md text-on-surface antialiased overflow-x-hidden">
+<!-- SideNavBar Shell -->
+<aside class="fixed left-0 top-0 h-full flex flex-col p-unit-md w-64 border-r border-outline-variant bg-surface z-50">
+<div class="mb-unit-xl">
+<h1 class="text-headline-md font-headline-md font-bold text-primary">Tasklytics</h1>
+<p class="font-label-sm text-label-sm tracking-widest text-on-surface-variant opacity-70">SMART PRODUCTIVITY TRACKING</p>
+</div>
+<nav class="flex-1 space-y-unit-sm">
+<!-- Nav Item: Dashboard -->
+<a class="flex items-center gap-unit-md px-unit-md py-unit-sm text-on-surface-variant hover:bg-surface-container-high transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+<!-- Nav Item: Daily Planner -->
+<a class="flex items-center gap-unit-md px-unit-md py-unit-sm text-on-surface-variant hover:bg-surface-container-high transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_today">calendar_today</span>
+<span class="font-body-md text-body-md">Daily Planner</span>
+</a>
+<!-- Nav Item: Eisenhower Matrix (Active) -->
+<a class="flex items-center gap-unit-md px-unit-md py-unit-sm bg-secondary-container text-on-secondary-container rounded-lg font-semibold transition-transform active:scale-95 duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="grid_view" data-weight="fill" style="font-variation-settings: 'FILL' 1;">grid_view</span>
+<span class="font-body-md text-body-md">Eisenhower Matrix</span>
+</a>
+<!-- Nav Item: Tasks -->
+<a class="flex items-center gap-unit-md px-unit-md py-unit-sm text-on-surface-variant hover:bg-surface-container-high transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="check_circle">check_circle</span>
+<span class="font-body-md text-body-md">Tasks</span>
+</a>
+<!-- Nav Item: Analysis -->
+<a class="flex items-center gap-unit-md px-unit-md py-unit-sm text-on-surface-variant hover:bg-surface-container-high transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="bar_chart">bar_chart</span>
+<span class="font-body-md text-body-md">Analysis</span>
+</a>
+<!-- Nav Item: Settings -->
+<a class="flex items-center gap-unit-md px-unit-md py-unit-sm text-on-surface-variant hover:bg-surface-container-high transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+</nav>
+<button class="mt-unit-xl bg-primary text-on-primary py-3 rounded-xl font-semibold flex items-center justify-center gap-2 transition-all hover:shadow-lg active:scale-95">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+<span>+ Add New Task</span>
+</button>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-64 min-h-screen">
+<!-- TopAppBar -->
+<header class="sticky top-0 z-40 flex justify-between items-center h-16 px-margin-desktop bg-background/80 backdrop-blur-md border-b border-outline-variant">
+<div class="flex items-center gap-unit-md">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="grid_view">grid_view</span>
+<h2 class="font-headline-md text-headline-md font-bold text-primary">Eisenhower Prioritization Matrix</h2>
+</div>
+<div class="flex items-center gap-unit-lg">
+<!-- Search Bar -->
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant opacity-60" data-icon="search">search</span>
+<input class="bg-surface-container-low border-none rounded-full pl-10 pr-4 py-2 w-64 focus:ring-1 focus:ring-primary-fixed transition-all text-body-md outline-none" placeholder="Search prioritization..." type="text"/>
+</div>
+<div class="flex items-center gap-unit-md">
+<button class="text-on-surface-variant opacity-80 hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-on-surface-variant opacity-80 hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+</button>
+<div class="h-8 w-8 rounded-full bg-surface-container-highest flex items-center justify-center overflow-hidden border border-outline-variant">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="A high-quality studio portrait of a professional male in his early 30s with a kind expression. The lighting is soft and directional, typical of a modern corporate headshot. The background is a clean, out-of-focus office environment with neutral tones, perfectly aligned with a professional productivity application's minimal aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDuUfUN9y1Af4RJINugh09dsr6Ep3rzskCBbNh3VOehDOPLok1j4JEFtpVdYZrgNYl9nmHpDRmdng46rP6Y9t6B1rr2o97F3_Cid0iocWup05Fi-dBZppSBdRZlGUeSsxhpZDX6w6JrbavDqqkv3XECyUZ46A2ml0qzttbT1XJRz7PP0qggYk4QhHaqq1gQylewdHUDQEDjc4kUOgC1s-RZhJrGOpTE2dDEZ9qL7ybC-nGq-Qy3ZksqweJYPUh7GB-BPnXXw3_7dfn"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Content Canvas -->
+<section class="p-margin-desktop max-w-container-max mx-auto space-y-unit-xl">
+<!-- Page Header Text -->
+<div class="space-y-unit-sm">
+<p class="font-body-lg text-on-surface-variant max-w-2xl">
+                    Classify academic tasks along urgency and importance vectors to focus on what truly impacts performance.
+                </p>
+</div>
+<!-- The Matrix Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-gutter">
+<!-- Q1: Do First (Urgent & Important) -->
+<div class="bg-surface rounded-xl overflow-hidden card-elevation border-t-4 border-error">
+<div class="p-unit-lg flex justify-between items-center border-b border-surface-container">
+<div class="flex items-center gap-unit-md">
+<span class="w-3 h-3 rounded-full bg-error"></span>
+<h3 class="font-headline-md text-headline-md text-error">Q1: Do First (Urgent &amp; Important)</h3>
+</div>
+<span class="bg-error-container text-on-error-container px-3 py-1 rounded-full font-label-sm text-label-sm">2 Tasks</span>
+</div>
+<div class="p-unit-lg space-y-unit-md min-h-[280px]">
+<!-- Task Card -->
+<div class="bg-surface-container-lowest p-unit-md rounded-lg border border-outline-variant hover:shadow-md transition-shadow cursor-pointer group">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-headline-md text-body-lg font-semibold group-hover:text-primary transition-colors">pay the water bill</h4>
+<span class="font-label-sm text-label-sm text-on-surface-variant bg-surface-container px-2 py-0.5 rounded">Finance</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1 text-on-surface-variant text-label-sm">
+<span class="material-symbols-outlined text-[14px]" data-icon="calendar_month">calendar_month</span>
+<span>Due: May 22</span>
+</div>
+<div class="flex gap-2">
+<span class="material-symbols-outlined text-error text-[18px]" data-icon="local_fire_department" data-weight="fill" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+<span class="material-symbols-outlined text-amber-500 text-[18px]" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+</div>
+<!-- Task Card -->
+<div class="bg-surface-container-lowest p-unit-md rounded-lg border border-outline-variant hover:shadow-md transition-shadow cursor-pointer group">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-headline-md text-body-lg font-semibold group-hover:text-primary transition-colors">ghub gren map task ags in progess, open,blokd reslvd add fre llm</h4>
+<span class="font-label-sm text-label-sm text-on-surface-variant bg-surface-container px-2 py-0.5 rounded">Other</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1 text-on-surface-variant text-label-sm">
+<span class="material-symbols-outlined text-[14px]" data-icon="calendar_month">calendar_month</span>
+<span>Due: May 29</span>
+</div>
+<div class="flex gap-2">
+<span class="material-symbols-outlined text-error text-[18px]" data-icon="local_fire_department" data-weight="fill" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+<span class="material-symbols-outlined text-amber-500 text-[18px]" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Q2: Schedule (Important, Not Urgent) -->
+<div class="bg-surface rounded-xl overflow-hidden card-elevation border-t-4 border-amber-400">
+<div class="p-unit-lg flex justify-between items-center border-b border-surface-container">
+<div class="flex items-center gap-unit-md">
+<span class="w-3 h-3 rounded-full bg-amber-400"></span>
+<h3 class="font-headline-md text-headline-md text-on-surface">Q2: Schedule (Important, Not Urgent)</h3>
+</div>
+<span class="bg-amber-100 text-amber-800 px-3 py-1 rounded-full font-label-sm text-label-sm">1 Tasks</span>
+</div>
+<div class="p-unit-lg space-y-unit-md min-h-[280px]">
+<div class="bg-surface-container-lowest p-unit-md rounded-lg border border-outline-variant hover:shadow-md transition-shadow cursor-pointer group">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-headline-md text-body-lg font-semibold group-hover:text-primary transition-colors">go for full body checkup</h4>
+<span class="font-label-sm text-label-sm text-on-surface-variant bg-surface-container px-2 py-0.5 rounded">Health</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1 text-on-surface-variant text-label-sm">
+<span class="material-symbols-outlined text-[14px]" data-icon="calendar_month">calendar_month</span>
+<span>Due: May 20</span>
+</div>
+<div class="flex gap-2">
+<span class="material-symbols-outlined text-slate-300 text-[18px]" data-icon="bolt">bolt</span>
+<span class="material-symbols-outlined text-amber-500 text-[18px]" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Q3: Delegate (Urgent, Not Important) -->
+<div class="bg-surface rounded-xl overflow-hidden card-elevation border-t-4 border-primary-fixed-dim">
+<div class="p-unit-lg flex justify-between items-center border-b border-surface-container">
+<div class="flex items-center gap-unit-md">
+<span class="w-3 h-3 rounded-full bg-primary-fixed-dim"></span>
+<h3 class="font-headline-md text-headline-md text-primary">Q3: Quick Wins / Delegate (Urgent)</h3>
+</div>
+<span class="bg-primary-fixed text-on-primary-fixed px-3 py-1 rounded-full font-label-sm text-label-sm">1 Tasks</span>
+</div>
+<div class="p-unit-lg space-y-unit-md min-h-[280px]">
+<div class="bg-surface-container-lowest p-unit-md rounded-lg border border-outline-variant hover:shadow-md transition-shadow cursor-pointer group">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-headline-md text-body-lg font-semibold group-hover:text-primary transition-colors">complete math hw</h4>
+<span class="font-label-sm text-label-sm text-on-surface-variant bg-surface-container px-2 py-0.5 rounded">Study</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1 text-on-surface-variant text-label-sm">
+<span class="material-symbols-outlined text-[14px]" data-icon="calendar_month">calendar_month</span>
+<span>Due: May 28</span>
+</div>
+<div class="flex gap-2">
+<span class="material-symbols-outlined text-orange-400 text-[18px]" data-icon="local_fire_department">local_fire_department</span>
+<span class="material-symbols-outlined text-slate-300 text-[18px]" data-icon="star">star</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Q4: Eliminate / Postpone (Neither) -->
+<div class="bg-surface rounded-xl overflow-hidden card-elevation border-t-4 border-outline">
+<div class="p-unit-lg flex justify-between items-center border-b border-surface-container">
+<div class="flex items-center gap-unit-md">
+<span class="w-3 h-3 rounded-full bg-outline"></span>
+<h3 class="font-headline-md text-headline-md text-on-surface-variant">Q4: Eliminate / Postpone (Neither)</h3>
+</div>
+<span class="bg-surface-variant text-on-surface-variant px-3 py-1 rounded-full font-label-sm text-label-sm">9 Tasks</span>
+</div>
+<div class="p-unit-lg space-y-unit-md min-h-[280px] overflow-y-auto custom-scrollbar max-h-[400px]">
+<div class="bg-surface-container-lowest p-unit-md rounded-lg border border-outline-variant hover:shadow-md transition-shadow cursor-pointer group opacity-60 hover:opacity-100">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-headline-md text-body-lg font-semibold group-hover:text-primary transition-colors">Book Eye Checkup Appointment</h4>
+<span class="font-label-sm text-label-sm text-on-surface-variant bg-surface-container px-2 py-0.5 rounded">Health</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1 text-on-surface-variant text-label-sm">
+<span class="material-symbols-outlined text-[14px]" data-icon="calendar_month">calendar_month</span>
+<span>Due: May 19</span>
+</div>
+<div class="flex gap-2">
+<span class="material-symbols-outlined text-slate-300 text-[18px]" data-icon="bolt">bolt</span>
+<span class="material-symbols-outlined text-slate-300 text-[18px]" data-icon="star">star</span>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-unit-md rounded-lg border border-outline-variant hover:shadow-md transition-shadow cursor-pointer group opacity-60 hover:opacity-100">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-headline-md text-body-lg font-semibold group-hover:text-primary transition-colors">Back Up Laptop to External Drive</h4>
+<span class="font-label-sm text-label-sm text-on-surface-variant bg-surface-container px-2 py-0.5 rounded">Tech</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1 text-on-surface-variant text-label-sm">
+<span class="material-symbols-outlined text-[14px]" data-icon="calendar_month">calendar_month</span>
+<span>Due: May 20</span>
+</div>
+<div class="flex gap-2">
+<span class="material-symbols-outlined text-slate-300 text-[18px]" data-icon="bolt">bolt</span>
+<span class="material-symbols-outlined text-slate-300 text-[18px]" data-icon="star">star</span>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-unit-md rounded-lg border border-outline-variant hover:shadow-md transition-shadow cursor-pointer group opacity-60 hover:opacity-100 text-center py-unit-xl border-dashed">
+<p class="text-on-surface-variant text-label-sm italic">+ 7 more low priority tasks</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Analysis Section (Premium Bento Component) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<div class="bg-surface-container p-unit-lg rounded-xl border border-outline-variant flex flex-col justify-between">
+<div>
+<h5 class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mb-2">Productivity Score</h5>
+<p class="font-headline-xl text-headline-xl text-primary">84%</p>
+</div>
+<div class="mt-unit-md h-2 bg-background rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-[84%]"></div>
+</div>
+</div>
+<div class="bg-surface-container p-unit-lg rounded-xl border border-outline-variant flex items-center gap-unit-lg">
+<div class="w-12 h-12 rounded-full bg-primary-fixed flex items-center justify-center text-on-primary-fixed">
+<span class="material-symbols-outlined" data-icon="trending_up">trending_up</span>
+</div>
+<div>
+<h5 class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Top Priority</h5>
+<p class="font-headline-md text-headline-md text-primary">Finishing Q1 Tasks</p>
+</div>
+</div>
+<div class="bg-primary p-unit-lg rounded-xl flex items-center justify-between text-on-primary shadow-lg hover:shadow-xl transition-shadow cursor-pointer">
+<div>
+<h5 class="font-label-sm text-label-sm opacity-60 uppercase tracking-wider">Upcoming Sync</h5>
+<p class="font-headline-md text-headline-md">Daily Review</p>
+</div>
+<div class="text-on-primary font-bold">14:00</div>
+</div>
+</div>
+</section>
+<!-- Aesthetic Background Elements -->
+<div class="fixed top-0 right-0 -z-10 opacity-20 pointer-events-none">
+<div class="w-[600px] h-[600px] rounded-full bg-gradient-to-br from-primary-fixed to-transparent blur-3xl"></div>
+</div>
+</main>
+<!-- FAB (Suppressed as per rules for Details/Settings, but often present on Main Dashboards) -->
+<!-- Rule says: render if screen aligns with action. "Add New Task" is highly relevant here. -->
+<button class="fixed bottom-margin-desktop right-margin-desktop w-14 h-14 bg-primary text-on-primary rounded-full flex items-center justify-center shadow-xl hover:scale-105 active:scale-95 transition-all z-50">
+<span class="material-symbols-outlined text-[28px]" data-icon="add" data-weight="fill" style="font-variation-settings: 'FILL' 1;">add</span>
+</button>
+<script>
+        // Micro-interaction for task cards
+        document.querySelectorAll('.group').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-2px)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0px)';
+            });
+        });
+
+        // Simple simulation of task completion
+        const tasks = document.querySelectorAll('.group');
+        tasks.forEach(task => {
+            task.addEventListener('click', function(e) {
+                if(!e.target.closest('span')) {
+                    this.classList.toggle('opacity-30');
+                    this.classList.toggle('line-through');
+                }
+            });
+        });
+    </script>
+</body></html>

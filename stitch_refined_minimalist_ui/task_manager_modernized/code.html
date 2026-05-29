@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Tasklytics | Task Manager</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed-dim": "#bcc7de",
+                        "surface-variant": "#e0e3e5",
+                        "surface-container": "#eceef0",
+                        "surface-dim": "#d8dadc",
+                        "primary-fixed": "#d8e3fb",
+                        "on-tertiary-fixed-variant": "#3323cc",
+                        "secondary-container": "#c8eadf",
+                        "tertiary-fixed": "#e2dfff",
+                        "inverse-on-surface": "#eff1f3",
+                        "on-surface": "#191c1e",
+                        "on-primary": "#ffffff",
+                        "secondary-fixed-dim": "#adcdc3",
+                        "outline": "#75777d",
+                        "inverse-primary": "#bcc7de",
+                        "secondary": "#46645c",
+                        "on-primary-fixed": "#111c2d",
+                        "inverse-surface": "#2d3133",
+                        "surface-container-high": "#e6e8ea",
+                        "on-surface-variant": "#45474c",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed-variant": "#2f4c45",
+                        "on-primary-fixed-variant": "#3c475a",
+                        "secondary-fixed": "#c8eadf",
+                        "on-tertiary-container": "#8481ff",
+                        "surface-tint": "#545f73",
+                        "surface-hint": "#f1f5f9",
+                        "background": "#f7f9fb",
+                        "on-error": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "primary": "#091426",
+                        "tertiary": "#0a0054",
+                        "surface-container-low": "#f2f4f6",
+                        "surface": "#f7f9fb",
+                        "on-error-container": "#93000a",
+                        "on-background": "#191c1e",
+                        "on-secondary-container": "#4c6a62",
+                        "tertiary-fixed-dim": "#c3c0ff",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed": "#01201a",
+                        "on-primary-container": "#8590a6",
+                        "outline-variant": "#c5c6cd",
+                        "tertiary-container": "#18008f",
+                        "primary-container": "#1e293b",
+                        "surface-bright": "#f7f9fb",
+                        "on-tertiary-fixed": "#0f0069",
+                        "slate-navy": "#091426",
+                        "muted-forest": "#46645c",
+                        "soft-indigo": "#3c475a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "unit-sm": "8px",
+                        "container-max": "1280px",
+                        "margin-desktop": "40px",
+                        "gutter": "24px",
+                        "unit-xs": "4px",
+                        "unit-md": "16px",
+                        "unit-lg": "24px",
+                        "unit-xl": "48px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "body-md": ["Inter"],
+                        "headline-xl": ["Plus Jakarta Sans"],
+                        "body-lg": ["Inter"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans"],
+                        "label-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-xl": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-lg": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .tonal-layer-1 {
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+        .tonal-layer-2 {
+            background-color: #ffffff;
+            box-shadow: 0 12px 16px -4px rgba(9, 20, 38, 0.1);
+        }
+        .progress-bar-bg { background-color: #f1f5f9; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md overflow-x-hidden">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full flex flex-col p-unit-md w-64 border-r border-outline-variant dark:border-outline bg-surface dark:bg-inverse-surface z-50">
+<div class="mb-unit-xl">
+<div class="flex items-center gap-unit-sm mb-unit-xs">
+<span class="material-symbols-outlined text-primary text-3xl" style="font-variation-settings: 'FILL' 1;">dashboard_customize</span>
+<h1 class="text-headline-md font-headline-md font-bold text-primary dark:text-inverse-primary">Tasklytics</h1>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant tracking-widest opacity-70">SMART PRODUCTIVITY TRACKING</p>
+</div>
+<nav class="flex-1 space-y-unit-sm">
+<a class="flex items-center gap-unit-md p-unit-sm text-on-surface-variant dark:text-surface-variant hover:bg-surface-container dark:hover:bg-surface-container-high transition-colors rounded-lg group" href="#">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">dashboard</span>
+<span class="font-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-unit-md p-unit-sm text-on-surface-variant dark:text-surface-variant hover:bg-surface-container dark:hover:bg-surface-container-high transition-colors rounded-lg group" href="#">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">calendar_today</span>
+<span class="font-body-md">Daily Planner</span>
+</a>
+<a class="flex items-center gap-unit-md p-unit-sm text-on-surface-variant dark:text-surface-variant hover:bg-surface-container dark:hover:bg-surface-container-high transition-colors rounded-lg group" href="#">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">grid_view</span>
+<span class="font-body-md">Eisenhower Matrix</span>
+</a>
+<a class="flex items-center gap-unit-md p-unit-sm bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary rounded-lg font-semibold shadow-sm" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-body-md">Tasks</span>
+</a>
+<a class="flex items-center gap-unit-md p-unit-sm text-on-surface-variant dark:text-surface-variant hover:bg-surface-container dark:hover:bg-surface-container-high transition-colors rounded-lg group" href="#">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">bar_chart</span>
+<span class="font-body-md">Analysis</span>
+</a>
+<a class="flex items-center gap-unit-md p-unit-sm text-on-surface-variant dark:text-surface-variant hover:bg-surface-container dark:hover:bg-surface-container-high transition-colors rounded-lg group" href="#">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">settings</span>
+<span class="font-body-md">Settings</span>
+</a>
+</nav>
+<div class="mt-auto">
+<button class="w-full py-unit-md bg-slate-navy text-white font-headline-md rounded-xl hover:opacity-90 active:scale-95 duration-150 ease-in-out shadow-lg flex items-center justify-center gap-unit-sm">
+<span class="material-symbols-outlined">add</span>
+<span>Add New Task</span>
+</button>
+</div>
+</aside>
+<!-- TopAppBar -->
+<header class="sticky top-0 z-40 flex justify-between items-center h-16 px-margin-desktop ml-64 bg-background/80 backdrop-blur-md border-b border-outline-variant dark:border-outline">
+<div class="flex items-center gap-unit-lg flex-1">
+<div class="relative w-full max-w-md hidden md:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full bg-surface-hint border-none rounded-xl pl-10 py-2 text-body-md focus:ring-2 focus:ring-primary-fixed-dim focus:outline-none transition-all" placeholder="Search tasks..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-unit-md">
+<button class="p-2 text-on-surface-variant hover:text-primary transition-all opacity-80 hover:opacity-100">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-primary transition-all opacity-80 hover:opacity-100">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<div class="h-8 w-px bg-outline-variant mx-unit-sm"></div>
+<div class="flex items-center gap-unit-sm cursor-pointer group">
+<img alt="User Profile" class="w-9 h-9 rounded-full bg-surface-container border border-outline-variant group-hover:ring-2 ring-primary-fixed-dim transition-all" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqE14i3p216IYbvkrOujS-B_Cmc-_Xc0LOw22O-4Hdm9wJ67QQeK2Pa6Bt2hBWAplNSU6CyAZoqxeWXj6oxs6KRfDso_ovyfJ6xomrSqlHDTVzRO3uHIrINoJsp2OD_lXfszvnHU0Q4DfVsp5B5OWeH5PFlm1Eumlh_L_7RemmCmdUfMlfZ_8kN7T97s-Diqn7qQTDrFcM5WLPdLH-IkMfD7L-gV3ohVQhWwLCCHNhU6EKgUDMGbltsXAdhkz0SQri3Vk7GiICZ3UE"/>
+<div class="hidden lg:block text-right">
+<p class="font-label-sm text-primary leading-tight">Alex Jensen</p>
+<p class="text-[10px] text-on-surface-variant">Premium Plan</p>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="ml-64 p-margin-desktop">
+<div class="max-w-[1200px] mx-auto">
+<!-- Page Header -->
+<header class="mb-unit-xl">
+<h2 class="font-headline-xl text-headline-xl text-primary mb-unit-xs">Task Manager</h2>
+<p class="text-body-lg text-on-surface-variant">Stay organized and track your academic progress with precision.</p>
+</header>
+<div class="grid grid-cols-12 gap-gutter">
+<!-- Sidebar Summary Column -->
+<div class="col-span-12 lg:col-span-3 space-y-gutter">
+<!-- Completion Rate Card -->
+<div class="tonal-layer-1 p-unit-lg rounded-xl flex flex-col items-center text-center">
+<p class="font-label-sm text-on-surface-variant mb-unit-sm">Completion Rate</p>
+<div class="relative w-32 h-32 flex items-center justify-center mb-unit-md">
+<svg class="w-full h-full transform -rotate-90">
+<circle class="text-surface-container" cx="64" cy="64" fill="transparent" r="58" stroke="currentColor" stroke-width="8"></circle>
+<circle class="text-muted-forest" cx="64" cy="64" fill="transparent" r="58" stroke="currentColor" stroke-dasharray="364.4" stroke-dashoffset="18" stroke-width="8"></circle>
+</svg>
+<span class="absolute font-headline-xl text-primary">95%</span>
+</div>
+<div class="w-full h-1.5 progress-bar-bg rounded-full overflow-hidden">
+<div class="h-full bg-muted-forest w-[95%]"></div>
+</div>
+</div>
+<!-- Urgent Tasks Card -->
+<div class="bg-primary text-on-primary p-unit-lg rounded-xl shadow-lg relative overflow-hidden group">
+<div class="absolute -right-4 -top-4 w-24 h-24 bg-white/5 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
+<p class="font-label-sm text-on-primary-container mb-unit-sm">Urgent Tasks</p>
+<h3 class="font-headline-lg text-headline-lg mb-unit-lg">3 Due Today</h3>
+<div class="w-10 h-10 rounded-full bg-error/20 flex items-center justify-center text-error">
+<span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">priority_high</span>
+</div>
+</div>
+<!-- Decorative Branding Block -->
+<div class="tonal-layer-1 p-unit-lg rounded-xl overflow-hidden relative min-h-[160px] flex items-end">
+<img class="absolute inset-0 w-full h-full object-cover opacity-20 grayscale" data-alt="A sophisticated top-down photograph of a minimalist office desk with a clean black notebook, a high-end fountain pen, and a single marble paperweight. The scene is bathed in bright, soft, natural light coming from a large window, creating a modern light-mode workspace aesthetic. The overall mood is calm, professional, and focused on high-fidelity productivity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQea8hDFqSMxDgAjyU7g0rfCTD3n8nCntOfT2rC_fMiK0gV_67bUUiRO6xP4SAs1Hb8nhDPOymer3v8gFlfewBKwoEoWHFpMbGm00xH_9l6pvSKEXkzZ2paXvagd4-8VjJ_tWvPNclEwk4vwG_2aGvQ2iVR4HS4OaJ1d5vU75yfbuRJSSUmu-gvi8WxeYgBPHPRLVjI3VHlkfo8UERu6kUONcFp-zuN2EPVWAstZIUpSgKngTRD8_BmMacxZMhbYN7h_-eEklNVAT8"/>
+<div class="relative z-10">
+<p class="font-headline-md text-slate-navy">Deep Work</p>
+<p class="font-label-sm text-on-surface-variant">2.5h session active</p>
+</div>
+</div>
+</div>
+<!-- Main Task List Column -->
+<div class="col-span-12 lg:col-span-9">
+<div class="tonal-layer-1 rounded-xl overflow-hidden">
+<!-- Table Toolbar -->
+<div class="p-unit-md border-b border-slate-100 flex justify-between items-center bg-white">
+<div class="flex gap-unit-md">
+<button class="px-unit-sm py-1 font-label-sm text-primary border-b-2 border-primary">Active</button>
+<button class="px-unit-sm py-1 font-label-sm text-on-surface-variant hover:text-primary transition-colors">Completed</button>
+<button class="px-unit-sm py-1 font-label-sm text-on-surface-variant hover:text-primary transition-colors">Archived</button>
+</div>
+<div class="flex items-center gap-unit-sm">
+<button class="p-1.5 rounded bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-sm">filter_list</span>
+</button>
+<button class="p-1.5 rounded bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-sm">sort</span>
+</button>
+</div>
+</div>
+<!-- Tasks Table -->
+<div class="overflow-x-auto hide-scrollbar">
+<table class="w-full text-left border-collapse">
+<thead class="bg-surface-hint/50 border-b border-slate-100">
+<tr>
+<th class="p-unit-lg font-label-sm text-on-surface-variant">Task Name</th>
+<th class="p-unit-lg font-label-sm text-on-surface-variant">Tags</th>
+<th class="p-unit-lg font-label-sm text-on-surface-variant">Due Date</th>
+<th class="p-unit-lg font-label-sm text-on-surface-variant">Completion</th>
+<th class="p-unit-lg font-label-sm text-on-surface-variant">Status</th>
+<th class="p-unit-lg font-label-sm text-on-surface-variant text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-50">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-hint/30 transition-colors group">
+<td class="p-unit-lg">
+<div class="flex items-center gap-unit-sm">
+<div class="w-2 h-2 rounded-full bg-on-tertiary-fixed-variant/40"></div>
+<span class="font-body-md font-medium text-primary">Book Eye Checkup Appointment</span>
+</div>
+</td>
+<td class="p-unit-lg">
+<span class="px-2 py-0.5 rounded-[4px] bg-red-100 text-red-800 text-[10px] font-bold tracking-tight">HEALTH</span>
+</td>
+<td class="p-unit-lg text-on-surface-variant font-label-sm">May 19, 2026</td>
+<td class="p-unit-lg">
+<div class="flex items-center gap-unit-md">
+<div class="flex-1 h-1.5 progress-bar-bg rounded-full overflow-hidden">
+<div class="h-full bg-muted-forest w-[80%]"></div>
+</div>
+<span class="font-label-sm text-on-surface-variant">80%</span>
+</div>
+</td>
+<td class="p-unit-lg">
+<select class="bg-surface-hint border-none rounded-lg text-label-sm py-1 px-3 focus:ring-1 focus:ring-primary">
+<option selected="">Pending</option>
+<option>In Progress</option>
+<option>Done</option>
+</select>
+</td>
+<td class="p-unit-lg text-right space-x-2">
+<button class="text-on-surface-variant hover:text-muted-forest transition-colors"><span class="material-symbols-outlined text-lg">check</span></button>
+<button class="text-on-surface-variant hover:text-soft-indigo transition-colors"><span class="material-symbols-outlined text-lg">edit</span></button>
+<button class="text-on-surface-variant hover:text-error transition-colors"><span class="material-symbols-outlined text-lg">delete</span></button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-hint/30 transition-colors group">
+<td class="p-unit-lg">
+<div class="flex items-center gap-unit-sm">
+<div class="w-2 h-2 rounded-full bg-on-tertiary-fixed-variant/40"></div>
+<span class="font-body-md font-medium text-primary">go for full body checkup</span>
+</div>
+</td>
+<td class="p-unit-lg">
+<span class="px-2 py-0.5 rounded-[4px] bg-red-100 text-red-800 text-[10px] font-bold tracking-tight">HEALTH</span>
+</td>
+<td class="p-unit-lg text-on-surface-variant font-label-sm">May 20, 2026</td>
+<td class="p-unit-lg">
+<div class="flex items-center gap-unit-md">
+<div class="flex-1 h-1.5 progress-bar-bg rounded-full overflow-hidden">
+<div class="h-full bg-muted-forest w-[80%]"></div>
+</div>
+<span class="font-label-sm text-on-surface-variant">80%</span>
+</div>
+</td>
+<td class="p-unit-lg">
+<select class="bg-surface-hint border-none rounded-lg text-label-sm py-1 px-3 focus:ring-1 focus:ring-primary">
+<option selected="">Pending</option>
+<option>In Progress</option>
+</select>
+</td>
+<td class="p-unit-lg text-right space-x-2">
+<button class="text-on-surface-variant hover:text-muted-forest transition-colors"><span class="material-symbols-outlined text-lg">check</span></button>
+<button class="text-on-surface-variant hover:text-soft-indigo transition-colors"><span class="material-symbols-outlined text-lg">edit</span></button>
+<button class="text-on-surface-variant hover:text-error transition-colors"><span class="material-symbols-outlined text-lg">delete</span></button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-hint/30 transition-colors group">
+<td class="p-unit-lg">
+<div class="flex items-center gap-unit-sm">
+<div class="w-2 h-2 rounded-full bg-on-tertiary-fixed-variant/40"></div>
+<span class="font-body-md font-medium text-primary">Back Up Laptop to External Drive</span>
+</div>
+</td>
+<td class="p-unit-lg">
+<span class="px-2 py-0.5 rounded-[4px] bg-slate-200 text-slate-700 text-[10px] font-bold tracking-tight">OTHER</span>
+</td>
+<td class="p-unit-lg text-on-surface-variant font-label-sm">May 20, 2026</td>
+<td class="p-unit-lg">
+<div class="flex items-center gap-unit-md">
+<div class="flex-1 h-1.5 progress-bar-bg rounded-full overflow-hidden">
+<div class="h-full bg-muted-forest w-[75%]"></div>
+</div>
+<span class="font-label-sm text-on-surface-variant">75%</span>
+</div>
+</td>
+<td class="p-unit-lg">
+<select class="bg-surface-hint border-none rounded-lg text-label-sm py-1 px-3 focus:ring-1 focus:ring-primary">
+<option selected="">Pending</option>
+</select>
+</td>
+<td class="p-unit-lg text-right space-x-2">
+<button class="text-on-surface-variant hover:text-muted-forest transition-colors"><span class="material-symbols-outlined text-lg">check</span></button>
+<button class="text-on-surface-variant hover:text-soft-indigo transition-colors"><span class="material-symbols-outlined text-lg">edit</span></button>
+<button class="text-on-surface-variant hover:text-error transition-colors"><span class="material-symbols-outlined text-lg">delete</span></button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-hint/30 transition-colors group">
+<td class="p-unit-lg">
+<div class="flex items-center gap-unit-sm">
+<div class="w-2 h-2 rounded-full bg-secondary"></div>
+<span class="font-body-md font-medium text-muted-forest">Prepare Sprint Retrospective Slides</span>
+</div>
+</td>
+<td class="p-unit-lg">
+<span class="px-2 py-0.5 rounded-[4px] bg-indigo-100 text-indigo-700 text-[10px] font-bold tracking-tight">WORK</span>
+</td>
+<td class="p-unit-lg text-on-surface-variant font-label-sm">May 21, 2026</td>
+<td class="p-unit-lg">
+<div class="flex items-center gap-unit-md">
+<div class="flex-1 h-1.5 progress-bar-bg rounded-full overflow-hidden">
+<div class="h-full bg-muted-forest w-[75%]"></div>
+</div>
+<span class="font-label-sm text-on-surface-variant">75%</span>
+</div>
+</td>
+<td class="p-unit-lg">
+<select class="bg-surface-hint border-none rounded-lg text-label-sm py-1 px-3 focus:ring-1 focus:ring-primary">
+<option selected="">Pending</option>
+</select>
+</td>
+<td class="p-unit-lg text-right space-x-2">
+<button class="text-on-surface-variant hover:text-muted-forest transition-colors"><span class="material-symbols-outlined text-lg">check</span></button>
+<button class="text-on-surface-variant hover:text-soft-indigo transition-colors"><span class="material-symbols-outlined text-lg">edit</span></button>
+<button class="text-on-surface-variant hover:text-error transition-colors"><span class="material-symbols-outlined text-lg">delete</span></button>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-surface-hint/30 transition-colors group">
+<td class="p-unit-lg">
+<div class="flex items-center gap-unit-sm">
+<div class="w-2 h-2 rounded-full bg-on-tertiary-fixed-variant/40"></div>
+<span class="font-body-md font-medium text-primary">Revise DBMS — Normalization &amp; Transactions</span>
+</div>
+</td>
+<td class="p-unit-lg">
+<span class="px-2 py-0.5 rounded-[4px] bg-green-100 text-green-700 text-[10px] font-bold tracking-tight">STUDY</span>
+</td>
+<td class="p-unit-lg text-on-surface-variant font-label-sm">May 21, 2026</td>
+<td class="p-unit-lg">
+<div class="flex items-center gap-unit-md">
+<div class="flex-1 h-1.5 progress-bar-bg rounded-full overflow-hidden">
+<div class="h-full bg-muted-forest w-[75%]"></div>
+</div>
+<span class="font-label-sm text-on-surface-variant">75%</span>
+</div>
+</td>
+<td class="p-unit-lg">
+<select class="bg-surface-hint border-none rounded-lg text-label-sm py-1 px-3 focus:ring-1 focus:ring-primary">
+<option selected="">Pending</option>
+</select>
+</td>
+<td class="p-unit-lg text-right space-x-2">
+<button class="text-on-surface-variant hover:text-muted-forest transition-colors"><span class="material-symbols-outlined text-lg">check</span></button>
+<button class="text-on-surface-variant hover:text-soft-indigo transition-colors"><span class="material-symbols-outlined text-lg">edit</span></button>
+<button class="text-on-surface-variant hover:text-error transition-colors"><span class="material-symbols-outlined text-lg">delete</span></button>
+</td>
+</tr>
+<!-- Row 6 -->
+<tr class="hover:bg-surface-hint/30 transition-colors group">
+<td class="p-unit-lg">
+<div class="flex items-center gap-unit-sm">
+<div class="w-2 h-2 rounded-full bg-on-tertiary-fixed-variant/40"></div>
+<span class="font-body-md font-medium text-primary">pay the water bill</span>
+</div>
+</td>
+<td class="p-unit-lg">
+<span class="px-2 py-0.5 rounded-[4px] bg-orange-100 text-orange-700 text-[10px] font-bold tracking-tight">FINANCE</span>
+</td>
+<td class="p-unit-lg text-on-surface-variant font-label-sm">May 22, 2026</td>
+<td class="p-unit-lg">
+<div class="flex items-center gap-unit-md">
+<div class="flex-1 h-1.5 progress-bar-bg rounded-full overflow-hidden">
+<div class="h-full bg-muted-forest w-[40%]"></div>
+</div>
+<span class="font-label-sm text-on-surface-variant">40%</span>
+</div>
+</td>
+<td class="p-unit-lg">
+<select class="bg-surface-hint border-none rounded-lg text-label-sm py-1 px-3 focus:ring-1 focus:ring-primary">
+<option selected="">Pending</option>
+</select>
+</td>
+<td class="p-unit-lg text-right space-x-2">
+<button class="text-on-surface-variant hover:text-muted-forest transition-colors"><span class="material-symbols-outlined text-lg">check</span></button>
+<button class="text-on-surface-variant hover:text-soft-indigo transition-colors"><span class="material-symbols-outlined text-lg">edit</span></button>
+<button class="text-on-surface-variant hover:text-error transition-colors"><span class="material-symbols-outlined text-lg">delete</span></button>
+</td>
+</tr>
+<!-- Row 7 -->
+<tr class="hover:bg-surface-hint/30 transition-colors group">
+<td class="p-unit-lg">
+<div class="flex items-center gap-unit-sm">
+<div class="w-2 h-2 rounded-full bg-on-tertiary-fixed-variant/40"></div>
+<span class="font-body-md font-medium text-primary">Plan Birthday Dinner for Roommate</span>
+</div>
+</td>
+<td class="p-unit-lg">
+<span class="px-2 py-0.5 rounded-[4px] bg-purple-100 text-purple-700 text-[10px] font-bold tracking-tight">PERSONAL</span>
+</td>
+<td class="p-unit-lg text-on-surface-variant font-label-sm">May 23, 2026</td>
+<td class="p-unit-lg">
+<div class="flex items-center gap-unit-md">
+<div class="flex-1 h-1.5 progress-bar-bg rounded-full overflow-hidden">
+<div class="h-full bg-muted-forest w-[10%]"></div>
+</div>
+<span class="font-label-sm text-on-surface-variant">10%</span>
+</div>
+</td>
+<td class="p-unit-lg">
+<select class="bg-surface-hint border-none rounded-lg text-label-sm py-1 px-3 focus:ring-1 focus:ring-primary">
+<option selected="">Pending</option>
+</select>
+</td>
+<td class="p-unit-lg text-right space-x-2">
+<button class="text-on-surface-variant hover:text-muted-forest transition-colors"><span class="material-symbols-outlined text-lg">check</span></button>
+<button class="text-on-surface-variant hover:text-soft-indigo transition-colors"><span class="material-symbols-outlined text-lg">edit</span></button>
+<button class="text-on-surface-variant hover:text-error transition-colors"><span class="material-symbols-outlined text-lg">delete</span></button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="p-unit-md bg-white border-t border-slate-100 flex justify-between items-center">
+<p class="text-label-sm text-on-surface-variant">Showing 7 of 24 tasks</p>
+<div class="flex gap-unit-sm">
+<button class="p-2 rounded hover:bg-surface-container transition-colors disabled:opacity-30" disabled="">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="px-3 py-1 rounded bg-slate-navy text-white text-label-sm">1</button>
+<button class="px-3 py-1 rounded hover:bg-surface-container text-label-sm transition-colors">2</button>
+<button class="px-3 py-1 rounded hover:bg-surface-container text-label-sm transition-colors">3</button>
+<button class="p-2 rounded hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<script>
+        // Micro-interactions and effects
+        document.addEventListener('DOMContentLoaded', () => {
+            const rows = document.querySelectorAll('tbody tr');
+            rows.forEach((row, index) => {
+                row.style.opacity = '0';
+                row.style.transform = 'translateY(10px)';
+                row.style.transition = `all 0.3s ease-out ${index * 0.05}s`;
+                
+                setTimeout(() => {
+                    row.style.opacity = '1';
+                    row.style.transform = 'translateY(0)';
+                }, 100);
+            });
+        });
+    </script>
+</body></html>

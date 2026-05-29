@@ -4,6 +4,7 @@ import { fetchAPI } from '../api';
 
 export default function TaskDetail() {
   const { id } = useParams();
+  const MAX_SUBTASKS = 20;
 
   const [task, setTask] = useState(null);
   const [subtasks, setSubtasks] = useState([]);
@@ -423,6 +424,11 @@ export default function TaskDetail() {
                 </div>
 
                 {/* Add manual subtask inline */}
+                {totalSubtasks >= MAX_SUBTASKS ? (
+                  <div style={{ marginTop: '1.5rem', padding: '0.85rem 1rem', backgroundColor: '#fef3c7', border: '1px solid #f59e0b', borderRadius: '8px', fontSize: '0.875rem', color: '#92400e', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    ⚠️ <strong>Sub-task limit reached.</strong>&nbsp;A task can have a maximum of {MAX_SUBTASKS} sub-tasks. Delete an existing one to add a new step.
+                  </div>
+                ) : (
                 <form onSubmit={handleAddManualSubtask} style={{ display: 'grid', gridTemplateColumns: '1fr 120px 100px', gap: '1rem', borderTop: '1px solid var(--border-color)', paddingTop: '1.5rem' }}>
                   <input 
                     type="text" 
@@ -445,6 +451,7 @@ export default function TaskDetail() {
                     + Add Step
                   </button>
                 </form>
+                )}
 
                 <div style={{ marginTop: '1.5rem', textAlign: 'right' }}>
                   <button 

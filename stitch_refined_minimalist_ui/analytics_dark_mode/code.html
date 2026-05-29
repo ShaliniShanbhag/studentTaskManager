@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Tasklytics | Detailed Analytics</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #0b1326;
+        }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(51, 65, 85, 0.5);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-card:hover {
+            border-color: #4edea3;
+            transform: translateY(-2px);
+        }
+        .chart-container {
+            position: relative;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-dot {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(78, 222, 163, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(78, 222, 163, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(78, 222, 163, 0); }
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface-variant": "#bbcabf",
+                        "on-secondary": "#1000a9",
+                        "on-tertiary-container": "#711419",
+                        "outline": "#86948a",
+                        "on-primary-fixed": "#002113",
+                        "on-tertiary": "#650911",
+                        "surface-tint": "#4edea3",
+                        "primary-container": "#10b981",
+                        "on-surface": "#dae2fd",
+                        "inverse-surface": "#dae2fd",
+                        "inverse-primary": "#006c49",
+                        "on-tertiary-fixed-variant": "#842225",
+                        "primary-fixed": "#6ffbbe",
+                        "tertiary-fixed-dim": "#ffb3af",
+                        "outline-variant": "#3c4a42",
+                        "secondary-container": "#3131c0",
+                        "on-primary-fixed-variant": "#005236",
+                        "surface": "#0b1326",
+                        "on-tertiary-fixed": "#410005",
+                        "secondary-fixed": "#e1e0ff",
+                        "surface-bright": "#31394d",
+                        "primary-fixed-dim": "#4edea3",
+                        "on-error": "#690005",
+                        "surface-variant": "#2d3449",
+                        "on-primary-container": "#00422b",
+                        "secondary": "#c0c1ff",
+                        "error": "#ffb4ab",
+                        "background": "#0b1326",
+                        "surface-container-low": "#131b2e",
+                        "on-background": "#dae2fd",
+                        "on-secondary-container": "#b0b2ff",
+                        "surface-container-lowest": "#060e20",
+                        "primary": "#4edea3",
+                        "surface-container": "#171f33",
+                        "secondary-fixed-dim": "#c0c1ff",
+                        "on-secondary-fixed": "#07006c",
+                        "inverse-on-surface": "#283044",
+                        "tertiary": "#ffb3af",
+                        "surface-dim": "#0b1326",
+                        "tertiary-container": "#fc7c78",
+                        "tertiary-fixed": "#ffdad7",
+                        "on-secondary-fixed-variant": "#2f2ebe",
+                        "on-primary": "#003824",
+                        "surface-container-highest": "#2d3449",
+                        "on-error-container": "#ffdad6",
+                        "surface-container-high": "#222a3d",
+                        "error-container": "#93000a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "md": "24px",
+                        "sm": "12px",
+                        "margin-desktop": "48px",
+                        "margin-mobile": "16px",
+                        "xl": "64px",
+                        "xs": "4px",
+                        "lg": "40px",
+                        "base": "8px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-xl-mobile": ["Plus Jakarta Sans"],
+                        "label-md": ["Plus Jakarta Sans"],
+                        "headline-xl": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "label-sm": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "headline-xl-mobile": ["30px", {"lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                        "headline-xl": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="text-on-surface bg-background min-h-screen">
+<div class="flex">
+<!-- Side Navigation Shell -->
+<aside class="hidden md:flex flex-col h-screen sticky top-0 w-64 bg-surface-container-low border-r border-outline-variant py-lg z-50">
+<div class="px-md mb-xl">
+<div class="flex items-center gap-base">
+<span class="material-symbols-outlined text-primary text-3xl" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-on-surface">Tasklytics</h1>
+<p class="text-label-sm text-on-surface-variant">Precision Suite</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 px-sm space-y-xs">
+<div class="flex items-center gap-sm px-md py-base text-on-surface-variant font-label-md hover:bg-surface-variant transition-all duration-200 cursor-pointer rounded-lg">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Dashboard</span>
+</div>
+<div class="flex items-center gap-sm px-md py-base text-on-surface-variant font-label-md hover:bg-surface-variant transition-all duration-200 cursor-pointer rounded-lg">
+<span class="material-symbols-outlined">calendar_today</span>
+<span>Daily Planner</span>
+</div>
+<div class="flex items-center gap-sm px-md py-base text-on-surface-variant font-label-md hover:bg-surface-variant transition-all duration-200 cursor-pointer rounded-lg">
+<span class="material-symbols-outlined">grid_view</span>
+<span>Eisenhower Matrix</span>
+</div>
+<div class="flex items-center gap-sm px-md py-base text-on-surface-variant font-label-md hover:bg-surface-variant transition-all duration-200 cursor-pointer rounded-lg">
+<span class="material-symbols-outlined">checklist</span>
+<span>Tasks</span>
+</div>
+<div class="flex items-center gap-sm px-md py-base text-primary bg-primary/10 border-r-4 border-primary font-label-md transition-all duration-200 cursor-pointer rounded-lg">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">analytics</span>
+<span>Analysis</span>
+</div>
+<div class="flex items-center gap-sm px-md py-base text-on-surface-variant font-label-md hover:bg-surface-variant transition-all duration-200 cursor-pointer rounded-lg">
+<span class="material-symbols-outlined">settings</span>
+<span>Settings</span>
+</div>
+</nav>
+<div class="mt-auto px-sm pt-xl space-y-xs">
+<button class="w-full flex items-center justify-center gap-sm bg-primary text-on-primary py-base rounded-lg font-label-md mb-lg hover:brightness-110 transition-all">
+<span class="material-symbols-outlined">add</span>
+                    New Project
+                </button>
+<div class="flex items-center gap-sm px-md py-base text-on-surface-variant font-label-md hover:bg-surface-variant transition-all duration-200 cursor-pointer rounded-lg">
+<span class="material-symbols-outlined">help</span>
+<span>Support</span>
+</div>
+<div class="flex items-center gap-sm px-md py-base text-on-surface-variant font-label-md hover:bg-surface-variant transition-all duration-200 cursor-pointer rounded-lg">
+<span class="material-symbols-outlined">logout</span>
+<span>Sign Out</span>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 min-w-0">
+<!-- Top Navigation Bar -->
+<header class="bg-surface/80 backdrop-blur-md sticky top-0 w-full z-40 border-b border-outline-variant flex justify-between items-center px-margin-desktop py-base">
+<div class="flex items-center gap-md">
+<h2 class="font-headline-md text-headline-md font-bold text-primary">Analysis</h2>
+<div class="relative hidden lg:block">
+<span class="material-symbols-outlined absolute left-base top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="bg-surface-variant/50 border-none rounded-full pl-xl pr-md py-xs text-label-md focus:ring-1 focus:ring-primary w-64 text-on-surface" placeholder="Search analytics..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<button class="text-primary font-bold hover:underline">Upgrade</button>
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-on-surface">notifications</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-on-surface">history</span>
+</div>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-primary/50">
+<img alt="Professional user profile" data-alt="A professional headshot of a person with a friendly expression, soft studio lighting, high resolution, minimalist dark background, cinematic style, reflecting a corporate modern aesthetic with deep teal and emerald undertones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDGOVnnXbQyrlAfLWDDDzuQrVSdU0guWeYdDvN839ZzaTlLtDN3laSCxwQ5qNMpfYyBz2hu8_RidH8ba3IfY6OlrsjDkBinLlrtZHOHIpw92gFiKIV6qs2fFaVQOnlW7WfjV-q8lva5bWl4SE9ICVk3OPtDxr6PKq04D-kbW-Z-yMV1q2G_4WyrNWDfGUoiZVPZT3fnKVSwWdsAhk5qIohFAQqZ31m0Nj8YGypDy-Iu8P9m5S_I8TmBKA8kHHgCYJUGme0HbIpHMbQQ"/>
+</div>
+</div>
+</header>
+<div class="p-margin-mobile md:p-margin-desktop space-y-lg max-w-7xl mx-auto">
+<!-- Bento Stats Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<!-- Actionable Insights Card: Action Required -->
+<div class="glass-card p-md rounded-xl border-t-2 border-error/50">
+<div class="flex justify-between items-start mb-md">
+<span class="material-symbols-outlined text-error bg-error/10 p-sm rounded-lg" style="font-variation-settings: 'FILL' 1;">priority_high</span>
+<span class="text-label-sm text-error font-bold uppercase tracking-widest">Urgent</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-xs">Action Required</h3>
+<p class="text-body-md text-on-surface-variant mb-md">4 high-priority tasks in "Product Design" are overdue by 48h.</p>
+<button class="text-label-md font-bold text-error flex items-center gap-xs hover:gap-sm transition-all">
+                            Review Now <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<!-- Actionable Insights Card: Excellent Progress -->
+<div class="glass-card p-md rounded-xl border-t-2 border-primary/50">
+<div class="flex justify-between items-start mb-md">
+<span class="material-symbols-outlined text-primary bg-primary/10 p-sm rounded-lg" style="font-variation-settings: 'FILL' 1;">trending_up</span>
+<span class="text-label-sm text-primary font-bold uppercase tracking-widest">Optimized</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-xs">Excellent Progress</h3>
+<p class="text-body-md text-on-surface-variant mb-md">Workflow efficiency in "Backend Development" is up by 24% this week.</p>
+<div class="w-full bg-surface-variant rounded-full h-1.5 overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 88%"></div>
+</div>
+</div>
+<!-- Actionable Insights Card: Category Distribution -->
+<div class="glass-card p-md rounded-xl border-t-2 border-secondary/50">
+<div class="flex justify-between items-start mb-md">
+<span class="material-symbols-outlined text-secondary bg-secondary/10 p-sm rounded-lg" style="font-variation-settings: 'FILL' 1;">pie_chart</span>
+<span class="text-label-sm text-secondary font-bold uppercase tracking-widest">Balanced</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-xs">Category Dist.</h3>
+<p class="text-body-md text-on-surface-variant mb-md">Workload is evenly distributed across 5 active project categories.</p>
+<div class="flex -space-x-2">
+<div class="w-6 h-6 rounded-full bg-primary border-2 border-surface"></div>
+<div class="w-6 h-6 rounded-full bg-secondary border-2 border-surface"></div>
+<div class="w-6 h-6 rounded-full bg-tertiary border-2 border-surface"></div>
+<div class="w-6 h-6 rounded-full bg-on-surface-variant border-2 border-surface text-[10px] flex items-center justify-center font-bold text-surface">+2</div>
+</div>
+</div>
+</div>
+<!-- Middle Charts Section -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-gutter">
+<!-- Tasks by Category Donut -->
+<div class="glass-card p-md rounded-xl">
+<div class="flex justify-between items-center mb-lg">
+<h3 class="font-headline-md text-headline-md">Tasks by Category</h3>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer">more_vert</span>
+</div>
+<div class="flex flex-col md:flex-row items-center gap-lg">
+<div class="relative w-48 h-48">
+<!-- Simulated SVG Donut Chart -->
+<svg class="w-full h-full transform -rotate-90" viewbox="0 0 36 36">
+<path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#2d3449" stroke-dasharray="100, 100" stroke-width="3"></path>
+<path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#10b981" stroke-dasharray="45, 100" stroke-dashoffset="0" stroke-width="3"></path>
+<path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#c0c1ff" stroke-dasharray="30, 100" stroke-dashoffset="-45" stroke-width="3"></path>
+<path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#ffb3af" stroke-dasharray="25, 100" stroke-dashoffset="-75" stroke-width="3"></path>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="font-headline-md text-headline-md">124</span>
+<span class="text-label-sm text-on-surface-variant">Tasks</span>
+</div>
+</div>
+<div class="flex-1 space-y-base w-full">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-sm">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+<span class="text-label-md text-on-surface-variant">Design</span>
+</div>
+<span class="text-label-md font-bold">45%</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-sm">
+<div class="w-2 h-2 rounded-full bg-secondary"></div>
+<span class="text-label-md text-on-surface-variant">Development</span>
+</div>
+<span class="text-label-md font-bold">30%</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-sm">
+<div class="w-2 h-2 rounded-full bg-tertiary"></div>
+<span class="text-label-md text-on-surface-variant">Marketing</span>
+</div>
+<span class="text-label-md font-bold">25%</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Completion by Category Bar -->
+<div class="glass-card p-md rounded-xl">
+<div class="flex justify-between items-center mb-lg">
+<h3 class="font-headline-md text-headline-md">Completion by Category</h3>
+<div class="flex gap-sm">
+<button class="p-xs bg-surface-variant rounded text-label-sm px-sm">Weekly</button>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer">filter_list</span>
+</div>
+</div>
+<div class="space-y-md">
+<div class="space-y-xs">
+<div class="flex justify-between text-label-sm">
+<span>Product Design</span>
+<span class="text-primary">92%</span>
+</div>
+<div class="w-full bg-surface-variant h-4 rounded-full overflow-hidden flex">
+<div class="h-full bg-primary" style="width: 92%"></div>
+</div>
+</div>
+<div class="space-y-xs">
+<div class="flex justify-between text-label-sm">
+<span>Infrastructure</span>
+<span class="text-secondary">64%</span>
+</div>
+<div class="w-full bg-surface-variant h-4 rounded-full overflow-hidden flex">
+<div class="h-full bg-secondary" style="width: 64%"></div>
+</div>
+</div>
+<div class="space-y-xs">
+<div class="flex justify-between text-label-sm">
+<span>Operations</span>
+<span class="text-tertiary">41%</span>
+</div>
+<div class="w-full bg-surface-variant h-4 rounded-full overflow-hidden flex">
+<div class="h-full bg-tertiary" style="width: 41%"></div>
+</div>
+</div>
+<div class="space-y-xs">
+<div class="flex justify-between text-label-sm">
+<span>Sales Q4</span>
+<span class="text-on-surface-variant">12%</span>
+</div>
+<div class="w-full bg-surface-variant h-4 rounded-full overflow-hidden flex">
+<div class="h-full bg-on-surface-variant/40" style="width: 12%"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Full-Width Chart -->
+<div class="glass-card p-md rounded-xl">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-xl gap-md">
+<div>
+<h3 class="font-headline-md text-headline-md">Weekly Efficiency Trend</h3>
+<p class="text-body-md text-on-surface-variant">Output measurement against standard baseline</p>
+</div>
+<div class="flex items-center gap-md">
+<div class="flex items-center gap-xs">
+<div class="w-3 h-3 rounded-full bg-primary/20 border border-primary"></div>
+<span class="text-label-sm">Actual</span>
+</div>
+<div class="flex items-center gap-xs">
+<div class="w-3 h-3 border-t border-dashed border-on-surface-variant"></div>
+<span class="text-label-sm">Forecast</span>
+</div>
+</div>
+</div>
+<div class="h-64 relative w-full overflow-hidden mt-md">
+<!-- Simulated Area Chart with SVG -->
+<svg class="w-full h-full" preserveaspectratio="none">
+<defs>
+<lineargradient id="chartGradient" x1="0" x2="0" y1="0" y2="1">
+<stop offset="5%" stop-color="#4edea3" stop-opacity="0.3"></stop>
+<stop offset="95%" stop-color="#4edea3" stop-opacity="0"></stop>
+</lineargradient>
+</defs>
+<!-- Grid Lines -->
+<line stroke="#3c4a42" stroke-width="1" x1="0" x2="100%" y1="20%" y2="20%"></line>
+<line stroke="#3c4a42" stroke-width="1" x1="0" x2="100%" y1="40%" y2="40%"></line>
+<line stroke="#3c4a42" stroke-width="1" x1="0" x2="100%" y1="60%" y2="60%"></line>
+<line stroke="#3c4a42" stroke-width="1" x1="0" x2="100%" y1="80%" y2="80%"></line>
+<!-- Area Path -->
+<path d="M0 256 L0 180 Q100 120 200 160 T400 80 T600 110 T800 50 T1000 70 L1200 90 L1200 256 Z" fill="url(#chartGradient)"></path>
+<!-- Stroke Path -->
+<path d="M0 180 Q100 120 200 160 T400 80 T600 110 T800 50 T1000 70 L1200 90" fill="none" stroke="#4edea3" stroke-width="3"></path>
+<!-- Forecast Line -->
+<path d="M1200 90 L1400 60" fill="none" stroke="#bbcabf" stroke-dasharray="5,5" stroke-width="2"></path>
+</svg>
+<!-- Tooltip Placeholder -->
+<div class="absolute top-10 left-[60%] -translate-x-1/2 group">
+<div class="w-4 h-4 bg-primary rounded-full border-4 border-surface active-dot cursor-pointer"></div>
+<div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-32 bg-surface-container-highest p-sm rounded-lg border border-outline-variant opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+<p class="text-[10px] text-on-surface-variant uppercase font-bold">Thu, Oct 24</p>
+<p class="text-label-md font-bold">94% Efficient</p>
+</div>
+</div>
+</div>
+<div class="flex justify-between px-xs mt-sm text-label-sm text-on-surface-variant">
+<span>Mon</span>
+<span>Tue</span>
+<span>Wed</span>
+<span>Thu</span>
+<span>Fri</span>
+<span>Sat</span>
+<span>Sun</span>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Mobile Navigation Bar -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-surface/80 backdrop-blur-md border-t border-outline-variant px-md py-sm flex justify-around items-center z-50">
+<div class="flex flex-col items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-[10px] font-medium">Home</span>
+</div>
+<div class="flex flex-col items-center gap-xs text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">analytics</span>
+<span class="text-[10px] font-bold">Analysis</span>
+</div>
+<div class="bg-primary p-sm rounded-full -mt-10 shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-on-primary">add</span>
+</div>
+<div class="flex flex-col items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined">checklist</span>
+<span class="text-[10px] font-medium">Tasks</span>
+</div>
+<div class="flex flex-col items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-[10px] font-medium">Settings</span>
+</div>
+</nav>
+<script>
+        // Micro-interaction for cards
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                // Subtle hover logic could go here
+            });
+        });
+
+        // Simple animation trigger for chart
+        window.addEventListener('load', () => {
+            const paths = document.querySelectorAll('path');
+            paths.forEach((path, i) => {
+                if(path.getAttribute('stroke') === '#4edea3') {
+                    const length = path.getTotalLength();
+                    path.style.strokeDasharray = length;
+                    path.style.strokeDashoffset = length;
+                    path.animate([
+                        { strokeDashoffset: length },
+                        { strokeDashoffset: 0 }
+                    ], {
+                        duration: 1500,
+                        easing: 'ease-out',
+                        fill: 'forwards'
+                    });
+                }
+            });
+        });
+    </script>
+</body></html>

@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Task Details | Tasklytics</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed-dim": "#c3c0ff",
+                        "on-secondary-container": "#4c6a62",
+                        "on-background": "#191c1e",
+                        "on-tertiary-fixed": "#0f0069",
+                        "surface-bright": "#f7f9fb",
+                        "primary-container": "#1e293b",
+                        "tertiary-container": "#18008f",
+                        "outline-variant": "#c5c6cd",
+                        "on-primary-container": "#8590a6",
+                        "on-secondary-fixed": "#01201a",
+                        "error": "#ba1a1a",
+                        "background": "#f7f9fb",
+                        "surface-tint": "#545f73",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-tertiary-container": "#8481ff",
+                        "secondary-fixed": "#c8eadf",
+                        "surface-container-low": "#f2f4f6",
+                        "surface": "#f7f9fb",
+                        "on-error-container": "#93000a",
+                        "tertiary": "#0a0054",
+                        "primary": "#091426",
+                        "error-container": "#ffdad6",
+                        "on-secondary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "on-primary-fixed": "#111c2d",
+                        "secondary": "#46645c",
+                        "secondary-fixed-dim": "#adcdc3",
+                        "outline": "#75777d",
+                        "inverse-primary": "#bcc7de",
+                        "on-primary": "#ffffff",
+                        "on-secondary-fixed-variant": "#2f4c45",
+                        "on-primary-fixed-variant": "#3c475a",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface-variant": "#45474c",
+                        "surface-container-high": "#e6e8ea",
+                        "inverse-surface": "#2d3133",
+                        "surface-variant": "#e0e3e5",
+                        "primary-fixed-dim": "#bcc7de",
+                        "on-surface": "#191c1e",
+                        "tertiary-fixed": "#e2dfff",
+                        "secondary-container": "#c8eadf",
+                        "inverse-on-surface": "#eff1f3",
+                        "on-tertiary-fixed-variant": "#3323cc",
+                        "primary-fixed": "#d8e3fb",
+                        "surface-dim": "#d8dadc",
+                        "surface-container": "#eceef0"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-desktop": "40px",
+                        "container-max": "1280px",
+                        "unit-sm": "8px",
+                        "margin-mobile": "16px",
+                        "unit-xl": "48px",
+                        "unit-md": "16px",
+                        "unit-lg": "24px",
+                        "unit-xs": "4px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-xl": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "body-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-xl": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "headline-lg": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .timer-glow {
+            box-shadow: 0 0 20px rgba(70, 100, 92, 0.1);
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3 { font-family: 'Plus Jakarta Sans', sans-serif; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- SideNavBar Shell -->
+<aside class="fixed left-0 top-0 h-full flex flex-col p-unit-md w-64 border-r border-outline-variant bg-surface z-50">
+<div class="mb-unit-xl">
+<h1 class="text-headline-md font-headline-md font-bold text-primary">Tasklytics</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mt-1">SMART PRODUCTIVITY TRACKING</p>
+</div>
+<nav class="flex flex-col gap-2 flex-grow">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="font-body-md text-body-md">Daily Planner</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="font-body-md text-body-md">Eisenhower Matrix</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 bg-secondary-container text-on-secondary-container rounded-lg font-semibold" href="#">
+<span class="material-symbols-outlined">check_circle</span>
+<span class="font-body-md text-body-md">Tasks</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined">bar_chart</span>
+<span class="font-body-md text-body-md">Analysis</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+</nav>
+<button class="mt-auto bg-primary text-on-primary py-3 px-4 rounded-lg font-semibold flex items-center justify-center gap-2 transition-transform active:scale-95">
+<span class="material-symbols-outlined">add</span>
+<span>+ Add New Task</span>
+</button>
+</aside>
+<!-- TopAppBar Shell -->
+<header class="sticky top-0 z-40 flex justify-between items-center h-16 px-margin-desktop ml-64 bg-background/80 backdrop-blur-md border-b border-outline-variant">
+<div class="flex items-center gap-4">
+<span class="font-label-sm text-label-sm text-on-surface-variant">TASKS / DETAIL</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative flex items-center bg-surface-container border border-outline-variant rounded-full px-4 py-1.5 w-64">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-md w-full ml-2" placeholder="Search tasks..." type="text"/>
+</div>
+<div class="flex gap-4 items-center">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:opacity-70 transition-opacity">notifications</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:opacity-70 transition-opacity">help_outline</span>
+<div class="h-8 w-8 rounded-full overflow-hidden border border-outline-variant">
+<img alt="User" class="w-full h-full object-cover" data-alt="A professional headshot of a software engineer in a bright, modern office setting. The lighting is soft and natural, emphasizing a high-focus corporate aesthetic. The background is a blurred minimalist workspace with slate navy and white tones, reflecting a clean and professional mood for a data-driven user profile." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsMvmEw7SiRoqfLHafQzN4AMuHe7DZa0IHQXajCf3dVtZ4SH5-wUY3fwVWeGh2OR2z3KomcuglyzdQgKsPPyuCnx4LwimkWMhaxhcl0wOTBl1iydA0h4GZrMxGB-IQ4gTNfF3PPS14vNLsDFVtjzLbQQ7bkXd1jcHGnRxdCWO5-Pyz71SFw953TEws_q1iBtOdDrImWyiBz29k6ChLrT9dkbjVQ9N9Oa2nV-xQUijGmuNN2gArqMDuhbfDaczaW4GVQgcmXG6qxxiH"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="ml-64 p-margin-desktop min-h-[calc(100vh-64px)]">
+<div class="max-w-container-max mx-auto">
+<!-- 1. Header Section -->
+<div class="mb-unit-xl">
+<a class="flex items-center gap-2 text-on-surface-variant hover:text-primary transition-colors mb-unit-md group" href="#">
+<span class="material-symbols-outlined transition-transform group-hover:-translate-x-1">arrow_back</span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider">Back to All Tasks</span>
+</a>
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-primary mb-2">Book Eye Checkup Appointment</h2>
+<div class="flex gap-3 items-center">
+<span class="px-2 py-1 bg-tertiary-fixed text-on-tertiary-fixed-variant font-label-sm text-label-sm rounded uppercase">Health</span>
+<span class="px-2 py-1 bg-error-container text-on-error-container font-label-sm text-label-sm rounded uppercase border border-error/20 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">priority_high</span>
+                                Urgent
+                            </span>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<label class="font-label-sm text-label-sm text-on-surface-variant">STATUS</label>
+<select class="bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-2 text-body-md font-semibold text-secondary focus:ring-2 focus:ring-secondary/20 focus:border-secondary outline-none appearance-none cursor-pointer">
+<option>To Do</option>
+<option selected="">In Progress</option>
+<option>Under Review</option>
+<option>Completed</option>
+</select>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-12 gap-gutter">
+<!-- 2. Left Column (Main Content) -->
+<div class="col-span-12 lg:col-span-8 space-y-gutter">
+<!-- Description Card -->
+<section class="bg-surface-container-lowest rounded-xl border border-outline-variant p-unit-lg shadow-[0_4px_12px_rgba(0,0,0,0.02)]">
+<div class="border-b border-surface-container-high pb-unit-md mb-unit-md flex justify-between items-center">
+<h3 class="text-headline-md font-headline-md text-primary">Description</h3>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer">edit</span>
+</div>
+<p class="text-body-lg text-on-surface-variant leading-relaxed">
+                            Scheduled annual vision checkup. Need to update contact lens prescription and investigate recent eye strain issues during late-night productivity sessions. Previous records are in the medical folder (top drawer).
+                        </p>
+</section>
+<!-- Sub-tasks Checklist Card -->
+<section class="bg-surface-container-lowest rounded-xl border border-outline-variant p-unit-lg shadow-[0_4px_12px_rgba(0,0,0,0.02)]">
+<div class="border-b border-surface-container-high pb-unit-md mb-unit-md flex justify-between items-center">
+<h3 class="text-headline-md font-headline-md text-primary">Sub-tasks Checklist</h3>
+<div class="flex items-center gap-4">
+<span class="text-label-sm font-label-sm text-on-surface-variant">COMPLETION: 80% (4/5)</span>
+<div class="w-32 bg-surface-container h-2 rounded-full overflow-hidden">
+<div class="bg-secondary h-full w-[80%] rounded-full"></div>
+</div>
+</div>
+</div>
+<div class="space-y-unit-sm">
+<!-- Checklist Item 1 (Done) -->
+<div class="flex items-center justify-between p-unit-md bg-surface-container-low rounded group">
+<div class="flex items-center gap-4">
+<input checked="" class="w-5 h-5 rounded border-outline-variant text-secondary focus:ring-secondary" type="checkbox"/>
+<span class="text-body-md text-on-surface-variant line-through">Locate Previous Eye Prescription</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex gap-4 text-label-sm font-label-sm text-on-surface-variant opacity-60">
+<span>Est: 5m</span>
+<span>Act: 4m</span>
+</div>
+<button class="text-on-surface-variant/40 cursor-not-allowed">
+<span class="material-symbols-outlined">play_circle</span>
+</button>
+</div>
+</div>
+<!-- Checklist Item 2 (Active Focus) -->
+<div class="flex items-center justify-between p-unit-md border border-secondary bg-secondary-container/20 rounded shadow-sm">
+<div class="flex items-center gap-4">
+<input class="w-5 h-5 rounded border-outline-variant text-secondary focus:ring-secondary" type="checkbox"/>
+<span class="text-body-md font-semibold text-primary">Research Vasan Eye Care Clinic hours</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex gap-4 text-label-sm font-label-sm text-on-surface-variant">
+<span>Est: 10m</span>
+<span class="text-secondary font-bold">Act: 12m</span>
+</div>
+<button class="bg-secondary text-on-secondary px-3 py-1 rounded text-label-sm flex items-center gap-1 transition-transform active:scale-95">
+<span class="material-symbols-outlined text-[16px]">pause_circle</span>
+                                        Focusing
+                                    </button>
+</div>
+</div>
+<!-- Checklist Item 3 (Pending) -->
+<div class="flex items-center justify-between p-unit-md bg-surface-container-low/50 rounded hover:bg-surface-container-low transition-colors group">
+<div class="flex items-center gap-4">
+<input class="w-5 h-5 rounded border-outline-variant text-secondary focus:ring-secondary" type="checkbox"/>
+<span class="text-body-md text-on-surface-variant">Check insurance coverage for vision</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex gap-4 text-label-sm font-label-sm text-on-surface-variant">
+<span>Est: 15m</span>
+<span>Act: --</span>
+</div>
+<button class="opacity-0 group-hover:opacity-100 text-secondary transition-opacity">
+<span class="material-symbols-outlined">play_circle</span>
+</button>
+</div>
+</div>
+<!-- Checklist Item 4 (Pending) -->
+<div class="flex items-center justify-between p-unit-md bg-surface-container-low/50 rounded hover:bg-surface-container-low transition-colors group">
+<div class="flex items-center gap-4">
+<input class="w-5 h-5 rounded border-outline-variant text-secondary focus:ring-secondary" type="checkbox"/>
+<span class="text-body-md text-on-surface-variant">Prepare list of symptoms (dryness)</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex gap-4 text-label-sm font-label-sm text-on-surface-variant">
+<span>Est: 10m</span>
+<span>Act: --</span>
+</div>
+<button class="opacity-0 group-hover:opacity-100 text-secondary transition-opacity">
+<span class="material-symbols-outlined">play_circle</span>
+</button>
+</div>
+</div>
+</div>
+<button class="mt-unit-md w-full border-2 border-dashed border-outline-variant rounded-lg py-3 text-on-surface-variant font-label-sm text-label-sm hover:border-secondary hover:text-secondary transition-colors uppercase tracking-widest">
+                            + Add Sub-Step
+                        </button>
+</section>
+</div>
+<!-- 3. Right Column (Sidebar) -->
+<div class="col-span-12 lg:col-span-4 space-y-gutter">
+<!-- Pomodoro Focus Timer -->
+<section class="bg-surface-container-lowest rounded-xl border border-outline-variant p-unit-lg shadow-lg relative overflow-hidden">
+<div class="absolute top-0 right-0 p-3">
+<span class="material-symbols-outlined text-secondary/30 text-[48px]">timer</span>
+</div>
+<div class="relative z-10">
+<h3 class="text-label-sm font-label-sm text-secondary uppercase tracking-[0.2em] mb-unit-md">Focus Session</h3>
+<div class="flex flex-col items-center py-6">
+<div class="text-[64px] font-bold text-primary font-headline-xl tracking-tight mb-2 timer-glow px-6 rounded-2xl bg-surface-container-low/50">
+                                    25:00
+                                </div>
+<div class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full text-label-sm font-semibold flex items-center gap-2 mb-8">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+                                    Research Vasan Eye Care...
+                                </div>
+<div class="flex gap-4 w-full">
+<button class="flex-1 bg-secondary text-on-secondary py-3 rounded-lg font-bold flex items-center justify-center gap-2 hover:bg-secondary/90 transition-all" id="timerBtn" onclick="toggleTimer()">
+<span class="material-symbols-outlined">play_arrow</span>
+                                        Start Focus Interval
+                                    </button>
+<button class="px-4 py-3 border border-outline-variant rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">refresh</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Task Workload Analysis Card -->
+<section class="bg-surface-container-lowest rounded-xl border border-outline-variant p-unit-lg shadow-[0_4px_12px_rgba(0,0,0,0.02)]">
+<div class="border-b border-surface-container-high pb-unit-md mb-unit-md flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary">analytics</span>
+<h3 class="text-headline-md font-headline-md text-primary">Workload Analysis</h3>
+</div>
+<div class="space-y-4">
+<div class="flex justify-between items-center">
+<span class="text-body-md text-on-surface-variant">Total Steps</span>
+<span class="text-body-md font-bold text-primary">5 Units</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-body-md text-on-surface-variant">Est. Core Study Time</span>
+<span class="text-body-md font-bold text-primary">45m</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-body-md text-on-surface-variant">Actual Spent</span>
+<span class="text-body-md font-bold text-secondary">16m</span>
+</div>
+<div class="pt-4 border-t border-surface-container">
+<div class="flex justify-between items-center mb-2">
+<span class="text-label-sm font-label-sm text-on-surface-variant uppercase">Efficiency Ratio</span>
+<span class="text-label-sm font-label-sm text-secondary font-bold">1.2x</span>
+</div>
+<div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden">
+<div class="bg-secondary h-full w-[85%] rounded-full"></div>
+</div>
+<p class="text-[10px] text-on-surface-variant mt-2 italic leading-tight">
+                                    You are completing sub-tasks 20% faster than originally estimated for this category.
+                                </p>
+</div>
+</div>
+</section>
+<!-- Visual Context Image -->
+<div class="rounded-xl overflow-hidden border border-outline-variant h-40">
+<img alt="Focus" class="w-full h-full object-cover grayscale opacity-80 hover:grayscale-0 transition-all duration-700" data-alt="A macro shot of a sleek, modern workstation with a clean mechanical keyboard, a minimalist notebook, and a pair of professional glasses resting on the side. The lighting is low-key with cool blue and slate navy tones, evoking a mood of deep concentration and professional productivity in a high-end corporate setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBGdzCnxL8AVxdqVUi_McVVOC48wlpUn96OSQzCqX8YrDUHD43SbV1WPB7XTF5gdFKnKuIIPlq9Rcfe893pJCSzqIXtPPFKFSsbS7rszmWOHiW0DPyAEdYXXvMdTgbF4WGUtyE_T4MbdBQtATVklKTevnX-Y8q1Vdc7nUsbaa-xEOitB94jJV2j078B7GaXO2hxv-_FhuLLcgNWwDZdxmSeO2p55QiwnVDEr5YYiS8HrrWRpV_qt2dZLUCAMfzt_mklgRk3YXE5TFhq"/>
+</div>
+</div>
+</div>
+</div>
+</main>
+<script>
+        let timerActive = false;
+        const timerBtn = document.getElementById('timerBtn');
+
+        function toggleTimer() {
+            timerActive = !timerActive;
+            if (timerActive) {
+                timerBtn.innerHTML = '<span class="material-symbols-outlined">pause</span> Pause Interval';
+                timerBtn.classList.replace('bg-secondary', 'bg-primary-container');
+            } else {
+                timerBtn.innerHTML = '<span class="material-symbols-outlined">play_arrow</span> Start Focus Interval';
+                timerBtn.classList.replace('bg-primary-container', 'bg-secondary');
+            }
+        }
+
+        // Simple subtle animation for progress bars on load
+        document.addEventListener('DOMContentLoaded', () => {
+            const bars = document.querySelectorAll('.bg-secondary.h-full');
+            bars.forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0';
+                setTimeout(() => {
+                    bar.style.transition = 'width 1.2s cubic-bezier(0.4, 0, 0.2, 1)';
+                    bar.style.width = width;
+                }, 100);
+            });
+        });
+    </script>
+</body></html>

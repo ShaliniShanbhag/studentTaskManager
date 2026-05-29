@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Tasklytics | Eisenhower Matrix</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(51, 65, 85, 0.5);
+        }
+        .quadrant-urgent-important { border-top: 2px solid #10b981; }
+        .quadrant-not-urgent-important { border-top: 2px solid #6366f1; }
+        .quadrant-urgent-not-important { border-top: 2px solid #fbbf24; }
+        .quadrant-not-urgent-not-important { border-top: 2px solid #f87171; }
+        
+        body {
+            background-color: #0b1326;
+            color: #dae2fd;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface-variant": "#bbcabf",
+                        "on-secondary": "#1000a9",
+                        "on-tertiary-container": "#711419",
+                        "outline": "#86948a",
+                        "on-primary-fixed": "#002113",
+                        "on-tertiary": "#650911",
+                        "surface-tint": "#4edea3",
+                        "primary-container": "#10b981",
+                        "on-surface": "#dae2fd",
+                        "inverse-surface": "#dae2fd",
+                        "inverse-primary": "#006c49",
+                        "on-tertiary-fixed-variant": "#842225",
+                        "primary-fixed": "#6ffbbe",
+                        "tertiary-fixed-dim": "#ffb3af",
+                        "outline-variant": "#3c4a42",
+                        "secondary-container": "#3131c0",
+                        "on-primary-fixed-variant": "#005236",
+                        "surface": "#0b1326",
+                        "on-tertiary-fixed": "#410005",
+                        "secondary-fixed": "#e1e0ff",
+                        "surface-bright": "#31394d",
+                        "primary-fixed-dim": "#4edea3",
+                        "on-error": "#690005",
+                        "surface-variant": "#2d3449",
+                        "on-primary-container": "#00422b",
+                        "secondary": "#c0c1ff",
+                        "error": "#ffb4ab",
+                        "background": "#0b1326",
+                        "surface-container-low": "#131b2e",
+                        "on-background": "#dae2fd",
+                        "on-secondary-container": "#b0b2ff",
+                        "surface-container-lowest": "#060e20",
+                        "primary": "#4edea3",
+                        "surface-container": "#171f33",
+                        "secondary-fixed-dim": "#c0c1ff",
+                        "on-secondary-fixed": "#07006c",
+                        "inverse-on-surface": "#283044",
+                        "tertiary": "#ffb3af",
+                        "surface-dim": "#0b1326",
+                        "tertiary-container": "#fc7c78",
+                        "tertiary-fixed": "#ffdad7",
+                        "on-secondary-fixed-variant": "#2f2ebe",
+                        "on-primary": "#003824",
+                        "surface-container-highest": "#2d3449",
+                        "on-error-container": "#ffdad6",
+                        "surface-container-high": "#222a3d",
+                        "error-container": "#93000a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "md": "24px",
+                        "sm": "12px",
+                        "margin-desktop": "48px",
+                        "margin-mobile": "16px",
+                        "xl": "64px",
+                        "xs": "4px",
+                        "lg": "40px",
+                        "base": "8px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-xl-mobile": ["Plus Jakarta Sans"],
+                        "label-md": ["Plus Jakarta Sans"],
+                        "headline-xl": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "label-sm": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "headline-xl-mobile": ["30px", {"lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                        "headline-xl": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="flex min-h-screen">
+<!-- SideNavBar Anchor -->
+<aside class="hidden md:flex flex-col h-screen sticky left-0 w-64 py-lg bg-surface-container-low border-r border-outline-variant z-50">
+<div class="px-md mb-xl">
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 bg-primary-container rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary-container" style="font-variation-settings: 'FILL' 1;">insights</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-on-surface">Tasklytics</h1>
+<p class="text-[10px] uppercase tracking-widest text-primary font-bold">Precision Suite</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 px-sm space-y-xs">
+<a class="flex items-center gap-sm px-md py-base rounded-lg text-on-surface-variant hover:bg-surface-variant transition-all duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-sm px-md py-base rounded-lg text-on-surface-variant hover:bg-surface-variant transition-all duration-200" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="font-label-md text-label-md">Daily Planner</span>
+</a>
+<a class="flex items-center gap-sm px-md py-base rounded-lg text-primary bg-primary/10 border-r-4 border-primary transition-all duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">grid_view</span>
+<span class="font-label-md text-label-md">Eisenhower Matrix</span>
+</a>
+<a class="flex items-center gap-sm px-md py-base rounded-lg text-on-surface-variant hover:bg-surface-variant transition-all duration-200" href="#">
+<span class="material-symbols-outlined">checklist</span>
+<span class="font-label-md text-label-md">Tasks</span>
+</a>
+<a class="flex items-center gap-sm px-md py-base rounded-lg text-on-surface-variant hover:bg-surface-variant transition-all duration-200" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label-md text-label-md">Analysis</span>
+</a>
+<a class="flex items-center gap-sm px-md py-base rounded-lg text-on-surface-variant hover:bg-surface-variant transition-all duration-200" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</nav>
+<div class="mt-auto px-md pt-lg">
+<button class="w-full py-sm bg-primary text-on-primary font-bold rounded-xl hover:scale-[0.98] transition-transform flex items-center justify-center gap-xs">
+<span class="material-symbols-outlined">add</span>
+                New Project
+            </button>
+</div>
+<div class="mt-lg px-sm border-t border-outline-variant pt-lg">
+<a class="flex items-center gap-sm px-md py-base rounded-lg text-on-surface-variant hover:bg-surface-variant transition-all" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-label-md text-label-md">Support</span>
+</a>
+<a class="flex items-center gap-sm px-md py-base rounded-lg text-on-surface-variant hover:bg-surface-variant transition-all" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-md text-label-md">Sign Out</span>
+</a>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col min-w-0">
+<!-- TopNavBar Anchor -->
+<header class="flex justify-between items-center px-margin-desktop py-base w-full z-40 bg-surface/80 backdrop-blur-md sticky top-0 border-b border-outline-variant">
+<div class="flex items-center gap-lg">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="bg-surface-container-high border-none rounded-full pl-xl pr-md py-xs text-sm w-64 focus:ring-1 focus:ring-primary transition-all" placeholder="Search tasks or analysis..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<button class="px-md py-xs rounded-full border border-primary text-primary text-label-sm font-bold hover:bg-primary/10 transition-colors">
+                    Upgrade
+                </button>
+<div class="flex gap-sm text-on-surface-variant">
+<span class="material-symbols-outlined cursor-pointer hover:text-primary transition-colors">notifications</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-primary transition-colors">history</span>
+</div>
+<div class="h-8 w-8 rounded-full overflow-hidden border-2 border-primary/20">
+<img alt="Professional user profile" class="w-full h-full object-cover" data-alt="A professional headshot of a corporate executive in a dark navy suit against a soft-focus architectural background. The lighting is crisp and modern, reflecting a high-end corporate aesthetic with cool tones. The individual has a confident yet approachable expression, fitting a data-centric technology workspace." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCgBrVTDWNpc6Ah8F0MlJxQaL0zc-Cx1Cojm8nirkLa_4gIHQk31E9rshYTlrvl7sUEx7vFGlgeS0-ku-_d5T3sQx9TQfQJZx1c4AYLqmOJyppKTnrxOGDQ7R4VX0kUdO3oxKQGCP6QY1iPwL2KJjcpZD6AB4w9gsybHu1jLf1BGpGr74iLJfBwQLw2fbYN5Jxh45pn9Sgrjyb-tr5lQH21P_avSoSkENwh4QnABo9-9h_zmQ7_BpoGAs049e3ND4dBa3B2xCNfmfa"/>
+</div>
+</div>
+</header>
+<!-- Content Canvas -->
+<div class="p-margin-desktop space-y-lg">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-md">
+<div>
+<h2 class="font-headline-xl text-headline-xl text-on-surface">Eisenhower Matrix</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">Strategic prioritization for deep focus and executive decision making.</p>
+</div>
+<div class="flex gap-sm">
+<div class="glass-card px-md py-sm rounded-xl flex items-center gap-md">
+<div class="text-right">
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-tighter">Productivity Score</p>
+<p class="font-headline-md text-headline-md text-primary">84%</p>
+</div>
+<div class="w-12 h-12 rounded-full border-4 border-primary/20 flex items-center justify-center relative">
+<svg class="absolute inset-0 -rotate-90" viewbox="0 0 36 36">
+<circle class="stroke-primary" cx="18" cy="18" fill="none" r="16" stroke-dasharray="84, 100" stroke-width="4"></circle>
+</svg>
+<span class="material-symbols-outlined text-primary text-sm">bolt</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Bento Grid Matrix -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<!-- Q1: Do First (Urgent & Important) -->
+<section class="glass-card rounded-xl p-md flex flex-col gap-sm quadrant-urgent-important">
+<div class="flex justify-between items-center mb-xs">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">priority_high</span>
+<h3 class="font-headline-md text-headline-md text-on-surface">Q1: Do First</h3>
+</div>
+<span class="bg-primary/10 text-primary text-[10px] px-sm py-1 rounded-full font-bold uppercase">Urgent &amp; Important</span>
+</div>
+<div class="space-y-sm">
+<div class="p-sm bg-surface-container-highest/30 rounded-lg flex items-center justify-between border-l-2 border-primary group hover:bg-surface-container-highest transition-colors cursor-pointer">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary">water_drop</span>
+<span class="font-body-md text-body-md text-on-surface">pay the water bill</span>
+</div>
+<span class="material-symbols-outlined opacity-0 group-hover:opacity-100 transition-opacity">drag_indicator</span>
+</div>
+<div class="p-sm bg-surface-container-highest/30 rounded-lg flex items-center justify-between border-l-2 border-primary group hover:bg-surface-container-highest transition-colors cursor-pointer">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary">clinical_notes</span>
+<span class="font-body-md text-body-md text-on-surface">go for full body checkup</span>
+</div>
+<span class="material-symbols-outlined opacity-0 group-hover:opacity-100 transition-opacity">drag_indicator</span>
+</div>
+</div>
+<button class="mt-auto w-full py-base border border-outline-variant text-on-surface-variant font-label-md text-label-md rounded-lg hover:bg-surface-variant transition-colors flex items-center justify-center gap-xs">
+<span class="material-symbols-outlined text-sm">add</span> Add Urgent Task
+                    </button>
+</section>
+<!-- Q2: Schedule (Important but Not Urgent) -->
+<section class="glass-card rounded-xl p-md flex flex-col gap-sm quadrant-not-urgent-important">
+<div class="flex justify-between items-center mb-xs">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">calendar_month</span>
+<h3 class="font-headline-md text-headline-md text-on-surface">Q2: Schedule</h3>
+</div>
+<span class="bg-secondary/10 text-secondary text-[10px] px-sm py-1 rounded-full font-bold uppercase">Important / Not Urgent</span>
+</div>
+<div class="space-y-sm">
+<div class="p-sm bg-surface-container-highest/30 rounded-lg flex items-center justify-between border-l-2 border-secondary group hover:bg-surface-container-highest transition-colors cursor-pointer">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-secondary">fitness_center</span>
+<span class="font-body-md text-body-md text-on-surface">Quarterly physical review</span>
+</div>
+<span class="material-symbols-outlined opacity-0 group-hover:opacity-100 transition-opacity text-secondary/40">event</span>
+</div>
+<div class="p-sm bg-surface-container-highest/30 rounded-lg flex items-center justify-between border-l-2 border-secondary group hover:bg-surface-container-highest transition-colors cursor-pointer">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-secondary">menu_book</span>
+<span class="font-body-md text-body-md text-on-surface">Market analysis strategy</span>
+</div>
+<span class="material-symbols-outlined opacity-0 group-hover:opacity-100 transition-opacity text-secondary/40">event</span>
+</div>
+</div>
+</section>
+<!-- Q3: Delegate (Urgent but Not Important) -->
+<section class="glass-card rounded-xl p-md flex flex-col gap-sm quadrant-urgent-not-important">
+<div class="flex justify-between items-center mb-xs">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[#fbbf24]" style="font-variation-settings: 'FILL' 1;">person_add</span>
+<h3 class="font-headline-md text-headline-md text-on-surface">Q3: Delegate</h3>
+</div>
+<span class="bg-[#fbbf24]/10 text-[#fbbf24] text-[10px] px-sm py-1 rounded-full font-bold uppercase">Urgent / Not Important</span>
+</div>
+<div class="space-y-sm">
+<div class="p-sm bg-surface-container-highest/30 rounded-lg flex items-center justify-between border-l-2 border-[#fbbf24] group hover:bg-surface-container-highest transition-colors cursor-pointer">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-[#fbbf24]">mail</span>
+<span class="font-body-md text-body-md text-on-surface">Manage subscription renewals</span>
+</div>
+<span class="material-symbols-outlined opacity-0 group-hover:opacity-100 transition-opacity">groups</span>
+</div>
+</div>
+</section>
+<!-- Q4: Eliminate (Neither Urgent nor Important) -->
+<section class="glass-card rounded-xl p-md flex flex-col gap-sm quadrant-not-urgent-not-important">
+<div class="flex justify-between items-center mb-xs">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[#f87171]" style="font-variation-settings: 'FILL' 1;">delete</span>
+<h3 class="font-headline-md text-headline-md text-on-surface">Q4: Eliminate</h3>
+</div>
+<span class="bg-[#f87171]/10 text-[#f87171] text-[10px] px-sm py-1 rounded-full font-bold uppercase">Distractions</span>
+</div>
+<div class="space-y-sm">
+<div class="p-sm bg-surface-container-highest/30 rounded-lg flex items-center justify-between border-l-2 border-[#f87171] group hover:bg-surface-container-highest transition-colors cursor-pointer">
+<div class="flex items-center gap-sm opacity-60">
+<span class="material-symbols-outlined text-[#f87171]">tv</span>
+<span class="font-body-md text-body-md text-on-surface line-through">Infinite social scrolling</span>
+</div>
+<span class="material-symbols-outlined opacity-0 group-hover:opacity-100 transition-opacity">close</span>
+</div>
+</div>
+</section>
+</div>
+<!-- Bottom Insight Cards -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter mt-xl">
+<div class="glass-card p-md rounded-xl border-t-2 border-primary">
+<div class="flex items-center gap-sm mb-sm text-primary">
+<span class="material-symbols-outlined">trending_up</span>
+<h4 class="font-label-md text-label-md uppercase tracking-wider">Top Priority</h4>
+</div>
+<p class="font-headline-md text-headline-md text-on-surface">Health Assessment</p>
+<p class="font-body-md text-body-md text-on-surface-variant mt-xs">Schedule by EOD Friday to maintain preventive care goals.</p>
+</div>
+<div class="glass-card p-md rounded-xl border-t-2 border-secondary">
+<div class="flex items-center gap-sm mb-sm text-secondary">
+<span class="material-symbols-outlined">psychology</span>
+<h4 class="font-label-md text-label-md uppercase tracking-wider">Cognitive Load</h4>
+</div>
+<div class="flex items-end gap-xs">
+<p class="font-headline-md text-headline-md text-on-surface">Optimal</p>
+<p class="font-body-md text-body-md text-on-surface-variant mb-1"> (12 open tasks)</p>
+</div>
+<div class="w-full bg-surface-container-highest h-2 rounded-full mt-sm">
+<div class="bg-secondary h-full w-[40%] rounded-full shadow-[0_0_10px_rgba(99,102,241,0.5)]"></div>
+</div>
+</div>
+<div class="glass-card p-md rounded-xl overflow-hidden relative group">
+<div class="relative z-10 h-full flex flex-col justify-between">
+<h4 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Efficiency Tip</h4>
+<p class="font-body-md text-body-md text-on-surface mt-sm italic">"Delegating administrative tasks in Q3 could reclaim 4 hours per week."</p>
+</div>
+<div class="absolute -right-4 -bottom-4 opacity-5 group-hover:opacity-10 transition-opacity">
+<span class="material-symbols-outlined text-[120px]">lightbulb</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Interactive Layer: Hover states and simple micro-interactions -->
+<script>
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-2px)';
+                card.style.transition = 'all 0.3s ease-out';
+                card.style.borderColor = 'rgba(16, 185, 129, 0.3)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+                card.style.borderColor = 'rgba(51, 65, 85, 0.5)';
+            });
+        });
+    </script>
+</body></html>

@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Settings - Tasklytics</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-container": "#c8eadf",
+                        "tertiary-container": "#18008f",
+                        "secondary": "#46645c",
+                        "on-tertiary-fixed": "#0f0069",
+                        "on-primary-fixed-variant": "#3c475a",
+                        "on-primary-fixed": "#111c2d",
+                        "on-background": "#191c1e",
+                        "on-secondary": "#ffffff",
+                        "primary-fixed-dim": "#bcc7de",
+                        "surface-bright": "#f7f9fb",
+                        "surface-dim": "#d8dadc",
+                        "outline": "#75777d",
+                        "on-secondary-fixed": "#01201a",
+                        "tertiary-fixed-dim": "#c3c0ff",
+                        "surface-container-high": "#e6e8ea",
+                        "on-secondary-container": "#4c6a62",
+                        "inverse-on-surface": "#eff1f3",
+                        "background": "#f7f9fb",
+                        "on-surface": "#191c1e",
+                        "inverse-surface": "#2d3133",
+                        "secondary-fixed-dim": "#adcdc3",
+                        "on-primary-container": "#8590a6",
+                        "on-secondary-fixed-variant": "#2f4c45",
+                        "on-error": "#ffffff",
+                        "secondary-fixed": "#c8eadf",
+                        "outline-variant": "#c5c6cd",
+                        "surface-tint": "#545f73",
+                        "error-container": "#ffdad6",
+                        "surface-variant": "#e0e3e5",
+                        "surface-container": "#eceef0",
+                        "tertiary-fixed": "#e2dfff",
+                        "on-surface-variant": "#45474c",
+                        "primary": "#091426",
+                        "on-tertiary-container": "#8481ff",
+                        "surface-container-low": "#f2f4f6",
+                        "on-tertiary-fixed-variant": "#3323cc",
+                        "tertiary": "#0a0054",
+                        "surface": "#f7f9fb",
+                        "on-primary": "#ffffff",
+                        "inverse-primary": "#bcc7de",
+                        "error": "#ba1a1a",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-highest": "#e0e3e5",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed": "#d8e3fb",
+                        "on-error-container": "#93000a",
+                        "primary-container": "#1e293b"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "unit-xs": "4px",
+                        "unit-lg": "24px",
+                        "container-max": "1280px",
+                        "margin-desktop": "40px",
+                        "unit-sm": "8px",
+                        "unit-md": "16px",
+                        "unit-xl": "48px",
+                        "gutter": "24px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "headline-xl": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "headline-xl": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body {
+            background-color: #f7f9fb;
+            color: #191c1e;
+        }
+        .settings-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+        .input-focus-glow:focus {
+            outline: none;
+            border-color: #545f73;
+            box-shadow: 0 0 0 3px rgba(84, 95, 115, 0.1);
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md overflow-x-hidden">
+<!-- Sidebar Navigation -->
+<aside class="fixed left-0 top-0 h-full flex flex-col p-unit-md w-64 h-screen border-r border-outline-variant dark:border-outline bg-surface dark:bg-inverse-surface z-50">
+<div class="flex items-center gap-unit-sm mb-unit-xl">
+<div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-[20px]">bolt</span>
+</div>
+<div>
+<h1 class="text-headline-md font-headline-md font-bold text-primary dark:text-inverse-primary leading-tight">Tasklytics</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest opacity-60">SMART PRODUCTIVITY TRACKING</p>
+</div>
+</div>
+<nav class="flex-1 space-y-unit-xs">
+<a class="flex items-center gap-unit-md p-unit-sm text-on-surface-variant dark:text-surface-variant hover:bg-surface-container dark:hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-unit-md p-unit-sm text-on-surface-variant dark:text-surface-variant hover:bg-surface-container dark:hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="font-body-md">Daily Planner</span>
+</a>
+<a class="flex items-center gap-unit-md p-unit-sm text-on-surface-variant dark:text-surface-variant hover:bg-surface-container dark:hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="font-body-md">Eisenhower Matrix</span>
+</a>
+<a class="flex items-center gap-unit-md p-unit-sm text-on-surface-variant dark:text-surface-variant hover:bg-surface-container dark:hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">check_circle</span>
+<span class="font-body-md">Tasks</span>
+</a>
+<a class="flex items-center gap-unit-md p-unit-sm text-on-surface-variant dark:text-surface-variant hover:bg-surface-container dark:hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">bar_chart</span>
+<span class="font-body-md">Analysis</span>
+</a>
+<a class="flex items-center gap-unit-md p-unit-sm bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary rounded-lg font-semibold" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body-md">Settings</span>
+</a>
+</nav>
+<button class="mt-auto w-full bg-primary text-on-primary py-unit-sm rounded-lg font-bold hover:opacity-90 transition-opacity">
+            + Add New Task
+        </button>
+</aside>
+<!-- Header -->
+<header class="sticky top-0 z-40 flex justify-between items-center h-16 px-margin-desktop ml-64 bg-background/80 backdrop-blur-md border-b border-outline-variant">
+<h2 class="text-headline-md font-bold text-primary">Settings</h2>
+<div class="flex items-center gap-unit-lg">
+<div class="relative hidden lg:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant opacity-50">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-low border-none rounded-full w-64 text-body-md input-focus-glow" placeholder="Search settings..." type="text"/>
+</div>
+<div class="flex items-center gap-unit-md">
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-all">notifications</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-all">help_outline</button>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant">
+<img alt="User Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAYRKma4lror3vPU3eNYHTmHf1AOpL3yYsDslB8riHqqJ4W-LSjCbg61U4TkFDvGUKx1Mj0nfbQZ_0wKzpIN6VEUuLXkG5ncwgHmMdeDzw084lGMeCiy8OMycfaVcDR9ysUXkWVC7dni5pyUVwHMO_D5r_AWmRyDE1mPfNh7umUwXmy7iQLsbXo_w4OzvSGdyXINizecjAvlEKMwpurfSsWeMvCv8dmLA64CEOx886btabomAMwAzPfuyjTbc4gXPVIrFzPJWu971Yj"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="ml-64 p-unit-xl max-w-container-max mx-auto">
+<div class="flex flex-col lg:flex-row gap-unit-xl">
+<!-- Settings Navigation -->
+<nav class="w-full lg:w-72 flex flex-col gap-unit-xs">
+<button class="settings-nav-item active flex items-center gap-unit-md px-unit-lg py-unit-md rounded-xl text-left transition-all bg-white shadow-sm border border-primary/10 text-primary font-bold" id="btn-profile" onclick="switchTab('profile')">
+<span class="material-symbols-outlined">person</span>
+<span class="font-body-md">Profile &amp; Account</span>
+</button>
+<button class="settings-nav-item flex items-center gap-unit-md px-unit-lg py-unit-md rounded-xl text-left transition-all text-on-surface-variant hover:bg-surface-container" id="btn-preferences" onclick="switchTab('preferences')">
+<span class="material-symbols-outlined">tune</span>
+<span class="font-body-md">App Preferences</span>
+</button>
+<button class="settings-nav-item flex items-center gap-unit-md px-unit-lg py-unit-md rounded-xl text-left transition-all text-on-surface-variant hover:bg-surface-container" id="btn-security" onclick="switchTab('security')">
+<span class="material-symbols-outlined">lock</span>
+<span class="font-body-md">Security &amp; Password</span>
+</button>
+<div class="mt-unit-xl p-unit-lg rounded-xl bg-primary-container text-on-primary-container space-y-unit-sm">
+<p class="font-label-sm uppercase tracking-widest opacity-80">Pro Plan</p>
+<p class="font-body-md">Your subscription renews on Oct 24, 2024.</p>
+<button class="text-white font-bold underline decoration-white/30 hover:decoration-white transition-all">Manage Billing</button>
+</div>
+</nav>
+<!-- Settings Content Canvas -->
+<section class="flex-1">
+<!-- Tab: Profile & Account (Active) -->
+<div class="tab-content" id="tab-profile">
+<div class="settings-card p-unit-xl rounded-xl">
+<div class="flex items-center gap-unit-xl mb-unit-xl pb-unit-xl border-b border-surface-variant">
+<div class="relative group">
+<img alt="Profile Avatar" class="w-24 h-24 rounded-full object-cover border-4 border-surface-container" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAYRKma4lror3vPU3eNYHTmHf1AOpL3yYsDslB8riHqqJ4W-LSjCbg61U4TkFDvGUKx1Mj0nfbQZ_0wKzpIN6VEUuLXkG5ncwgHmMdeDzw084lGMeCiy8OMycfaVcDR9ysUXkWVC7dni5pyUVwHMO_D5r_AWmRyDE1mPfNh7umUwXmy7iQLsbXo_w4OzvSGdyXINizecjAvlEKMwpurfSsWeMvCv8dmLA64CEOx886btabomAMwAzPfuyjTbc4gXPVIrFzPJWu971Yj"/>
+<button class="absolute bottom-0 right-0 bg-primary text-white p-unit-xs rounded-full shadow-lg hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+</div>
+<div>
+<h3 class="font-headline-md text-primary">Julianne Sterling</h3>
+<p class="font-body-md text-on-surface-variant">Senior Project Manager &amp; Analyst</p>
+<div class="mt-unit-sm flex gap-unit-sm">
+<span class="px-unit-sm py-1 bg-secondary-container text-on-secondary-container rounded font-label-sm">TEAM LEAD</span>
+<span class="px-unit-sm py-1 bg-surface-container text-on-surface-variant rounded font-label-sm">BERLIN, DE</span>
+</div>
+</div>
+</div>
+<form class="space-y-unit-lg" onsubmit="event.preventDefault()">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-unit-lg">
+<div class="space-y-unit-xs">
+<label class="font-label-sm text-on-surface-variant">FULL NAME</label>
+<input class="w-full px-unit-md py-unit-sm bg-[#F1F5F9] border-none rounded-lg text-body-md input-focus-glow" type="text" value="Julianne Sterling"/>
+</div>
+<div class="space-y-unit-xs">
+<label class="font-label-sm text-on-surface-variant">EMAIL ADDRESS</label>
+<input class="w-full px-unit-md py-unit-sm bg-[#F1F5F9] border-none rounded-lg text-body-md input-focus-glow" type="email" value="j.sterling@tasklytics.com"/>
+</div>
+<div class="space-y-unit-xs">
+<label class="font-label-sm text-on-surface-variant">JOB TITLE</label>
+<input class="w-full px-unit-md py-unit-sm bg-[#F1F5F9] border-none rounded-lg text-body-md input-focus-glow" type="text" value="Senior Project Manager"/>
+</div>
+<div class="space-y-unit-xs">
+<label class="font-label-sm text-on-surface-variant">TIMEZONE</label>
+<select class="w-full px-unit-md py-unit-sm bg-[#F1F5F9] border-none rounded-lg text-body-md input-focus-glow">
+<option>GMT +01:00 (Europe/Berlin)</option>
+<option>GMT +00:00 (Europe/London)</option>
+<option>GMT -05:00 (US/Eastern)</option>
+</select>
+</div>
+</div>
+<div class="space-y-unit-xs">
+<label class="font-label-sm text-on-surface-variant">BIO / DESCRIPTION</label>
+<textarea class="w-full px-unit-md py-unit-sm bg-[#F1F5F9] border-none rounded-lg text-body-md input-focus-glow" rows="4">Optimizing workflow efficiency through data-driven task management and strategic planning. Focus on cross-team collaboration and high-impact Eisenhower prioritization.</textarea>
+</div>
+<div class="pt-unit-lg flex justify-end gap-unit-md">
+<button class="px-unit-lg py-unit-sm text-primary font-bold hover:bg-surface-container rounded-lg transition-all" type="button">Cancel Changes</button>
+<button class="px-unit-xl py-unit-sm bg-primary text-white font-bold rounded-lg hover:opacity-90 transition-all shadow-md" type="submit">Save Profile Details</button>
+</div>
+</form>
+</div>
+</div>
+<!-- Tab: App Preferences (Hidden by default) -->
+<div class="tab-content hidden" id="tab-preferences">
+<div class="settings-card p-unit-xl rounded-xl">
+<h3 class="font-headline-md text-primary mb-unit-lg">Interface Preferences</h3>
+<div class="space-y-unit-xl">
+<!-- Theme Selection -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-unit-md">
+<div class="border-2 border-primary rounded-xl p-unit-md flex flex-col items-center gap-unit-sm bg-surface-container-low cursor-pointer">
+<div class="w-full aspect-video bg-white rounded-lg border border-outline-variant"></div>
+<span class="font-bold">Light Mode</span>
+</div>
+<div class="border border-outline-variant rounded-xl p-unit-md flex flex-col items-center gap-unit-sm hover:border-primary transition-all cursor-pointer opacity-60">
+<div class="w-full aspect-video bg-inverse-surface rounded-lg"></div>
+<span class="font-medium">Dark Mode</span>
+</div>
+<div class="border border-outline-variant rounded-xl p-unit-md flex flex-col items-center gap-unit-sm hover:border-primary transition-all cursor-pointer opacity-60">
+<div class="w-full aspect-video bg-gradient-to-br from-white to-inverse-surface rounded-lg"></div>
+<span class="font-medium">System Default</span>
+</div>
+</div>
+<!-- Dashboard Layout Content Reference -->
+<div class="pt-unit-xl border-t border-surface-variant">
+<h4 class="font-bold text-primary mb-unit-md">Dashboard Layout Config</h4>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-unit-xl">
+<div class="rounded-lg overflow-hidden border border-outline-variant">
+<img alt="Analytics View" class="w-full h-32 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAk08QDXsQD3Db-Z7IVCdNDRnfcrO5Le8JrBLQDVtK833e4EU1UO7hGg7RAVuRIw43K-MqMqssqT-rIOOh_IGtS_pKkTSEMM_W_lM9C17aJKZsgbd8BNXe3Orl7vT0u6JbNYDEHtcKmMdpdfjyJvhhMZwytMHyupzOvup6-67AHoqnPYoM-Bz_Qnu2cmvAqfrzF9cOZ_yaGIelFW7HjzcKZ3PhetfXpYoaD9sqoh_caZbArYVcfKuHpK904ZPZ6yNaG5eTeLCrORqol"/>
+<div class="p-unit-md bg-white flex justify-between items-center">
+<span class="font-medium">Analytics Focused</span>
+<div class="w-4 h-4 rounded-full border-2 border-primary bg-primary flex items-center justify-center">
+<div class="w-1.5 h-1.5 rounded-full bg-white"></div>
+</div>
+</div>
+</div>
+<div class="rounded-lg overflow-hidden border border-outline-variant opacity-50 grayscale hover:grayscale-0 transition-all cursor-pointer">
+<img alt="Planner View" class="w-full h-32 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfRRKaVqRaH8PO1yNCSjLF-1uMY9YQREysFeM3uDoYxWe0IF-EbsDfTApMEhJuq6gyKwtHsNdMAlErfnCa_jTqkpRKEe5WGUytlfcTF5ckO0LwXKnneALIjkYG4OiMSEjiDAkGB4vLiDpgstpxRudTum3nRTRRIkdP7xNZuVHD9fFY26Q4fnUvKtingfJ3sYLONwgbCxd7550G0-r1Tk8AWjL3TwBCcOYGjYNAvRQ24VvwJa5wcy0ACvkiAbv3KY8E80_kW-5CnIV2"/>
+<div class="p-unit-md bg-white flex justify-between items-center">
+<span class="font-medium">Planner Focused</span>
+<div class="w-4 h-4 rounded-full border-2 border-outline"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between py-unit-md border-t border-surface-variant">
+<div>
+<p class="font-bold">Compact Mode</p>
+<p class="text-on-surface-variant">Reduce padding across all components</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+</div>
+</div>
+<!-- Tab: Security (Hidden by default) -->
+<div class="tab-content hidden" id="tab-security">
+<div class="settings-card p-unit-xl rounded-xl">
+<h3 class="font-headline-md text-primary mb-unit-lg">Security &amp; Authentication</h3>
+<div class="space-y-unit-xl">
+<div class="p-unit-lg bg-error-container/10 border border-error-container rounded-xl flex items-start gap-unit-md">
+<span class="material-symbols-outlined text-error">warning</span>
+<div>
+<p class="font-bold text-on-error-container">Two-Factor Authentication is disabled</p>
+<p class="text-on-error-container/80 text-sm">We recommend enabling 2FA to protect your productivity data.</p>
+<button class="mt-unit-sm px-unit-md py-1 bg-error text-white rounded font-bold text-sm">Enable Now</button>
+</div>
+</div>
+<form class="space-y-unit-lg">
+<div class="space-y-unit-xs">
+<label class="font-label-sm text-on-surface-variant">CURRENT PASSWORD</label>
+<input class="w-full px-unit-md py-unit-sm bg-[#F1F5F9] border-none rounded-lg text-body-md input-focus-glow" placeholder="••••••••••••" type="password"/>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-unit-lg">
+<div class="space-y-unit-xs">
+<label class="font-label-sm text-on-surface-variant">NEW PASSWORD</label>
+<input class="w-full px-unit-md py-unit-sm bg-[#F1F5F9] border-none rounded-lg text-body-md input-focus-glow" type="password"/>
+</div>
+<div class="space-y-unit-xs">
+<label class="font-label-sm text-on-surface-variant">CONFIRM PASSWORD</label>
+<input class="w-full px-unit-md py-unit-sm bg-[#F1F5F9] border-none rounded-lg text-body-md input-focus-glow" type="password"/>
+</div>
+</div>
+<div class="flex justify-between items-center pt-unit-md">
+<button class="text-error font-bold hover:underline" type="button">Revoke all active sessions</button>
+<button class="px-unit-xl py-unit-sm bg-primary text-white font-bold rounded-lg hover:opacity-90 transition-all" type="submit">Update Password</button>
+</div>
+</form>
+<div class="pt-unit-xl border-t border-surface-variant">
+<h4 class="font-bold text-primary mb-unit-md">Recent Login Activity</h4>
+<div class="rounded-xl overflow-hidden border border-outline-variant">
+<img alt="Security Logs" class="w-full h-48 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2Caie6laLaFbGEn01EF67CUXwEUCf5gXWEyBsmLh6Jp-6MRx_8bjdr8Ztq3-MHQSCN6P6DHFKOSvxPCKjIAayfX14WRihSt19lVgsd-6oa0H0LtHJoa1NQczWRGxcwz1ZTtemeSavPgFrDpjVfjFwCLrizZsB-YsdAVf9UMPTP1W8JrvGzLT-50IVVu-fwlo_HoMPE0Ptg4pnfaHvXpZ4w3iIXWIKPF129Ok72FQoR3FrzwuhkEeNDp11VOJn7CBQfleWqDm8aTK6"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<script>
+        function switchTab(tabId) {
+            // Hide all tab content
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.add('hidden');
+            });
+            
+            // Remove active style from all nav items
+            document.querySelectorAll('.settings-nav-item').forEach(item => {
+                item.classList.remove('active', 'bg-white', 'shadow-sm', 'border', 'border-primary/10', 'text-primary', 'font-bold');
+                item.classList.add('text-on-surface-variant', 'hover:bg-surface-container');
+            });
+
+            // Show selected tab
+            document.getElementById('tab-' + tabId).classList.remove('hidden');
+            
+            // Apply active style to selected nav item
+            const activeBtn = document.getElementById('btn-' + tabId);
+            activeBtn.classList.add('active', 'bg-white', 'shadow-sm', 'border', 'border-primary/10', 'text-primary', 'font-bold');
+            activeBtn.classList.remove('text-on-surface-variant', 'hover:bg-surface-container');
+        }
+
+        // Add a subtle parallax effect on scroll for cards
+        window.addEventListener('scroll', () => {
+            const cards = document.querySelectorAll('.settings-card');
+            cards.forEach(card => {
+                const rect = card.getBoundingClientRect();
+                const intensity = (rect.top / window.innerHeight) * 5;
+                card.style.transform = `translateY(${intensity}px)`;
+            });
+        });
+    </script>
+</body></html>

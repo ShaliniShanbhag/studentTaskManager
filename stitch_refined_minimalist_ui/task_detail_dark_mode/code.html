@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Tasklytics | Book Eye Checkup Appointment</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(51, 65, 85, 0.5);
+        }
+        .active-glow {
+            box-shadow: 0 0 20px rgba(78, 222, 163, 0.15);
+        }
+        @keyframes pulse-emerald {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .animate-pulse-slow {
+            animation: pulse-emerald 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface-variant": "#bbcabf",
+                        "on-secondary": "#1000a9",
+                        "on-tertiary-container": "#711419",
+                        "outline": "#86948a",
+                        "on-primary-fixed": "#002113",
+                        "on-tertiary": "#650911",
+                        "surface-tint": "#4edea3",
+                        "primary-container": "#10b981",
+                        "on-surface": "#dae2fd",
+                        "inverse-surface": "#dae2fd",
+                        "inverse-primary": "#006c49",
+                        "on-tertiary-fixed-variant": "#842225",
+                        "primary-fixed": "#6ffbbe",
+                        "tertiary-fixed-dim": "#ffb3af",
+                        "outline-variant": "#3c4a42",
+                        "secondary-container": "#3131c0",
+                        "on-primary-fixed-variant": "#005236",
+                        "surface": "#0b1326",
+                        "on-tertiary-fixed": "#410005",
+                        "secondary-fixed": "#e1e0ff",
+                        "surface-bright": "#31394d",
+                        "primary-fixed-dim": "#4edea3",
+                        "on-error": "#690005",
+                        "surface-variant": "#2d3449",
+                        "on-primary-container": "#00422b",
+                        "secondary": "#c0c1ff",
+                        "error": "#ffb4ab",
+                        "background": "#0b1326",
+                        "surface-container-low": "#131b2e",
+                        "on-background": "#dae2fd",
+                        "on-secondary-container": "#b0b2ff",
+                        "surface-container-lowest": "#060e20",
+                        "primary": "#4edea3",
+                        "surface-container": "#171f33",
+                        "secondary-fixed-dim": "#c0c1ff",
+                        "on-secondary-fixed": "#07006c",
+                        "inverse-on-surface": "#283044",
+                        "tertiary": "#ffb3af",
+                        "surface-dim": "#0b1326",
+                        "tertiary-container": "#fc7c78",
+                        "tertiary-fixed": "#ffdad7",
+                        "on-secondary-fixed-variant": "#2f2ebe",
+                        "on-primary": "#003824",
+                        "surface-container-highest": "#2d3449",
+                        "on-error-container": "#ffdad6",
+                        "surface-container-high": "#222a3d",
+                        "error-container": "#93000a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "md": "24px",
+                        "sm": "12px",
+                        "margin-desktop": "48px",
+                        "margin-mobile": "16px",
+                        "xl": "64px",
+                        "xs": "4px",
+                        "lg": "40px",
+                        "base": "8px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-xl-mobile": ["Plus Jakarta Sans"],
+                        "label-md": ["Plus Jakarta Sans"],
+                        "headline-xl": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "label-sm": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "headline-xl-mobile": ["30px", {"lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                        "headline-xl": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-surface text-on-surface font-body-md selection:bg-primary/30 min-h-screen flex">
+<!-- Sidebar Navigation -->
+<aside class="bg-surface-container-low text-primary font-label-md h-screen sticky left-0 w-64 flex flex-col border-r border-outline-variant hidden md:flex py-lg">
+<div class="px-md mb-lg">
+<h1 class="font-headline-md text-headline-md font-bold text-on-surface">Tasklytics</h1>
+<p class="text-on-surface-variant text-label-sm mt-xs">Precision Suite</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center px-md py-sm text-on-surface-variant hover:bg-surface-variant transition-all duration-200 opacity-90 hover:opacity-100" href="#">
+<span class="material-symbols-outlined mr-sm" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center px-md py-sm text-on-surface-variant hover:bg-surface-variant transition-all duration-200 opacity-90 hover:opacity-100" href="#">
+<span class="material-symbols-outlined mr-sm" data-icon="calendar_today">calendar_today</span>
+<span>Daily Planner</span>
+</a>
+<a class="flex items-center px-md py-sm text-on-surface-variant hover:bg-surface-variant transition-all duration-200 opacity-90 hover:opacity-100" href="#">
+<span class="material-symbols-outlined mr-sm" data-icon="grid_view">grid_view</span>
+<span>Eisenhower Matrix</span>
+</a>
+<a class="flex items-center px-md py-sm text-primary bg-primary/10 border-r-4 border-primary transition-all duration-200" href="#">
+<span class="material-symbols-outlined mr-sm" data-icon="checklist">checklist</span>
+<span>Tasks</span>
+</a>
+<a class="flex items-center px-md py-sm text-on-surface-variant hover:bg-surface-variant transition-all duration-200 opacity-90 hover:opacity-100" href="#">
+<span class="material-symbols-outlined mr-sm" data-icon="analytics">analytics</span>
+<span>Analysis</span>
+</a>
+<a class="flex items-center px-md py-sm text-on-surface-variant hover:bg-surface-variant transition-all duration-200 opacity-90 hover:opacity-100" href="#">
+<span class="material-symbols-outlined mr-sm" data-icon="settings">settings</span>
+<span>Settings</span>
+</a>
+</nav>
+<div class="mt-auto px-md py-md border-t border-outline-variant/30 space-y-2">
+<a class="flex items-center text-on-surface-variant hover:text-on-surface transition-colors py-1" href="#">
+<span class="material-symbols-outlined mr-sm text-[20px]" data-icon="help">help</span>
+<span class="text-label-md">Support</span>
+</a>
+<a class="flex items-center text-on-surface-variant hover:text-on-surface transition-colors py-1" href="#">
+<span class="material-symbols-outlined mr-sm text-[20px]" data-icon="logout">logout</span>
+<span class="text-label-md">Sign Out</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 flex flex-col h-screen overflow-hidden">
+<!-- Top App Bar -->
+<header class="bg-surface/80 backdrop-blur-md flex justify-between items-center px-margin-desktop py-base w-full z-40 border-b border-outline-variant sticky top-0">
+<div class="flex items-center gap-md flex-1">
+<button class="md:hidden text-on-surface">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-on-surface-variant" data-icon="search">search</span>
+<input class="w-full bg-surface-container-low border border-outline-variant rounded-lg py-2 pl-xl pr-md text-on-surface focus:outline-none focus:border-primary transition-colors" placeholder="Search tasks or focus sessions..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<button class="bg-primary px-sm py-1.5 rounded text-on-primary text-label-md font-bold hover:brightness-110 transition-all">Upgrade</button>
+<div class="flex items-center gap-sm">
+<button class="text-on-surface-variant hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+</button>
+</div>
+<img alt="Professional user profile" class="w-8 h-8 rounded-full border border-outline" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAoKb_6eXW3HYqqsqRuRj0DQRLauJVeshZoeFceRW9mxm1xAmCfXNUhxhg41-3j5sV9lQ8vMxpK4C4W5jJNda957a7si4b4RMYqcwYhVmWVv1BHVfxjNxxE6AZJ4sr6VvSg0vJ-JymUQlKI_Q-40GlbDzHAr4bN_JYKwj9OvYxHDAr9cUtxhjUxbsFtAbT76H8bFC5SEarsPDYssgIoDWQ3Fa8-form6uYnBxtbrtns6HPnWri-7KmObCB3h60-loQe7NhSmeT9sjCy"/>
+</div>
+</header>
+<!-- Page Content Scrollable -->
+<section class="flex-1 overflow-y-auto bg-background p-margin-desktop custom-scrollbar">
+<!-- Breadcrumbs -->
+<nav class="flex items-center gap-xs text-on-surface-variant mb-md font-label-sm">
+<span>Tasks</span>
+<span class="material-symbols-outlined text-[16px]" data-icon="chevron_right">chevron_right</span>
+<span>Personal</span>
+<span class="material-symbols-outlined text-[16px]" data-icon="chevron_right">chevron_right</span>
+<span class="text-primary">Medical</span>
+</nav>
+<div class="grid grid-cols-12 gap-gutter">
+<!-- Task Header Section (Left Column) -->
+<div class="col-span-12 lg:col-span-8 flex flex-col gap-gutter">
+<div class="glass-card p-lg rounded-xl border-l-4 border-primary">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-md mb-md">
+<div class="flex items-center gap-sm">
+<span class="bg-primary/20 text-primary px-sm py-1 rounded-full text-label-sm font-bold flex items-center">
+<span class="material-symbols-outlined text-[14px] mr-1" data-icon="sync" style="font-variation-settings: 'FILL' 0">sync</span>
+                                    In Progress
+                                </span>
+<div class="flex gap-xs">
+<span class="bg-secondary/15 text-secondary px-sm py-1 rounded-full text-label-sm">#Health</span>
+<span class="bg-error/15 text-error px-sm py-1 rounded-full text-label-sm">Urgent</span>
+</div>
+</div>
+<div class="text-on-surface-variant text-label-sm">Created 2 days ago</div>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-sm">Book Eye Checkup Appointment</h2>
+<p class="text-on-surface-variant font-body-lg max-w-2xl">Consultation for annual vision review and prescription update. Ensure checking available slots for Dr. Aris at the North Clinic before 5 PM.</p>
+<div class="mt-lg grid grid-cols-2 sm:grid-cols-4 gap-md border-t border-outline-variant pt-lg">
+<div>
+<p class="text-label-sm text-on-surface-variant mb-xs">Due Date</p>
+<p class="text-label-md font-bold text-on-surface">Oct 24, 2023</p>
+</div>
+<div>
+<p class="text-label-sm text-on-surface-variant mb-xs">Priority</p>
+<p class="text-label-md font-bold text-error">High</p>
+</div>
+<div>
+<p class="text-label-sm text-on-surface-variant mb-xs">Assigned to</p>
+<div class="flex items-center gap-2">
+<img alt="Assignee" class="w-5 h-5 rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPECAroz-ok7bYiLsRLPW9MPk6AbBHMOazR3n_pUZTFkH5uNqEJYn4ae9Bv3-tWvvKxTrOSdJknPsHEnVZ8J64sUaZXXQIqvDYpneq7uYKkx9RUucBBRImQl9xpTGLkejJwqTU10veQnFm6jekzq_YUcE5_72UqC69YnWpbXD5vKZ8_JFe6oxsRQAgyzcCZOeFtJd_h2G_kwOHRyw9V_4oHz-9DvFYAGMzjlstf7zAgvbiYp8OfY7QxLJnjKHYYH7U_jyCBt67Zp9G"/>
+<p class="text-label-md font-bold text-on-surface">Me</p>
+</div>
+</div>
+<div>
+<p class="text-label-sm text-on-surface-variant mb-xs">Estimated Time</p>
+<p class="text-label-md font-bold text-on-surface">45m</p>
+</div>
+</div>
+</div>
+<!-- Sub-tasks Checklist -->
+<div class="glass-card p-lg rounded-xl">
+<div class="flex items-center justify-between mb-lg">
+<h3 class="font-headline-md text-headline-md flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary" data-icon="task_alt">task_alt</span>
+                                Checklist
+                            </h3>
+<span class="text-label-md font-bold text-primary">66% Complete</span>
+</div>
+<!-- Main Progress Bar -->
+<div class="w-full h-2 bg-surface-variant rounded-full mb-lg overflow-hidden">
+<div class="h-full bg-primary" style="width: 66%"></div>
+</div>
+<div class="space-y-md">
+<div class="flex items-start gap-md p-md rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors group">
+<button class="mt-1 text-primary">
+<span class="material-symbols-outlined" data-icon="check_circle" style="font-variation-settings: 'FILL' 1">check_circle</span>
+</button>
+<div class="flex-1">
+<p class="text-on-surface font-bold line-through opacity-50">Review clinic locations and Dr. Aris schedule</p>
+<div class="w-full h-1 bg-surface-variant rounded-full mt-2 overflow-hidden">
+<div class="h-full bg-primary" style="width: 100%"></div>
+</div>
+</div>
+</div>
+<div class="flex items-start gap-md p-md rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors group">
+<button class="mt-1 text-primary">
+<span class="material-symbols-outlined" data-icon="check_circle" style="font-variation-settings: 'FILL' 1">check_circle</span>
+</button>
+<div class="flex-1">
+<p class="text-on-surface font-bold line-through opacity-50">Prepare insurance details and policy number</p>
+<div class="w-full h-1 bg-surface-variant rounded-full mt-2 overflow-hidden">
+<div class="h-full bg-primary" style="width: 100%"></div>
+</div>
+</div>
+</div>
+<div class="flex items-start gap-md p-md rounded-lg border border-primary/30 bg-primary/5 group">
+<button class="mt-1 text-on-surface-variant group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="radio_button_unchecked">radio_button_unchecked</span>
+</button>
+<div class="flex-1">
+<p class="text-on-surface font-bold">Call the clinic for confirmation</p>
+<div class="w-full h-1 bg-surface-variant rounded-full mt-2 overflow-hidden">
+<div class="h-full bg-primary transition-all duration-500" style="width: 0%"></div>
+</div>
+<p class="text-label-sm text-on-surface-variant mt-xs">Active step in focus session</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Workload Analysis (Bento Card) -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<div class="glass-card p-lg rounded-xl flex flex-col justify-between">
+<div>
+<h4 class="text-label-sm text-on-surface-variant uppercase tracking-wider mb-sm">Efficiency Ratio</h4>
+<div class="flex items-baseline gap-sm">
+<span class="text-headline-xl font-headline-xl text-primary">1.2x</span>
+<span class="text-primary text-label-md flex items-center">
+<span class="material-symbols-outlined text-[16px]" data-icon="trending_up">trending_up</span>
+                                        +8%
+                                    </span>
+</div>
+<p class="text-on-surface-variant text-label-sm mt-md">You are completing tasks faster than your 7-day average.</p>
+</div>
+<div class="mt-lg h-24 w-full flex items-end gap-1">
+<div class="flex-1 bg-primary/20 rounded-t h-[60%]"></div>
+<div class="flex-1 bg-primary/20 rounded-t h-[40%]"></div>
+<div class="flex-1 bg-primary/20 rounded-t h-[75%]"></div>
+<div class="flex-1 bg-primary/20 rounded-t h-[90%]"></div>
+<div class="flex-1 bg-primary rounded-t h-[100%]"></div>
+</div>
+</div>
+<div class="glass-card p-lg rounded-xl">
+<h4 class="text-label-sm text-on-surface-variant uppercase tracking-wider mb-lg">Task Distribution</h4>
+<div class="space-y-md">
+<div>
+<div class="flex justify-between text-label-sm mb-xs">
+<span class="text-on-surface">Health &amp; Wellness</span>
+<span class="text-on-surface-variant">42%</span>
+</div>
+<div class="w-full h-1.5 bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-secondary" style="width: 42%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-label-sm mb-xs">
+<span class="text-on-surface">Professional Suite</span>
+<span class="text-on-surface-variant">38%</span>
+</div>
+<div class="w-full h-1.5 bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-primary" style="width: 38%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-label-sm mb-xs">
+<span class="text-on-surface">Admin &amp; Logistics</span>
+<span class="text-on-surface-variant">20%</span>
+</div>
+<div class="w-full h-1.5 bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-tertiary" style="width: 20%"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Sidebar Column (Focus Session) -->
+<div class="col-span-12 lg:col-span-4 flex flex-col gap-gutter">
+<!-- Pomodoro Timer Panel -->
+<div class="glass-card p-lg rounded-xl sticky top-margin-desktop active-glow">
+<div class="flex items-center justify-between mb-lg">
+<h3 class="font-headline-md text-headline-md text-primary">Focus Session</h3>
+<button class="text-on-surface-variant hover:text-on-surface">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+</div>
+<!-- Timer Visual -->
+<div class="relative flex items-center justify-center mb-lg">
+<svg class="w-48 h-48 -rotate-90">
+<circle class="text-surface-variant" cx="96" cy="96" fill="none" r="88" stroke="currentColor" stroke-width="8"></circle>
+<circle class="text-primary transition-all duration-1000" cx="96" cy="96" fill="none" r="88" stroke="currentColor" stroke-dasharray="552.92" stroke-dashoffset="138.23" stroke-width="8"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="text-headline-xl font-headline-xl text-on-surface tracking-tighter">25:00</span>
+<span class="text-label-sm text-primary font-bold animate-pulse-slow">WORK MODE</span>
+</div>
+</div>
+<div class="flex gap-md mb-lg">
+<button class="flex-1 bg-primary text-on-primary py-md rounded-lg font-bold flex items-center justify-center gap-sm hover:brightness-110 transition-all" id="timer-btn">
+<span class="material-symbols-outlined" data-icon="play_arrow" style="font-variation-settings: 'FILL' 1">play_arrow</span>
+                                Start Focus
+                            </button>
+<button class="aspect-square bg-surface-variant text-on-surface px-md rounded-lg hover:bg-outline-variant transition-all">
+<span class="material-symbols-outlined" data-icon="refresh">refresh</span>
+</button>
+</div>
+<div class="bg-surface-container rounded-lg p-md border border-outline-variant/50">
+<h4 class="text-label-sm text-on-surface-variant uppercase mb-sm">Session Context</h4>
+<div class="flex items-center gap-sm text-on-surface font-medium">
+<span class="material-symbols-outlined text-secondary" data-icon="headphones">headphones</span>
+<span class="text-label-md">Deep Focus - Lofi Beats</span>
+</div>
+</div>
+<!-- Performance Insight -->
+<div class="mt-lg pt-lg border-t border-outline-variant">
+<div class="flex items-start gap-md">
+<div class="bg-tertiary-container/20 p-sm rounded-lg">
+<span class="material-symbols-outlined text-tertiary" data-icon="tips_and_updates">tips_and_updates</span>
+</div>
+<div>
+<p class="text-label-md font-bold text-on-surface">Insight</p>
+<p class="text-label-sm text-on-surface-variant mt-xs leading-relaxed">Completing this task now will free up 20% of your mental bandwidth for the upcoming "Market Analysis" session.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Supporting Image/Documentation -->
+<div class="glass-card rounded-xl overflow-hidden">
+<div class="h-48 relative overflow-hidden group">
+<img alt="Modern eye clinic facility" class="w-full h-full object-cover grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700" data-alt="A high-end, ultra-modern ophthalmology clinic with sleek slate-grey walls and integrated LED strip lighting. The room features advanced medical diagnostic equipment with glowing emerald interfaces. A clean, minimalist examination chair sits in the center, bathed in cool, soft light. The aesthetic is clinical yet sophisticated, matching the dark slate and emerald UI theme of a high-performance productivity application." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDGHLW4bPRfIXsYqNK796D_SEs2VdUeDvKYubvBe3OvfbGtJ3nSBTFoBvYgFpy1PLq8N485bmnZU2XwJR_EYKSjl2oR8lt4tMbkkwSY2NDFvlz5f24AN7D3vaC9JMQ6RyCPlE54Z3D9Odax46RcBFi_CmtkZt8gcz2DTGBgagXkMHO3swKjRvsRpRtKxXQtfDM9vrbbbhU8HOk0G3RXGazguO-Vwf-rHAd5A_TJ0DrnxfsF7hxlAoJFELeOBbArz6mxg6Z22ly4Ejr"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent"></div>
+<div class="absolute bottom-md left-md">
+<p class="text-label-sm font-bold text-on-surface">Clinic Reference</p>
+<p class="text-label-xs text-on-surface-variant">Northside Eye Care Center</p>
+</div>
+</div>
+<div class="p-md bg-surface-container-high flex items-center justify-between">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="map">map</span>
+<span class="text-label-sm">View Location</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors" data-icon="open_in_new">open_in_new</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Interactive Layer Script -->
+<script>
+        // Simple micro-interactions for the timer
+        const timerBtn = document.getElementById('timer-btn');
+        let isRunning = false;
+
+        timerBtn.addEventListener('click', () => {
+            isRunning = !isRunning;
+            const icon = timerBtn.querySelector('.material-symbols-outlined');
+            const text = timerBtn.lastChild;
+            
+            if (isRunning) {
+                icon.textContent = 'pause';
+                text.textContent = 'Pause Session';
+                timerBtn.classList.replace('bg-primary', 'bg-tertiary-container');
+                timerBtn.classList.replace('text-on-primary', 'text-on-tertiary-container');
+            } else {
+                icon.textContent = 'play_arrow';
+                text.textContent = 'Start Focus';
+                timerBtn.classList.replace('bg-tertiary-container', 'bg-primary');
+                timerBtn.classList.replace('text-on-tertiary-container', 'text-on-primary');
+            }
+        });
+
+        // Hover effects for checklist items
+        document.querySelectorAll('.group').forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                const bar = item.querySelector('.h-full');
+                if (bar && bar.style.width === '0%') {
+                    bar.style.width = '10%';
+                }
+            });
+            item.addEventListener('mouseleave', () => {
+                const bar = item.querySelector('.h-full');
+                if (bar && bar.style.width === '10%') {
+                    bar.style.width = '0%';
+                }
+            });
+        });
+    </script>
+</body></html>
