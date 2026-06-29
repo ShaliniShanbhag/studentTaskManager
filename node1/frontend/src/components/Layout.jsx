@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom';
 import { fetchAPI } from '../api';
+import { checkAndSubscribeNotifications } from '../pushNotification';
 
 export default function Layout() {
   const navigate = useNavigate();
@@ -27,6 +28,9 @@ export default function Layout() {
           document.documentElement.removeAttribute('data-theme');
           document.body.classList.remove('dark-theme');
         }
+        
+        // Trigger push notification subscription
+        checkAndSubscribeNotifications();
       } catch (e) {
         console.error("Failed to parse user data");
       }

@@ -8,7 +8,8 @@ import {
     updateUserProfile,
     changePassword,
     getSecurityQuestion,
-    changeSecurityQuestion
+    changeSecurityQuestion,
+    getTimerDuration
 } from "../controllers/userController.js";
 import authMiddleware from "../middleware/authMiddleware.js";
 
@@ -21,6 +22,7 @@ userRouter.post("/reset-password", resetPassword);
 userRouter.get("/security-question", getSecurityQuestion);
 
 // Settings & Profile (Protected)
+userRouter.get("/timer-duration", authMiddleware, getTimerDuration);
 userRouter.get("/profile", authMiddleware, getUserProfile);
 userRouter.put("/profile", authMiddleware, updateUserProfile);
 userRouter.put("/change-password", authMiddleware, changePassword);

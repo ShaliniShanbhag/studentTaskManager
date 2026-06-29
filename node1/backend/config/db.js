@@ -53,6 +53,41 @@ export const connectDB = async () => {
       await connection.query("ALTER TABLE users ADD COLUMN security_answer VARCHAR(255) DEFAULT NULL");
       console.log("Added 'security_answer' column to users table");
     }
+    if (!columnNames.includes('registered_at')) {
+      await connection.query("ALTER TABLE users ADD COLUMN registered_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP");
+      await connection.query("UPDATE users SET registered_at = DATE_SUB(NOW(), INTERVAL 30 DAY) WHERE registered_at IS NULL");
+      console.log("Added 'registered_at' column to users table");
+    }
+
+    const [subtaskColumns] = await connection.query("SHOW COLUMNS FROM sub_tasks");
+    const subtaskColumnNames = subtaskColumns.map(c => c.Field);
+    if (!subtaskColumnNames.includes('completed_at')) {
+      await connection.query("ALTER TABLE sub_tasks ADD COLUMN completed_at TIMESTAMP NULL DEFAULT NULL");
+      console.log("Added 'completed_at' column to sub_tasks table");
+    }
+
+    // PWA & Push Notifications Migrations
+    await connection.query(`
+      CREATE TABLE IF NOT EXISTS push_subscriptions (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        user_id INT NOT NULL,
+        subscription_data TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+    console.log("Verified 'push_subscriptions' table exists");
+
+    const [taskColumns] = await connection.query("SHOW COLUMNS FROM tasks");
+    const taskColumnNames = taskColumns.map(c => c.Field);
+
+    if (!taskColumnNames.includes('due_time')) {
+      await connection.query("ALTER TABLE tasks ADD COLUMN due_time TIME DEFAULT '23:59:59'");
+      console.log("Added 'due_time' column to tasks table");
+    }
+    if (!taskColumnNames.includes('due_reminder_sent')) {
+      await connection.query("ALTER TABLE tasks ADD COLUMN due_reminder_sent TINYINT(1) DEFAULT 0");
+      console.log("Added 'due_reminder_sent' column to tasks table");
+    }
     
     connection.release();
   } catch (error) {

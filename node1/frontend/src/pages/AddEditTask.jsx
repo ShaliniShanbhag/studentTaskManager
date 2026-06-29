@@ -10,6 +10,7 @@ export default function AddEditTask() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [dueDate, setDueDate] = useState('');
+  const [dueTime, setDueTime] = useState('23:59');
   const [status, setStatus] = useState('pending');
   const [category, setCategory] = useState('');
   const [isUrgent, setIsUrgent] = useState(false);
@@ -99,6 +100,7 @@ export default function AddEditTask() {
         if (task.due_date) {
           setDueDate(new Date(task.due_date).toISOString().split('T')[0]);
         }
+        setDueTime(task.due_time ? task.due_time.substring(0, 5) : '23:59');
         setStatus((task.status || 'pending').toLowerCase());
         setCategory(task.category || '');
         setIsUrgent(!!task.is_urgent);
@@ -140,6 +142,7 @@ export default function AddEditTask() {
       title: title.trim(),
       description: description.trim(),
       due_date: dueDate ? dueDate : null,
+      due_time: dueTime ? dueTime + ':00' : '23:59:59',
       status: taskId ? status : 'pending',
       category: category.trim() || null,
       is_urgent: isUrgent,
@@ -207,7 +210,7 @@ export default function AddEditTask() {
             />
           </div>
           
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '1.5rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1.5rem', marginBottom: '1.5rem' }}>
             <div className="form-group" style={{ marginBottom: 0 }}>
               <label htmlFor="category" className="form-label">Category</label>
               <select 
@@ -235,6 +238,17 @@ export default function AddEditTask() {
                 value={dueDate}
                 min={new Date().toISOString().split('T')[0]}
                 onChange={(e) => setDueDate(e.target.value)}
+              />
+            </div>
+
+            <div className="form-group" style={{ marginBottom: 0 }}>
+              <label htmlFor="dueTime" className="form-label">Due Time</label>
+              <input 
+                type="time" 
+                id="dueTime" 
+                className="form-control" 
+                value={dueTime}
+                onChange={(e) => setDueTime(e.target.value)}
               />
             </div>
           </div>

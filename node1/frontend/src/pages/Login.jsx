@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { fetchAPI } from '../api';
+import { checkAndSubscribeNotifications } from '../pushNotification';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -33,6 +34,7 @@ export default function Login() {
       if (data && data.success) {
         localStorage.setItem('taskManagerToken', data.token);
         localStorage.setItem('taskManagerUser', JSON.stringify(data.user));
+        checkAndSubscribeNotifications();
         navigate('/dashboard');
       }
     } catch (err) {

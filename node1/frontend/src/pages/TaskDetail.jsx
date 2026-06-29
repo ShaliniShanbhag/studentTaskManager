@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { fetchAPI } from '../api';
 
+const DEFAULT_TIMER_MINUTES = 25;
+
 export default function TaskDetail() {
   const { id } = useParams();
   const MAX_SUBTASKS = 20;
@@ -25,10 +27,15 @@ export default function TaskDetail() {
 
   // Pomodoro Focus Timer States
   const [selectedSubtaskForTimer, setSelectedSubtaskForTimer] = useState(null);
-  const [timerSeconds, setTimerSeconds] = useState(25 * 60);
+  const [timerDurationMinutes, setTimerDurationMinutes] = useState(DEFAULT_TIMER_MINUTES);
+  const [showStreakMessage, setShowStreakMessage] = useState(false);
+  const [timerDurationLoading, setTimerDurationLoading] = useState(true);
+  const [timerDurationError, setTimerDurationError] = useState('');
+  const [timerSeconds, setTimerSeconds] = useState(DEFAULT_TIMER_MINUTES * 60);
   const [timerActive, setTimerActive] = useState(false);
   
   const timerRef = useRef(null);
+  const timerDurationRef = useRef(DEFAULT_TIMER_MINUTES);
 
   useEffect(() => {
     loadData();
@@ -36,6 +43,36 @@ export default function TaskDetail() {
       if (timerRef.current) clearInterval(timerRef.current);
     };
   }, [id]);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const loadTimerDuration = async () => {
+      setTimerDurationLoading(true);
+      setTimerDurationError('');
+      try {
+        const data = await fetchAPI('/user/timer-duration');
+        if (cancelled) return;
+
+        const mins = data.durationMinutes ?? DEFAULT_TIMER_MINUTES;
+        setTimerDurationMinutes(mins);
+        timerDurationRef.current = mins;
+        setTimerSeconds(mins * 60);
+        setShowStreakMessage(Boolean(data.showStreakMessage));
+      } catch (err) {
+        if (cancelled) return;
+        setTimerDurationError('Using default focus time.');
+        setTimerDurationMinutes(DEFAULT_TIMER_MINUTES);
+        timerDurationRef.current = DEFAULT_TIMER_MINUTES;
+        setTimerSeconds(DEFAULT_TIMER_MINUTES * 60);
+      } finally {
+        if (!cancelled) setTimerDurationLoading(false);
+      }
+    };
+
+    loadTimerDuration();
+    return () => { cancelled = true; };
+  }, []);
 
   const loadData = async () => {
     setLoading(true);
@@ -81,6 +118,7 @@ export default function TaskDetail() {
           description: updatedTask.description,
           status: updatedTask.status,
           due_date: updatedTask.due_date,
+          due_time: updatedTask.due_time,
           category: updatedTask.category,
           is_urgent: updatedTask.is_urgent,
           is_important: updatedTask.is_important
@@ -244,9 +282,29 @@ export default function TaskDetail() {
             // Pomodoro Finished!
             clearInterval(timerRef.current);
             setTimerActive(false);
-            handleSaveTimerSession(25); // log 25 mins
-            alert('🍅 Pomodoro focus session completed! Take a 5-minute break.');
-            return 25 * 60; // reset
+            const mins = timerDurationRef.current;
+            handleSaveTimerSession(mins);
+
+            // Show local notification if permitted
+            if (Notification.permission === 'granted') {
+              if (navigator.serviceWorker && navigator.serviceWorker.controller) {
+                navigator.serviceWorker.ready.then(registration => {
+                  registration.showNotification('Pomodoro Completed', {
+                    body: 'Time to take a break!',
+                    icon: '/icon-192.png',
+                    tag: 'pomodoro-notification'
+                  });
+                });
+              } else {
+                new Notification('Pomodoro Completed', {
+                  body: 'Time to take a break!',
+                  icon: '/icon-192.png'
+                });
+              }
+            }
+
+            alert('Time to take a break!');
+            return mins * 60;
           }
           return prev - 1;
         });
@@ -600,6 +658,25 @@ export default function TaskDetail() {
               🍅 Pomodoro Study Room
             </h3>
 
+            {timerDurationLoading ? (
+              <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '1rem' }}>
+                Loading your focus duration...
+              </p>
+            ) : (
+              <>
+                {timerDurationError && (
+                  <p style={{ fontSize: '0.8rem', color: 'var(--warning-color)', marginBottom: '0.5rem' }}>
+                    {timerDurationError}
+                  </p>
+                )}
+                {showStreakMessage && (
+                  <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '1rem' }}>
+                    Your focus time: {timerDurationMinutes} mins (increases as you build your streak!)
+                  </p>
+                )}
+              </>
+            )}
+
             {/* Selected Subtask Preview */}
             <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '1rem', backgroundColor: 'var(--border-light)', padding: '0.75rem', borderRadius: '6px' }}>
               {selectedSubtaskForTimer ? (
@@ -614,7 +691,7 @@ export default function TaskDetail() {
 
             {/* Main Clock Face */}
             <div style={{ fontSize: '3.5rem', fontWeight: '700', margin: '1.5rem 0', fontFamily: 'monospace', letterSpacing: '0.05em' }}>
-              {formatTimerTime(timerSeconds)}
+              {timerDurationLoading ? '--:--' : formatTimerTime(timerSeconds)}
             </div>
 
             {/* Timer Controls */}
@@ -623,6 +700,7 @@ export default function TaskDetail() {
                 className="btn btn-primary"
                 style={{ width: '100%', padding: '1rem', backgroundColor: timerActive ? 'var(--warning-color)' : 'var(--accent-dark)' }}
                 onClick={toggleTimer}
+                disabled={timerDurationLoading || !selectedSubtaskForTimer}
               >
                 {timerActive ? '⏸️ Pause Pomodoro' : '🍅 Start Focus Interval'}
               </button>
@@ -633,7 +711,7 @@ export default function TaskDetail() {
                 onClick={() => {
                   setTimerActive(false);
                   if (timerRef.current) clearInterval(timerRef.current);
-                  setTimerSeconds(25 * 60);
+                  setTimerSeconds(timerDurationRef.current * 60);
                 }}
               >
                 ⏹️ Reset Timer

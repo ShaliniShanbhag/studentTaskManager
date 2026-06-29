@@ -1,6 +1,7 @@
 import cron from 'node-cron';
 import pool from '../config/db.js';
 import { sendEmail } from './emailService.js';
+import { sendNotification } from './pushService.js';
 
 /**
  * Build a beautiful HTML email for task due date reminders
@@ -140,6 +141,66 @@ const sendDueDateReminders = async () => {
 };
 
 /**
+ * Query the DB for upcoming tasks due today in the next 30 minutes, and trigger push notifications
+ */
+const checkDueTasksAndSendPushReminders = async () => {
+  console.log('[CronService] Running upcoming task push notification check...');
+  try {
+    // Fetch uncompleted tasks due today where due_time is approaching in the next 30 minutes and due_reminder_sent = 0
+    const [tasks] = await pool.query(`
+      SELECT t.id, t.task_title, t.due_time, t.user_id
+      FROM tasks t
+      WHERE t.due_date = CURDATE()
+        AND t.due_time >= CURTIME()
+        AND t.due_time <= ADDTIME(CURTIME(), '00:30:00')
+        AND t.due_reminder_sent = 0
+        AND LOWER(t.status) != 'completed'
+    `);
+
+    if (tasks.length === 0) {
+      console.log('[CronService] No tasks due in the next 30 minutes.');
+      return;
+    }
+
+    console.log(`[CronService] Found ${tasks.length} task(s) due soon. Sending push reminders...`);
+
+    for (const task of tasks) {
+      // Get all active push subscriptions for this user
+      const [subscriptions] = await pool.query(
+        'SELECT id, subscription_data FROM push_subscriptions WHERE user_id = ?',
+        [task.user_id]
+      );
+
+      const payload = {
+        title: 'Task Due Soon!',
+        body: `Your task "${task.task_title}" is due soon at ${task.due_time.substring(0, 5)}!`,
+        url: '/tasks'
+      };
+
+      for (const sub of subscriptions) {
+        try {
+          const subData = JSON.parse(sub.subscription_data);
+          await sendNotification(subData, payload);
+          console.log(`[CronService] Dispatched push notification for task "${task.task_title}" to user ${task.user_id}`);
+        } catch (err) {
+          console.error(`[CronService] Failed to send push for subscription ${sub.id}:`, err.message);
+          // Delete subscription if inactive
+          if (err.statusCode === 410 || err.statusCode === 404) {
+            await pool.query('DELETE FROM push_subscriptions WHERE id = ?', [sub.id]);
+            console.log(`[CronService] Deleted invalid subscription ID: ${sub.id}`);
+          }
+        }
+      }
+
+      // Mark the task as reminder sent
+      await pool.query('UPDATE tasks SET due_reminder_sent = 1 WHERE id = ?', [task.id]);
+    }
+  } catch (error) {
+    console.error('[CronService] Error in upcoming task push reminder cron:', error.message);
+  }
+};
+
+/**
  * Initialize cron jobs — call this from server.js
  */
 export const initCronJobs = () => {
@@ -150,5 +211,11 @@ export const initCronJobs = () => {
     timezone: 'Asia/Kolkata'  // IST timezone
   });
 
+  // Run every 5 minutes for push notification reminders
+  cron.schedule('*/5 * * * *', () => {
+    checkDueTasksAndSendPushReminders();
+  });
+
   console.log('[CronService] ✅ Due-date reminder cron job scheduled (runs daily at 8:00 AM IST).');
+  console.log('[CronService] ✅ Upcoming task push reminders cron job scheduled (runs every 5 minutes).');
 };

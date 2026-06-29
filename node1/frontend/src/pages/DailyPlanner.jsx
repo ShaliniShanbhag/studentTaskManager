@@ -7,6 +7,12 @@ export default function DailyPlanner() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [timeFrame, setTimeFrame] = useState('today'); // 'today', 'tomorrow', 'week'
+  const [sessionCompletedCount, setSessionCompletedCount] = useState(0);
+
+  const [completingSubtask, setCompletingSubtask] = useState(null);
+  const [actualMinutes, setActualMinutes] = useState('');
+  const [modalError, setModalError] = useState('');
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     loadDailySubtasks();
@@ -16,9 +22,6 @@ export default function DailyPlanner() {
     setLoading(true);
     setError('');
     try {
-      // We still fetch the same endpoint since it returns all relevant incomplete tasks
-      // Alternatively we can fetch all subtasks if backend logic needs update, 
-      // but for now we'll use the current endpoint which returns all incomplete tasks.
       const data = await fetchAPI('/task/daily-subtasks');
       if (data && data.success) {
         setSubtasks(data.subtasks || []);
@@ -30,20 +33,42 @@ export default function DailyPlanner() {
     }
   };
 
-  const handleToggleSubtask = async (subtask) => {
-    const nextStatus = !subtask.is_completed;
+  const handleOpenCompleteModal = (subtask) => {
+    setCompletingSubtask(subtask);
+    setActualMinutes('');
+    setModalError('');
+  };
+
+  const handleCancelComplete = () => {
+    setCompletingSubtask(null);
+    setActualMinutes('');
+    setModalError('');
+  };
+
+  const handleSubmitComplete = async () => {
+    const minutes = Number(actualMinutes);
+    if (!Number.isFinite(minutes) || minutes <= 0) {
+      setModalError('Please enter a positive number of minutes.');
+      return;
+    }
+
+    setSubmitting(true);
+    setModalError('');
     try {
-      await fetchAPI(`/task/subtasks/${subtask.id}`, {
-        method: 'PUT',
-        body: JSON.stringify({ is_completed: nextStatus })
+      await fetchAPI(`/task/subtasks/${completingSubtask.id}/complete`, {
+        method: 'PATCH',
+        body: JSON.stringify({ actual_time_minutes: Math.round(minutes) })
       });
 
-      // Update state locally
-      setSubtasks(subtasks.map(s => s.id === subtask.id ? { ...s, is_completed: nextStatus } : s));
-      setSuccess(`Updated "${subtask.title}"!`);
-      setTimeout(() => setSuccess(''), 2000);
+      setSubtasks(subtasks.filter(s => s.id !== completingSubtask.id));
+      setSessionCompletedCount(prev => prev + 1);
+      setSuccess(`"${completingSubtask.title}" marked complete!`);
+      setTimeout(() => setSuccess(''), 2500);
+      handleCancelComplete();
     } catch (err) {
-      setError('Failed to update subtask completion.');
+      setModalError(err.message || 'Failed to save completion. Please try again.');
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -88,8 +113,8 @@ export default function DailyPlanner() {
   const totalScheduled = displayedTasks.length;
   const limitedTasks = timeFrame === 'today' ? displayedTasks.slice(0, DAILY_LIMIT) : displayedTasks;
   const isLimitReached = timeFrame === 'today' && totalScheduled > DAILY_LIMIT;
-  const completedCount = displayedTasks.filter(s => s.is_completed).length;
-  const performanceRate = totalScheduled > 0 ? Math.round((completedCount / totalScheduled) * 100) : 0;
+  const totalForPeriod = sessionCompletedCount + totalScheduled;
+  const performanceRate = totalForPeriod > 0 ? Math.round((sessionCompletedCount / totalForPeriod) * 100) : 0;
 
   return (
     <div className="page-container" style={{ maxWidth: '1200px', margin: '0 auto', paddingTop: '2rem' }}>
@@ -146,7 +171,7 @@ export default function DailyPlanner() {
                   </div>
                 )}
                 {limitedTasks.map(sub => {
-                  const isOverdue = sub.schedule_date && sub.schedule_date.split('T')[0] < todayStr && !sub.is_completed;
+                  const isOverdue = sub.schedule_date && sub.schedule_date.split('T')[0] < todayStr;
                   return (
                     <div 
                       key={sub.id} 
@@ -164,8 +189,8 @@ export default function DailyPlanner() {
                       <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flex: 1 }}>
                         <input 
                           type="checkbox" 
-                          checked={!!sub.is_completed}
-                          onChange={() => handleToggleSubtask(sub)}
+                          checked={false}
+                          onChange={() => handleOpenCompleteModal(sub)}
                           style={{ width: '18px', height: '18px', cursor: 'pointer' }}
                         />
                         <div>
@@ -173,8 +198,7 @@ export default function DailyPlanner() {
                             style={{ 
                               fontWeight: '600', 
                               fontSize: '0.95rem',
-                              color: sub.is_completed ? 'var(--text-muted)' : 'var(--text-main)',
-                              textDecoration: sub.is_completed ? 'line-through' : 'none'
+                              color: 'var(--text-main)'
                             }}
                           >
                             {sub.title}
@@ -200,7 +224,6 @@ export default function DailyPlanner() {
                       <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                         <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', textAlign: 'right' }}>
                           <div>Est: <strong>{sub.estimated_time}m</strong></div>
-                          <div>Act: <strong>{sub.actual_time || 0}m</strong></div>
                         </div>
                       </div>
                     </div>
@@ -213,7 +236,6 @@ export default function DailyPlanner() {
 
         {/* Right Side: Stats */}
         <div>
-          {/* Daily completion rate widget */}
           <div className="card" style={{ textAlign: 'center' }}>
             <h4 style={{ fontSize: '0.9rem', fontWeight: '700', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: '1rem' }}>
               Completion Rate
@@ -225,12 +247,86 @@ export default function DailyPlanner() {
               <div style={{ width: `${performanceRate}%`, height: '100%', backgroundColor: 'var(--accent-dark)', borderRadius: '4px', transition: 'width 0.3s ease' }}></div>
             </div>
             <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-              Completed <strong>{completedCount}</strong> of <strong>{totalScheduled}</strong> scheduled steps for {timeFrame}.
+              Completed <strong>{sessionCompletedCount}</strong> of <strong>{totalForPeriod}</strong> scheduled steps for {timeFrame}.
             </p>
           </div>
         </div>
 
       </div>
+
+      {/* Actual Time Modal */}
+      {completingSubtask && (
+        <div
+          className="modal-overlay"
+          style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}
+          onClick={handleCancelComplete}
+        >
+          <div
+            className="modal-content card"
+            style={{ padding: '2rem', maxWidth: '420px', width: '90%' }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3 style={{ fontSize: '1.25rem', fontWeight: '700', marginBottom: '0.5rem' }}>
+              Task Completed! 🎉
+            </h3>
+            <p style={{ color: 'var(--text-muted)', marginBottom: '0.5rem', fontSize: '0.9rem' }}>
+              <strong>{completingSubtask.title}</strong>
+            </p>
+            <p style={{ color: 'var(--text-main)', marginBottom: '1.25rem' }}>
+              How long did this task actually take?
+            </p>
+
+            <label style={{ fontSize: '0.85rem', fontWeight: '600', color: 'var(--text-muted)', display: 'block', marginBottom: '0.5rem' }}>
+              Minutes
+            </label>
+            <input
+              type="number"
+              min="1"
+              step="1"
+              value={actualMinutes}
+              onChange={(e) => setActualMinutes(e.target.value)}
+              placeholder="e.g. 30"
+              autoFocus
+              style={{
+                width: '100%',
+                padding: '0.75rem',
+                borderRadius: '6px',
+                border: '1px solid var(--border-color)',
+                marginBottom: '0.75rem',
+                fontSize: '1rem'
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') handleSubmitComplete();
+              }}
+            />
+
+            {modalError && (
+              <div className="alert alert-danger" style={{ marginBottom: '1rem', fontSize: '0.85rem' }}>
+                {modalError}
+              </div>
+            )}
+
+            <div style={{ display: 'flex', gap: '0.75rem' }}>
+              <button
+                className="btn btn-primary"
+                style={{ flex: 1 }}
+                onClick={handleSubmitComplete}
+                disabled={submitting}
+              >
+                {submitting ? 'Saving...' : 'Save & Done'}
+              </button>
+              <button
+                className="btn btn-outline"
+                style={{ flex: 1 }}
+                onClick={handleCancelComplete}
+                disabled={submitting}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

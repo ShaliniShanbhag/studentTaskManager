@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { fetchAPI } from '../api';
+import { checkAndSubscribeNotifications } from '../pushNotification';
 
 const securityQuestionsList = [
   "What was the name of your first pet?",
@@ -47,6 +48,7 @@ export default function Register() {
         localStorage.setItem('taskManagerToken', data.token);
         localStorage.setItem('taskManagerUser', JSON.stringify(data.user));
         setSuccess('Registration successful!');
+        checkAndSubscribeNotifications();
         setTimeout(() => {
           navigate('/dashboard');
         }, 1000);

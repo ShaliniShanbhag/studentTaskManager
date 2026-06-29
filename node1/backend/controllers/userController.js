@@ -2,6 +2,7 @@ import pool from "../config/db.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import validator from "validator";
+import { getAdaptiveTimerDuration } from "../utils/timerDuration.js";
 
 // Helper to create token
 const createToken = (id) => {
@@ -397,5 +398,35 @@ export const changeSecurityQuestion = async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ success: false, message: "Server error while changing security question" });
+    }
+};
+
+// @desc    Get adaptive Pomodoro timer duration based on days since registration
+// @route   GET /api/user/timer-duration
+export const getTimerDuration = async (req, res) => {
+    try {
+        const { userId } = req.body;
+
+        const [users] = await pool.query(
+            "SELECT registered_at FROM users WHERE id = ?",
+            [userId]
+        );
+
+        if (users.length === 0) {
+            return res.status(404).json({ success: false, message: "User not found" });
+        }
+
+        const registeredAt = users[0].registered_at || new Date();
+        const { durationMinutes, daysSinceRegistration } = getAdaptiveTimerDuration(registeredAt);
+
+        res.status(200).json({
+            success: true,
+            durationMinutes,
+            daysSinceRegistration,
+            showStreakMessage: daysSinceRegistration <= 10
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: "Failed to fetch timer duration" });
     }
 };

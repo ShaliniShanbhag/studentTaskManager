@@ -4,7 +4,7 @@ import pool from "../config/db.js";
 // @route   POST /api/task/add
 export const addTask = async (req, res) => {
     try {
-        const { userId, title, description, status, due_date, category, is_urgent, is_important } = req.body;
+        const { userId, title, description, status, due_date, due_time, category, is_urgent, is_important } = req.body;
 
         if (!title) {
             return res.status(400).json({ success: false, message: "Task title is required" });
@@ -13,13 +13,14 @@ export const addTask = async (req, res) => {
         const formattedDueDate = due_date ? String(due_date).split('T')[0] : null;
 
         const [result] = await pool.query(
-            "INSERT INTO tasks (user_id, task_title, description, status, due_date, category, is_urgent, is_important) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+            "INSERT INTO tasks (user_id, task_title, description, status, due_date, due_time, category, is_urgent, is_important) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
             [
                 userId, 
                 title, 
                 description || null, 
                 status || 'Open', 
                 formattedDueDate, 
+                due_time || '23:59:59',
                 category || 'Other',
                 is_urgent ? 1 : 0,
                 is_important ? 1 : 0
@@ -68,7 +69,7 @@ export const getTasks = async (req, res) => {
 export const updateTask = async (req, res) => {
     try {
         const { id } = req.params;
-        const { userId, title, description, status, due_date, category, is_urgent, is_important } = req.body;
+        const { userId, title, description, status, due_date, due_time, category, is_urgent, is_important } = req.body;
 
         if (!title) {
             return res.status(400).json({ success: false, message: "Task title is required" });
@@ -77,12 +78,13 @@ export const updateTask = async (req, res) => {
         const formattedDueDate = due_date ? String(due_date).split('T')[0] : null;
 
         const [result] = await pool.query(
-            "UPDATE tasks SET task_title = ?, description = ?, status = ?, due_date = ?, category = ?, is_urgent = ?, is_important = ? WHERE id = ? AND user_id = ?",
+            "UPDATE tasks SET task_title = ?, description = ?, status = ?, due_date = ?, due_time = ?, category = ?, is_urgent = ?, is_important = ?, due_reminder_sent = 0 WHERE id = ? AND user_id = ?",
             [
                 title, 
                 description || null, 
                 status || 'Open', 
                 formattedDueDate, 
+                due_time || '23:59:59',
                 category || 'Other', 
                 is_urgent ? 1 : 0,
                 is_important ? 1 : 0,
@@ -234,6 +236,47 @@ export const updateSubtask = async (req, res) => {
     }
 };
 
+// @desc    Complete a sub-task with actual time taken
+// @route   PATCH /api/task/subtasks/:subtaskId/complete
+export const completeSubtask = async (req, res) => {
+    try {
+        const { subtaskId } = req.params;
+        const { userId, actual_time_minutes } = req.body;
+
+        const minutes = Number(actual_time_minutes);
+        if (!Number.isFinite(minutes) || minutes <= 0) {
+            return res.status(400).json({ success: false, message: "Actual time must be a positive number" });
+        }
+
+        const [subtasks] = await pool.query(
+            "SELECT s.* FROM sub_tasks s JOIN tasks t ON s.task_id = t.id WHERE s.id = ? AND t.user_id = ?",
+            [subtaskId, userId]
+        );
+
+        if (subtasks.length === 0) {
+            return res.status(404).json({ success: false, message: "Subtask not found or unauthorized" });
+        }
+
+        await pool.query(
+            "UPDATE sub_tasks SET is_completed = 1, actual_time = ?, completed_at = NOW() WHERE id = ?",
+            [Math.round(minutes), subtaskId]
+        );
+
+        res.status(200).json({
+            success: true,
+            message: "Subtask completed successfully",
+            subtask: {
+                id: Number(subtaskId),
+                actual_time: Math.round(minutes),
+                is_completed: 1
+            }
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: "Server error while completing subtask" });
+    }
+};
+
 // @desc    Delete a sub-task
 // @route   DELETE /api/task/subtasks/:subtaskId
 export const deleteSubtask = async (req, res) => {
@@ -266,14 +309,15 @@ export const getDailySubtasks = async (req, res) => {
     try {
         const { userId } = req.body;
 
-        // Fetch sub-tasks scheduled for today or past (and not completed yet)
+        // Fetch incomplete sub-tasks scheduled for today or the next 7 days
         const [subtasks] = await pool.query(
             `SELECT s.*, t.task_title, t.category, t.due_date as task_due_date 
              FROM sub_tasks s 
              JOIN tasks t ON s.task_id = t.id 
              WHERE t.user_id = ? 
-             AND (s.schedule_date IS NULL OR s.schedule_date <= DATE_ADD(CURDATE(), INTERVAL 7 DAY) OR s.is_completed = 0)
-             ORDER BY s.is_completed ASC, s.schedule_date ASC`,
+             AND (s.is_completed = 0 OR s.is_completed IS NULL)
+             AND (s.schedule_date IS NULL OR s.schedule_date <= DATE_ADD(CURDATE(), INTERVAL 7 DAY))
+             ORDER BY s.schedule_date ASC`,
             [userId]
         );
 
